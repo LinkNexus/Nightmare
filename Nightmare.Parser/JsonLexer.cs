@@ -43,7 +43,7 @@ public class JsonLexer(string _text)
 
     private bool RemainingStartsWith(string input)
     {
-        return input.Length <= input.Length - _position && _text.AsSpan(_position, input.Length).StartsWith(input);
+        return input.Length <= _text.Length - _position && _text.AsSpan(_position, input.Length).StartsWith(input);
     }
 
     private TextSpan CaptureStart()
