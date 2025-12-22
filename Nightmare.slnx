@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Nightmare.JsonParser/Nightmare.JsonParser.csproj" />
+  <Project Path="Nightmare.Tests/Nightmare.Tests.csproj" />
+  <Project Path="Nightmare/Nightmare.csproj" />
+</Solution>
