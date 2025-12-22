@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Nightmare.JsonParser;
+namespace Nightmare.Parser;
 
 public class JsonLexer(string _text)
 {
@@ -316,17 +316,106 @@ public class JsonLexer(string _text)
         var start = CaptureStart();
         var sb = new StringBuilder();
 
-        char nextChar;
-
-        if ((nextChar = Peek()) == '-')
+        if (Peek() == '-')
         {
-            sb.Append(nextChar);
+            sb.Append(Peek());
             Advance();
         }
 
-        if (!char.IsDigit(nextChar)) throw new JsonParseException("Invalid number",
-            new TextSpan(_position, 1, _line, _column, _line, _column)
+        if (!char.IsDigit(Peek()))
+            throw new JsonParseException(
+                "Invalid number",
+                new TextSpan(_position, 1, _line, _column, _line, _column)
             );
+
+        if (Peek() == '0')
+        {
+            sb.Append('0');
+            Advance();
+        }
+        else
+        {
+            while (char.IsDigit(Peek()))
+            {
+                sb.Append(Peek());
+                Advance();
+            }
+        }
+
+        if (Peek() == '.')
+        {
+            sb.Append(Peek());
+            Advance();
+
+            if (!char.IsDigit(Peek()))
+                throw new JsonParseException(
+                    "Invalid number fraction",
+                    new TextSpan(_position, 1, _line, _column, _line, _column)
+                );
+
+            while (char.IsDigit(Peek()))
+            {
+                sb.Append(Peek());
+                Advance();
+            }
+        }
+
+        if (Peek() == 'e' || Peek() == 'E')
+        {
+            sb.Append(Peek());
+            Advance();
+
+            if (Peek() == '+' || Peek() == '-')
+            {
+                sb.Append(Peek());
+                Advance();
+            }
+
+            if (!char.IsDigit(Peek()))
+                throw new JsonParseException(
+                    "Invalid number exponent",
+                    new TextSpan(_position, 1, _line, _column, _line, _column)
+                );
+
+            while (char.IsDigit(Peek()))
+            {
+                sb.Append(Peek());
+                Advance();
+            }
+        }
+
+        var text = sb.ToString();
+        var finalSpan = CaptureSpan(start);
+        return new Token(TokenType.Number, text, null, finalSpan);
+    }
+
+    private bool TryMatchKeyword(string text, TokenType type, out Token token)
+    {
+        if (RemainingStartsWith(text))
+        {
+            var start = CaptureStart();
+            for (var i = 0; i < text.Length; i++) Advance();
+
+            var span = CaptureSpan(start);
+            token = new Token(type, text, null, span);
+
+            return true;
+        }
+
+        token = null;
+        return false;
+    }
+
+    private Token ReadKeywordOrError()
+    {
+        if (TryMatchKeyword("true", TokenType.True, out var token) ||
+            TryMatchKeyword("false", TokenType.False, out token) ||
+            TryMatchKeyword("null", TokenType.Null, out token)) return token;
+
+        throw new JsonParseException(
+            $"Unexpected character '{Peek()}'",
+            new TextSpan(_position, 1, _line, _column, _line, _column)
+        );
     }
 
     private Token NextToken()

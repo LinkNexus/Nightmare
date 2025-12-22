@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Nightmare.JsonParser;
+namespace Nightmare.Parser;
 
 public abstract class JsonValue(TextSpan span)
 {

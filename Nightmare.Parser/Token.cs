@@ -1,4 +1,4 @@
-namespace Nightmare.JsonParser;
+namespace Nightmare.Parser;
 
 public enum TokenType
 {

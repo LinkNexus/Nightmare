@@ -7,32 +7,42 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="" />
+    <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonParser.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/Nightmare.Parser.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare.Tests/ParserTests/JsonLexerTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.JsonParser/JsonLexer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonLexer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.JsonParser/JsonNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.JsonParser/JsonParseException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonParseException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.JsonParser/JsonParser.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.JsonParser/Nightmare.JsonParser.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.JsonParser/TemplateString.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateString.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.JsonParser/TextSpan.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TextSpan.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.JsonParser/Token.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/Token.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Tests/Nightmare.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Tests/Nightmare.Tests.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.slnx" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.slnx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="14" />
+    <option name="cachedIndexableFilesCount" value="8" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:LinkNexus/Nightmare.git",
-    "accountId": "7f19a669-241a-497c-a209-432e9e8dcc6d"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:LinkNexus/Nightmare.git&quot;,
+    &quot;accountId&quot;: &quot;7f19a669-241a-497c-a209-432e9e8dcc6d&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Nightmare.JsonParser/JsonLexer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Nightmare.JsonParser/JsonNode.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Nightmare.JsonParser/JsonParser.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Nightmare.JsonParser/TemplateString.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Nightmare.JsonParser/TextSpan.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Nightmare.JsonParser/Token.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Nightmare.Tests/ParserTests/JsonLexerTests.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Nightmare.Tests/UnitTest1.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
@@ -67,7 +77,7 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;rider.code.cleanup.on.save&quot;: &quot;true&quot;,
     &quot;rider.code.cleanup.on.save.profile&quot;: &quot;Built-in: Reformat &amp; Apply Syntax Style&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -146,6 +156,9 @@
       <updated>1766349567686</updated>
       <workItem from="1766349569341" duration="12404000" />
       <workItem from="1766405216433" duration="2532000" />
+      <workItem from="1766408856453" duration="1965000" />
+      <workItem from="1766412839397" duration="4071000" />
+      <workItem from="1766417101455" duration="1785000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -185,6 +198,10 @@
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

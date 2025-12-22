@@ -18,4 +18,8 @@
         <Using Include="Xunit"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Nightmare.Parser\Nightmare.Parser.csproj" />
+    </ItemGroup>
+
 </Project>
