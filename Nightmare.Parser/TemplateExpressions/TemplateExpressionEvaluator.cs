@@ -1,0 +1,381 @@
+using System.Globalization;
+
+namespace Nightmare.Parser.TemplateExpressions;
+
+/// <summary>
+/// Context for evaluating template expressions, providing variable values and functions
+/// </summary>
+public class EvaluationContext
+{
+    private readonly Dictionary<string, object?> _variables = new();
+    private readonly Dictionary<string, Func<object?[], object?>> _functions = new();
+
+    public void SetVariable(string name, object? value)
+    {
+        _variables[name] = value;
+    }
+
+    public object? GetVariable(string name)
+    {
+        if (_variables.TryGetValue(name, out var value))
+            return value;
+
+        throw new TemplateExpressionException(
+            $"Variable '{name}' not found in context",
+            new TextSpan(0, 0, 0, 0, 0, 0)
+        );
+    }
+
+    public bool HasVariable(string name)
+    {
+        return _variables.ContainsKey(name);
+    }
+
+    public void RegisterFunction(string name, Func<object?[], object?> function)
+    {
+        _functions[name] = function;
+    }
+
+    public Func<object?[], object?> GetFunction(string name)
+    {
+        if (_functions.TryGetValue(name, out var function))
+            return function;
+
+        throw new TemplateExpressionException(
+            $"Function '{name}' not found in context",
+            new TextSpan(0, 0, 0, 0, 0, 0)
+        );
+    }
+
+    public bool HasFunction(string name)
+    {
+        return _functions.ContainsKey(name);
+    }
+}
+
+/// <summary>
+/// Evaluates parsed template expressions
+/// </summary>
+public sealed class TemplateExpressionEvaluator(EvaluationContext context)
+{
+    private static bool IsTruthy(object? value)
+    {
+        return value switch
+        {
+            null => false,
+            bool b => b,
+            double d => d != 0,
+            string s => !string.IsNullOrEmpty(s),
+            _ => true
+        };
+    }
+
+    private static double ToNumber(object? value, TextSpan span)
+    {
+        return value switch
+        {
+            double d => d,
+            int i => i,
+            long l => l,
+            float f => f,
+            string s when double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) => result,
+            bool b => b ? 1.0 : 0.0,
+            null => 0.0,
+            _ => throw new TemplateExpressionException($"Cannot convert {value.GetType().Name} to number", span)
+        };
+    }
+
+    private static string ToString(object? value)
+    {
+        return value switch
+        {
+            null => "null",
+            string s => s,
+            double d => d.ToString(CultureInfo.InvariantCulture),
+            bool b => b ? "true" : "false",
+            _ => value.ToString() ?? string.Empty
+        };
+    }
+
+    private static bool AreEqual(object? left, object? right)
+    {
+        if (left == null && right == null) return true;
+        if (left == null || right == null) return false;
+
+        // Try numeric comparison
+        if ((left is double || left is int || left is long || left is float) &&
+            (right is double || right is int || right is long || right is float))
+        {
+            var leftNum = Convert.ToDouble(left);
+            var rightNum = Convert.ToDouble(right);
+            return Math.Abs(leftNum - rightNum) < double.Epsilon;
+        }
+
+        return left.Equals(right);
+    }
+
+    private static int Compare(object? left, object? right, TextSpan span)
+    {
+        if (left is double || left is int || left is long || left is float)
+        {
+            var leftNum = Convert.ToDouble(left);
+            var rightNum = ToNumber(right, span);
+            return leftNum.CompareTo(rightNum);
+        }
+
+        if (left is string leftStr && right is string rightStr)
+            return string.Compare(leftStr, rightStr, StringComparison.Ordinal);
+
+        throw new TemplateExpressionException(
+            $"Cannot compare {left?.GetType().Name ?? "null"} with {right?.GetType().Name ?? "null"}",
+            span
+        );
+    }
+
+    public object? Evaluate(TemplateExpression expression)
+    {
+        return expression switch
+        {
+            NumberLiteralExpression number => number.Value,
+            StringLiteralExpression str => str.Value,
+            BooleanLiteralExpression boolean => boolean.Value,
+            NullLiteralExpression => null,
+
+            IdentifierExpression identifier => EvaluateIdentifier(identifier),
+            MemberAccessExpression member => EvaluateMemberAccess(member),
+            IndexAccessExpression index => EvaluateIndexAccess(index),
+            CallExpression call => EvaluateCall(call),
+            UnaryExpression unary => EvaluateUnary(unary),
+            BinaryExpression binary => EvaluateBinary(binary),
+            ConditionalExpression conditional => EvaluateConditional(conditional),
+
+            _ => throw new TemplateExpressionException(
+                $"Unknown expression type: {expression.GetType().Name}",
+                expression.Span
+            )
+        };
+    }
+
+    private object? EvaluateIdentifier(IdentifierExpression identifier)
+    {
+        return context.GetVariable(identifier.Name);
+    }
+
+    private object? EvaluateMemberAccess(MemberAccessExpression member)
+    {
+        var target = Evaluate(member.Target);
+
+        if (target == null)
+            throw new TemplateExpressionException(
+                "Cannot access member of null",
+                member.Span
+            );
+
+        // Handle dictionary-like objects
+        if (target is IDictionary<string, object?> dict)
+        {
+            if (dict.TryGetValue(member.MemberName, out var value))
+                return value;
+
+            throw new TemplateExpressionException(
+                $"Property '{member.MemberName}' not found",
+                member.Span
+            );
+        }
+
+        // Handle object properties via reflection
+        var type = target.GetType();
+        var property = type.GetProperty(member.MemberName);
+
+        if (property != null)
+            return property.GetValue(target);
+
+        var field = type.GetField(member.MemberName);
+
+        if (field != null)
+            return field.GetValue(target);
+
+        throw new TemplateExpressionException(
+            $"Property '{member.MemberName}' not found on {type.Name}",
+            member.Span
+        );
+    }
+
+    private object? EvaluateIndexAccess(IndexAccessExpression index)
+    {
+        var target = Evaluate(index.Target);
+        var indexValue = Evaluate(index.Index);
+
+        if (target == null)
+            throw new TemplateExpressionException(
+                "Cannot index into null",
+                index.Span
+            );
+
+        // Handle array/list indexing
+        if (target is System.Collections.IList list)
+        {
+            var idx = (int)ToNumber(indexValue, index.Index.Span);
+
+            if (idx < 0 || idx >= list.Count)
+                throw new TemplateExpressionException(
+                    $"Index {idx} out of range [0..{list.Count - 1}]",
+                    index.Span
+                );
+
+            return list[idx];
+        }
+
+        // Handle dictionary indexing
+        if (target is IDictionary<string, object?> dict)
+        {
+            var key = ToString(indexValue);
+
+            if (dict.TryGetValue(key, out var value))
+                return value;
+
+            throw new TemplateExpressionException(
+                $"Key '{key}' not found",
+                index.Span
+            );
+        }
+
+        throw new TemplateExpressionException(
+            $"Cannot index into {target.GetType().Name}",
+            index.Span
+        );
+    }
+
+    private object? EvaluateCall(CallExpression call)
+    {
+        // Evaluate the callee to get the function name
+        if (call.Callee is not IdentifierExpression identifier)
+            throw new TemplateExpressionException(
+                "Only named functions can be called",
+                call.Callee.Span
+            );
+
+        var functionName = identifier.Name;
+        var function = context.GetFunction(functionName);
+
+        // Evaluate arguments
+        var arguments = call.Arguments
+            .Select(Evaluate)
+            .ToArray();
+
+        // Call the function
+        try
+        {
+            return function(arguments);
+        }
+        catch (Exception ex) when (ex is not TemplateExpressionException)
+        {
+            throw new TemplateExpressionException(
+                $"Error calling function '{functionName}': {ex.Message}",
+                call.Span
+            );
+        }
+    }
+
+    private object? EvaluateUnary(UnaryExpression unary)
+    {
+        var operand = Evaluate(unary.Operand);
+
+        return unary.Operator switch
+        {
+            UnaryOperator.Not => !IsTruthy(operand),
+            UnaryOperator.Negate => -ToNumber(operand, unary.Operand.Span),
+            _ => throw new TemplateExpressionException(
+                $"Unknown unary operator: {unary.Operator}",
+                unary.Span
+            )
+        };
+    }
+
+    private object? EvaluateBinary(BinaryExpression binary)
+    {
+        // Short-circuit evaluation for logical operators
+        if (binary.Operator == BinaryOperator.And)
+        {
+            var left = Evaluate(binary.Left);
+            if (!IsTruthy(left)) return false;
+            return IsTruthy(Evaluate(binary.Right));
+        }
+
+        if (binary.Operator == BinaryOperator.Or)
+        {
+            var left = Evaluate(binary.Left);
+            if (IsTruthy(left)) return true;
+            return IsTruthy(Evaluate(binary.Right));
+        }
+
+        // Evaluate both operands for other operators
+        var leftValue = Evaluate(binary.Left);
+        var rightValue = Evaluate(binary.Right);
+
+        return binary.Operator switch
+        {
+            // Arithmetic
+            BinaryOperator.Add => EvaluateAddition(leftValue, rightValue, binary.Span),
+            BinaryOperator.Subtract => ToNumber(leftValue, binary.Left.Span) - ToNumber(rightValue, binary.Right.Span),
+            BinaryOperator.Multiply => ToNumber(leftValue, binary.Left.Span) * ToNumber(rightValue, binary.Right.Span),
+            BinaryOperator.Divide => EvaluateDivision(leftValue, rightValue, binary),
+            BinaryOperator.Modulo => ToNumber(leftValue, binary.Left.Span) % ToNumber(rightValue, binary.Right.Span),
+
+            // Comparison
+            BinaryOperator.Equal => AreEqual(leftValue, rightValue),
+            BinaryOperator.NotEqual => !AreEqual(leftValue, rightValue),
+            BinaryOperator.LessThan => Compare(leftValue, rightValue, binary.Span) < 0,
+            BinaryOperator.LessOrEqual => Compare(leftValue, rightValue, binary.Span) <= 0,
+            BinaryOperator.GreaterThan => Compare(leftValue, rightValue, binary.Span) > 0,
+            BinaryOperator.GreaterOrEqual => Compare(leftValue, rightValue, binary.Span) >= 0,
+
+            _ => throw new TemplateExpressionException(
+                $"Unknown binary operator: {binary.Operator}",
+                binary.Span
+            )
+        };
+    }
+
+    private object? EvaluateAddition(object? left, object? right, TextSpan span)
+    {
+        // String concatenation
+        if (left is string || right is string) return ToString(left) + ToString(right);
+
+        // Numeric addition
+        return ToNumber(left, span) + ToNumber(right, span);
+    }
+
+    private object? EvaluateDivision(object? left, object? right, BinaryExpression binary)
+    {
+        var leftNum = ToNumber(left, binary.Left.Span);
+        var rightNum = ToNumber(right, binary.Right.Span);
+
+        if (Math.Abs(rightNum) < double.Epsilon)
+            throw new TemplateExpressionException(
+                "Division by zero",
+                binary.Span
+            );
+
+        return leftNum / rightNum;
+    }
+
+    private object? EvaluateConditional(ConditionalExpression conditional)
+    {
+        var condition = Evaluate(conditional.Condition);
+
+        return IsTruthy(condition)
+            ? Evaluate(conditional.ThenExpression)
+            : Evaluate(conditional.ElseExpression);
+    }
+
+    /// <summary>
+    /// Evaluate a template expression string
+    /// </summary>
+    public static object? Evaluate(string expression, EvaluationContext context)
+    {
+        var parsed = TemplateExpressionParser.Parse(expression);
+        var evaluator = new TemplateExpressionEvaluator(context);
+        return evaluator.Evaluate(parsed);
+    }
+}

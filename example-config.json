@@ -1,0 +1,56 @@
+{
+  "profiles": {
+    "dev": {
+      "default": true,
+      "data": {
+        "base_url": "https://httpbin.org",
+        "user": {
+          "username": "johndoe",
+          "password": "{{ prompt('Enter password: ') }}"
+        }
+      }
+    },
+    "prod": {
+      "data": {
+        "base_url": "https://example.com"
+      }
+    }
+  },
+  "requests": {
+    "auth": {
+      "requests": {
+        "login": {
+          "url": "{{ base_url }}/post",
+          "method": "POST",
+          "headers": {
+            "Accept": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+          },
+          "cookies": {
+            "session": "1234567890"
+          },
+          "ContentType": "MultipartFormData",
+          "body": {
+            "photo": {
+              "file": true,
+              "path": "{{ filePrompt() }}"
+            }
+          }
+        },
+        "register": {
+          "url": "{{ base_url }}/post",
+          "method": "POST",
+          "body": "{{ readFile(filePrompt()) + ' ' + user.password }}"
+        }
+      }
+    },
+    "ping": {
+      "url": "{{ base_url }}/get",
+      "method": "GET",
+      "headers": {
+        "Accept": "application/json"
+      },
+      "body": "Ping"
+    }
+  }
+}

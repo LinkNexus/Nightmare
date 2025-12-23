@@ -9,4 +9,12 @@
         <InvariantGlobalization>true</InvariantGlobalization>
     </PropertyGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Terminal.Gui" Version="2.0.0-develop.4746"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Nightmare.Parser\Nightmare.Parser.csproj" />
+    </ItemGroup>
+
 </Project>

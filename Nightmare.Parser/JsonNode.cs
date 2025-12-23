@@ -14,6 +14,23 @@ public sealed class JsonObject(
 {
     private readonly Dictionary<string, JsonValue> _properties =
         properties.ToDictionary(p => p.Name, p => p.Value, StringComparer.Ordinal);
+
+    public IReadOnlyDictionary<string, JsonValue> Properties => _properties;
+
+    public bool HasProperty(string name)
+    {
+        return _properties.ContainsKey(name);
+    }
+
+    public JsonValue? GetProperty(string name)
+    {
+        return _properties.GetValueOrDefault(name);
+    }
+
+    public bool TryGetProperty(string name, out JsonValue? value)
+    {
+        return _properties.TryGetValue(name, out value);
+    }
 }
 
 public sealed class JsonArray(IEnumerable<JsonValue> items, TextSpan span) : JsonValue(span)

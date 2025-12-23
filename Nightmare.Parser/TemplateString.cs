@@ -6,6 +6,8 @@ public sealed class TemplateString(IReadOnlyList<TemplateSegment> segments)
         .OfType<TemplateExpressionSegment>()
         .Any();
 
+    public IReadOnlyList<TemplateSegment> GetSegments() => segments;
+
     public override string ToString()
     {
         return string.Concat(

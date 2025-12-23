@@ -389,7 +389,7 @@ public class JsonLexer(string _text)
         return new Token(TokenType.Number, text, null, finalSpan);
     }
 
-    private bool TryMatchKeyword(string text, TokenType type, out Token token)
+    private bool TryMatchKeyword(string text, TokenType type, out Token? token)
     {
         if (RemainingStartsWith(text))
         {
