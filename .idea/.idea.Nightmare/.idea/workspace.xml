@@ -9,13 +9,13 @@
   <component name="ChangeListManager">
     <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/JsonLexer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonLexer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/JsonNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/Nightmare.Parser.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/Nightmare.Parser.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateString.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateString.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare/Nightmare.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Nightmare.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/QUICK_START.md" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/QUICK_START.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionLexer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionLexer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionParser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Tests/ParserTests/TemplateExpressions/TEST_COVERAGE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Tests/ParserTests/TemplateExpressions/TemplateExpressionIntegrationTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Tests/ParserTests/TemplateExpressions/TemplateExpressionIntegrationTests.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +23,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="8" />
+    <option name="cachedIndexableFilesCount" value="13" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -37,8 +37,6 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/906dc7459b29a3c66ebc05a3ab7a19f7e1a67a5d7e4d71f989e1efb37fadb1/CollectionAsserts.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/ExpressionAst.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/ExpressionToken.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Nightmare.Tests/ParserTests/JsonLexerTests.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Nightmare.Tests/UnitTest1.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -156,7 +154,7 @@
       <workItem from="1766408856453" duration="1965000" />
       <workItem from="1766412839397" duration="4071000" />
       <workItem from="1766417101455" duration="13627000" />
-      <workItem from="1766478501714" duration="6498000" />
+      <workItem from="1766478501714" duration="12528000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -182,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766421990877</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Add template expression support with evaluation and syntax validation, enhance JSON parsing capabilities, and introduce new utility functions">
+      <option name="closed" value="true" />
+      <created>1766494218383</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1766494218384</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -196,7 +202,9 @@
     <MESSAGE value="Migrate `Nightmare.JsonParser` to `Nightmare.Parser`, refactor classes and namespaces, update project structure, and introduce `JsonParser` functionality with enhanced unit test coverage." />
     <MESSAGE value="Enhance `JsonLexer` and `JsonParser` with comprehensive unit tests and fix boundary condition in `RemainingStartsWith` method" />
     <MESSAGE value="Enhance `JsonLexer` and `JsonParser` with comprehensive unit tests, improve tokenization, and fix boundary checks" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhance `JsonLexer` and `JsonParser` with comprehensive unit tests, improve tokenization, and fix boundary checks" />
+    <MESSAGE value="Add template expression system with parser and evaluator, enhance JSON handling, and improve error reporting" />
+    <MESSAGE value="Add template expression support with evaluation and syntax validation, enhance JSON parsing capabilities, and introduce new utility functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add template expression support with evaluation and syntax validation, enhance JSON parsing capabilities, and introduce new utility functions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

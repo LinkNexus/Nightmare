@@ -70,49 +70,49 @@ public sealed class TemplateExpressionParser
         switch (Current.Type)
         {
             case TemplateTokenType.Number:
-                {
-                    var token = Eat(TemplateTokenType.Number);
-                    var value = double.Parse(token.Value!, CultureInfo.InvariantCulture);
-                    return new NumberLiteralExpression(value, token.Span);
-                }
+            {
+                var token = Eat(TemplateTokenType.Number);
+                var value = double.Parse(token.Value!, CultureInfo.InvariantCulture);
+                return new NumberLiteralExpression(value, token.Span);
+            }
 
             case TemplateTokenType.String:
-                {
-                    var token = Eat(TemplateTokenType.String);
-                    return new StringLiteralExpression(token.Value!, token.Span);
-                }
+            {
+                var token = Eat(TemplateTokenType.String);
+                return new StringLiteralExpression(token.Value!, token.Span);
+            }
 
             case TemplateTokenType.True:
-                {
-                    var token = Eat(TemplateTokenType.True);
-                    return new BooleanLiteralExpression(true, token.Span);
-                }
+            {
+                var token = Eat(TemplateTokenType.True);
+                return new BooleanLiteralExpression(true, token.Span);
+            }
 
             case TemplateTokenType.False:
-                {
-                    var token = Eat(TemplateTokenType.False);
-                    return new BooleanLiteralExpression(false, token.Span);
-                }
+            {
+                var token = Eat(TemplateTokenType.False);
+                return new BooleanLiteralExpression(false, token.Span);
+            }
 
             case TemplateTokenType.Null:
-                {
-                    var token = Eat(TemplateTokenType.Null);
-                    return new NullLiteralExpression(token.Span);
-                }
+            {
+                var token = Eat(TemplateTokenType.Null);
+                return new NullLiteralExpression(token.Span);
+            }
 
             case TemplateTokenType.Identifier:
-                {
-                    var token = Eat(TemplateTokenType.Identifier);
-                    return new IdentifierExpression(token.Value!, token.Span);
-                }
+            {
+                var token = Eat(TemplateTokenType.Identifier);
+                return new IdentifierExpression(token.Value!, token.Span);
+            }
 
             case TemplateTokenType.LeftParen:
-                {
-                    Eat(TemplateTokenType.LeftParen);
-                    var expr = ParseExpression();
-                    Eat(TemplateTokenType.RightParen);
-                    return expr;
-                }
+            {
+                Eat(TemplateTokenType.LeftParen);
+                var expr = ParseExpression();
+                Eat(TemplateTokenType.RightParen);
+                return expr;
+            }
 
             default:
                 throw Error($"Unexpected token '{Current.Type}' in expression");
@@ -127,60 +127,52 @@ public sealed class TemplateExpressionParser
         var expr = ParsePrimary();
 
         while (true)
-        {
             switch (Current.Type)
             {
                 case TemplateTokenType.Dot:
-                    {
-                        Eat(TemplateTokenType.Dot);
-                        var memberToken = Eat(TemplateTokenType.Identifier);
-                        var span = Combine(expr.Span, memberToken.Span);
-                        expr = new MemberAccessExpression(expr, memberToken.Value!, span);
-                        break;
-                    }
+                {
+                    Eat(TemplateTokenType.Dot);
+                    var memberToken = Eat(TemplateTokenType.Identifier);
+                    var span = Combine(expr.Span, memberToken.Span);
+                    expr = new MemberAccessExpression(expr, memberToken.Value!, span);
+                    break;
+                }
 
                 case TemplateTokenType.LeftBracket:
-                    {
-                        var start = Eat(TemplateTokenType.LeftBracket);
-                        var index = ParseExpression();
-                        var end = Eat(TemplateTokenType.RightBracket);
-                        var span = Combine(expr.Span, end.Span);
-                        expr = new IndexAccessExpression(expr, index, span);
-                        break;
-                    }
+                {
+                    var start = Eat(TemplateTokenType.LeftBracket);
+                    var index = ParseExpression();
+                    var end = Eat(TemplateTokenType.RightBracket);
+                    var span = Combine(expr.Span, end.Span);
+                    expr = new IndexAccessExpression(expr, index, span);
+                    break;
+                }
 
                 case TemplateTokenType.LeftParen:
-                    {
-                        Eat(TemplateTokenType.LeftParen);
-                        var arguments = new List<TemplateExpression>();
+                {
+                    Eat(TemplateTokenType.LeftParen);
+                    var arguments = new List<TemplateExpression>();
 
-                        if (Current.Type != TemplateTokenType.RightParen)
+                    if (Current.Type != TemplateTokenType.RightParen)
+                        while (true)
                         {
-                            while (true)
-                            {
-                                arguments.Add(ParseExpression());
+                            arguments.Add(ParseExpression());
 
-                                if (Current.Type == TemplateTokenType.Comma)
-                                {
-                                    Eat(TemplateTokenType.Comma);
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
+                            if (Current.Type == TemplateTokenType.Comma)
+                                Eat(TemplateTokenType.Comma);
+                            else
+                                break;
                         }
 
-                        var end = Eat(TemplateTokenType.RightParen);
-                        var span = Combine(expr.Span, end.Span);
-                        expr = new CallExpression(expr, arguments, span);
-                        break;
-                    }
+                    var end = Eat(TemplateTokenType.RightParen);
+                    var span = Combine(expr.Span, end.Span);
+                    expr = new CallExpression(expr, arguments, span);
+                    break;
+                }
 
                 default:
                     return expr;
             }
-        }
     }
 
     /// <summary>
@@ -191,20 +183,20 @@ public sealed class TemplateExpressionParser
         switch (Current.Type)
         {
             case TemplateTokenType.Not:
-                {
-                    var token = Eat(TemplateTokenType.Not);
-                    var operand = ParseUnary();
-                    var span = Combine(token.Span, operand.Span);
-                    return new UnaryExpression(UnaryOperator.Not, operand, span);
-                }
+            {
+                var token = Eat(TemplateTokenType.Not);
+                var operand = ParseUnary();
+                var span = Combine(token.Span, operand.Span);
+                return new UnaryExpression(UnaryOperator.Not, operand, span);
+            }
 
             case TemplateTokenType.Minus:
-                {
-                    var token = Eat(TemplateTokenType.Minus);
-                    var operand = ParseUnary();
-                    var span = Combine(token.Span, operand.Span);
-                    return new UnaryExpression(UnaryOperator.Negate, operand, span);
-                }
+            {
+                var token = Eat(TemplateTokenType.Minus);
+                var operand = ParseUnary();
+                var span = Combine(token.Span, operand.Span);
+                return new UnaryExpression(UnaryOperator.Negate, operand, span);
+            }
 
             default:
                 return ParsePostfix();
@@ -362,17 +354,14 @@ public sealed class TemplateExpressionParser
     {
         var condition = ParseLogicalOr();
 
-        if (Current.Type == TemplateTokenType.Question)
-        {
-            Eat(TemplateTokenType.Question);
-            var thenExpr = ParseExpression();
-            Eat(TemplateTokenType.Colon);
-            var elseExpr = ParseExpression();
-            var span = Combine(condition.Span, elseExpr.Span);
-            return new ConditionalExpression(condition, thenExpr, elseExpr, span);
-        }
+        if (Current.Type != TemplateTokenType.Question) return condition;
 
-        return condition;
+        Eat(TemplateTokenType.Question);
+        var thenExpr = ParseExpression();
+        Eat(TemplateTokenType.Colon);
+        var elseExpr = ParseExpression();
+        var span = Combine(condition.Span, elseExpr.Span);
+        return new ConditionalExpression(condition, thenExpr, elseExpr, span);
     }
 
     /// <summary>
@@ -393,9 +382,8 @@ public sealed class TemplateExpressionParser
         var parser = new TemplateExpressionParser(tokens);
         var result = parser.ParseExpression();
 
-        if (parser.Current.Type != TemplateTokenType.EndOfFile)
-            throw parser.Error("Unexpected token after expression");
-
-        return result;
+        return parser.Current.Type != TemplateTokenType.EndOfFile
+            ? throw parser.Error("Unexpected token after expression")
+            : result;
     }
 }

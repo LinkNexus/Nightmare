@@ -83,18 +83,19 @@ public class TemplateExpressionLexer(string text)
                     AdvanceLine(c);
                     continue;
                 case '\r':
+                {
+                    if (Peek(1) == '\n')
                     {
-                        if (Peek(1) == '\n')
-                        {
-                            Advance();
-                            AdvanceLine('\n');
-                        }
-                        else
-                        {
-                            AdvanceLine(c);
-                        }
-                        continue;
+                        Advance();
+                        AdvanceLine('\n');
                     }
+                    else
+                    {
+                        AdvanceLine(c);
+                    }
+
+                    continue;
+                }
             }
 
             break;
@@ -126,47 +127,50 @@ public class TemplateExpressionLexer(string text)
                 return new TemplateExpressionToken(TemplateTokenType.String, sb.ToString(), CaptureSpan(start));
             }
 
-            if (c == '\\')
+            switch (c)
             {
-                Advance();
-                if (IsEnd)
-                    throw new TemplateExpressionException("Unterminated string literal", CaptureSpan(start));
-
-                var escaped = Peek();
-                switch (escaped)
+                case '\\':
                 {
-                    case '"':
-                    case '\'':
-                    case '\\':
-                        sb.Append(escaped);
-                        Advance();
-                        break;
-                    case 'n':
-                        sb.Append('\n');
-                        Advance();
-                        break;
-                    case 'r':
-                        sb.Append('\r');
-                        Advance();
-                        break;
-                    case 't':
-                        sb.Append('\t');
-                        Advance();
-                        break;
-                    default:
-                        throw new TemplateExpressionException(
-                            $"Invalid escape character '\\{escaped}' in string literal",
-                            new TextSpan(_position, 1, _line, _column, _line, _column)
-                        );
+                    Advance();
+                    if (IsEnd)
+                        throw new TemplateExpressionException("Unterminated string literal", CaptureSpan(start));
+
+                    var escaped = Peek();
+                    switch (escaped)
+                    {
+                        case '"':
+                        case '\'':
+                        case '\\':
+                            sb.Append(escaped);
+                            break;
+                        case 'n':
+                            sb.Append('\n');
+                            break;
+                        case 'r':
+                            sb.Append('\r');
+                            break;
+                        case 't':
+                            sb.Append('\t');
+                            break;
+                        default:
+                            throw new TemplateExpressionException(
+                                $"Invalid escape character '\\{escaped}' in string literal",
+                                new TextSpan(_position, 1, _line, _column, _line, _column)
+                            );
+                    }
+
+                    Advance();
+
+                    continue;
                 }
-                continue;
+                case '\n':
+                case '\r':
+                    throw new TemplateExpressionException("Unterminated string literal", CaptureSpan(start));
+                default:
+                    sb.Append(c);
+                    Advance();
+                    break;
             }
-
-            if (c == '\n' || c == '\r')
-                throw new TemplateExpressionException("Unterminated string literal", CaptureSpan(start));
-
-            sb.Append(c);
-            Advance();
         }
 
         throw new TemplateExpressionException("Unterminated string literal", CaptureSpan(start));
@@ -217,28 +221,27 @@ public class TemplateExpressionLexer(string text)
         }
 
         // Read exponent part
-        if (Peek() is 'e' or 'E')
+        if (Peek() is not ('e' or 'E'))
+            return new TemplateExpressionToken(TemplateTokenType.Number, sb.ToString(), CaptureSpan(start));
+        sb.Append(Peek());
+        Advance();
+
+        if (Peek() is '+' or '-')
         {
             sb.Append(Peek());
             Advance();
+        }
 
-            if (Peek() is '+' or '-')
-            {
-                sb.Append(Peek());
-                Advance();
-            }
+        if (!char.IsDigit(Peek()))
+            throw new TemplateExpressionException(
+                "Invalid number exponent",
+                new TextSpan(_position, 1, _line, _column, _line, _column)
+            );
 
-            if (!char.IsDigit(Peek()))
-                throw new TemplateExpressionException(
-                    "Invalid number exponent",
-                    new TextSpan(_position, 1, _line, _column, _line, _column)
-                );
-
-            while (char.IsDigit(Peek()))
-            {
-                sb.Append(Peek());
-                Advance();
-            }
+        while (char.IsDigit(Peek()))
+        {
+            sb.Append(Peek());
+            Advance();
         }
 
         return new TemplateExpressionToken(TemplateTokenType.Number, sb.ToString(), CaptureSpan(start));
@@ -282,82 +285,79 @@ public class TemplateExpressionLexer(string text)
 
         var current = Peek();
 
-        // Two-character operators
-        if (current == '=' && Peek(1) == '=')
+        switch (current)
         {
-            var start = CaptureStart();
-            Advance();
-            Advance();
-            return new TemplateExpressionToken(TemplateTokenType.Equal, "==", CaptureSpan(start));
+            case '=' when Peek(1) == '=':
+            {
+                var start = CaptureStart();
+                Advance();
+                Advance();
+                return new TemplateExpressionToken(TemplateTokenType.Equal, "==", CaptureSpan(start));
+            }
+            case '!' when Peek(1) == '=':
+            {
+                var start = CaptureStart();
+                Advance();
+                Advance();
+                return new TemplateExpressionToken(TemplateTokenType.NotEqual, "!=", CaptureSpan(start));
+            }
+            case '<' when Peek(1) == '=':
+            {
+                var start = CaptureStart();
+                Advance();
+                Advance();
+                return new TemplateExpressionToken(TemplateTokenType.LessOrEqual, "<=", CaptureSpan(start));
+            }
+            case '>' when Peek(1) == '=':
+            {
+                var start = CaptureStart();
+                Advance();
+                Advance();
+                return new TemplateExpressionToken(TemplateTokenType.GreaterOrEqual, ">=", CaptureSpan(start));
+            }
+            case '&' when Peek(1) == '&':
+            {
+                var start = CaptureStart();
+                Advance();
+                Advance();
+                return new TemplateExpressionToken(TemplateTokenType.And, "&&", CaptureSpan(start));
+            }
+            case '|' when Peek(1) == '|':
+            {
+                var start = CaptureStart();
+                Advance();
+                Advance();
+                return new TemplateExpressionToken(TemplateTokenType.Or, "||", CaptureSpan(start));
+            }
+            default:
+                // Single-character operators and delimiters
+                return current switch
+                {
+                    '+' => MakeSingle(TemplateTokenType.Plus),
+                    '-' when !char.IsDigit(Peek(1)) => MakeSingle(TemplateTokenType.Minus),
+                    '*' => MakeSingle(TemplateTokenType.Star),
+                    '/' => MakeSingle(TemplateTokenType.Slash),
+                    '%' => MakeSingle(TemplateTokenType.Percent),
+                    '<' => MakeSingle(TemplateTokenType.LessThan),
+                    '>' => MakeSingle(TemplateTokenType.GreaterThan),
+                    '!' => MakeSingle(TemplateTokenType.Not),
+                    '(' => MakeSingle(TemplateTokenType.LeftParen),
+                    ')' => MakeSingle(TemplateTokenType.RightParen),
+                    '[' => MakeSingle(TemplateTokenType.LeftBracket),
+                    ']' => MakeSingle(TemplateTokenType.RightBracket),
+                    '.' => MakeSingle(TemplateTokenType.Dot),
+                    ',' => MakeSingle(TemplateTokenType.Comma),
+                    '?' => MakeSingle(TemplateTokenType.Question),
+                    ':' => MakeSingle(TemplateTokenType.Colon),
+                    '"' or '\'' => ReadString(),
+                    '-' or >= '0' and <= '9' => ReadNumber(),
+                    _ when char.IsLetter(current) || current == '_' => ReadIdentifier(),
+                    _ => throw new TemplateExpressionException(
+                        $"Unexpected character '{current}'",
+                        new TextSpan(_position, 1, _line, _column, _line, _column)
+                    )
+                };
         }
-
-        if (current == '!' && Peek(1) == '=')
-        {
-            var start = CaptureStart();
-            Advance();
-            Advance();
-            return new TemplateExpressionToken(TemplateTokenType.NotEqual, "!=", CaptureSpan(start));
-        }
-
-        if (current == '<' && Peek(1) == '=')
-        {
-            var start = CaptureStart();
-            Advance();
-            Advance();
-            return new TemplateExpressionToken(TemplateTokenType.LessOrEqual, "<=", CaptureSpan(start));
-        }
-
-        if (current == '>' && Peek(1) == '=')
-        {
-            var start = CaptureStart();
-            Advance();
-            Advance();
-            return new TemplateExpressionToken(TemplateTokenType.GreaterOrEqual, ">=", CaptureSpan(start));
-        }
-
-        if (current == '&' && Peek(1) == '&')
-        {
-            var start = CaptureStart();
-            Advance();
-            Advance();
-            return new TemplateExpressionToken(TemplateTokenType.And, "&&", CaptureSpan(start));
-        }
-
-        if (current == '|' && Peek(1) == '|')
-        {
-            var start = CaptureStart();
-            Advance();
-            Advance();
-            return new TemplateExpressionToken(TemplateTokenType.Or, "||", CaptureSpan(start));
-        }
-
-        // Single-character operators and delimiters
-        return current switch
-        {
-            '+' => MakeSingle(TemplateTokenType.Plus),
-            '-' when !char.IsDigit(Peek(1)) => MakeSingle(TemplateTokenType.Minus),
-            '*' => MakeSingle(TemplateTokenType.Star),
-            '/' => MakeSingle(TemplateTokenType.Slash),
-            '%' => MakeSingle(TemplateTokenType.Percent),
-            '<' => MakeSingle(TemplateTokenType.LessThan),
-            '>' => MakeSingle(TemplateTokenType.GreaterThan),
-            '!' => MakeSingle(TemplateTokenType.Not),
-            '(' => MakeSingle(TemplateTokenType.LeftParen),
-            ')' => MakeSingle(TemplateTokenType.RightParen),
-            '[' => MakeSingle(TemplateTokenType.LeftBracket),
-            ']' => MakeSingle(TemplateTokenType.RightBracket),
-            '.' => MakeSingle(TemplateTokenType.Dot),
-            ',' => MakeSingle(TemplateTokenType.Comma),
-            '?' => MakeSingle(TemplateTokenType.Question),
-            ':' => MakeSingle(TemplateTokenType.Colon),
-            '"' or '\'' => ReadString(),
-            '-' or >= '0' and <= '9' => ReadNumber(),
-            _ when char.IsLetter(current) || current == '_' => ReadIdentifier(),
-            _ => throw new TemplateExpressionException(
-                $"Unexpected character '{current}'",
-                new TextSpan(_position, 1, _line, _column, _line, _column)
-            )
-        };
     }
 
     public IReadOnlyList<TemplateExpressionToken> Lex()

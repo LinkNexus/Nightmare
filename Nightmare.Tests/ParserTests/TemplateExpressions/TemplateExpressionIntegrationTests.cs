@@ -34,17 +34,19 @@ public class TemplateExpressionIntegrationTests
     [Fact]
     public void Integration_ComplexNestedJson_EvaluatesCorrectly()
     {
-        var json = @"{
-            ""requests"": {
-                ""login"": {
-                    ""url"": ""{{ base_url }}/auth/login"",
-                    ""headers"": {
-                        ""Authorization"": ""Bearer {{ token }}""
-                    },
-                    ""body"": ""{{ user.username + ':' + user.password }}""
-                }
-            }
-        }";
+        var json = """
+                   {
+                    "requests": {
+                        "login": {
+                            "url": "{{ base_url }}/auth/login",
+                            "headers": {
+                                "Authorization": "Bearer {{ token }}"
+                            },
+                            "body": "{{ user.username + ':' + user.password }}"
+                        }
+                    }
+                    }
+                   """;
 
         var ast = JsonParser.Parse(json);
         var root = Assert.IsType<JsonObject>(ast);

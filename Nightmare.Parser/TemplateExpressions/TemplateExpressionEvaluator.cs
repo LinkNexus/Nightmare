@@ -103,33 +103,32 @@ public sealed class TemplateExpressionEvaluator(EvaluationContext context)
         if (left == null || right == null) return false;
 
         // Try numeric comparison
-        if ((left is double || left is int || left is long || left is float) &&
-            (right is double || right is int || right is long || right is float))
-        {
-            var leftNum = Convert.ToDouble(left);
-            var rightNum = Convert.ToDouble(right);
-            return Math.Abs(leftNum - rightNum) < double.Epsilon;
-        }
+        if (left is not (double or int or long or float) ||
+            right is not (double or int or long or float)) return left.Equals(right);
 
-        return left.Equals(right);
+        var leftNum = Convert.ToDouble(left);
+        var rightNum = Convert.ToDouble(right);
+        return Math.Abs(leftNum - rightNum) < double.Epsilon;
     }
 
     private static int Compare(object? left, object? right, TextSpan span)
     {
-        if (left is double || left is int || left is long || left is float)
+        switch (left)
         {
-            var leftNum = Convert.ToDouble(left);
-            var rightNum = ToNumber(right, span);
-            return leftNum.CompareTo(rightNum);
+            case double or int or long or float:
+                {
+                    var leftNum = Convert.ToDouble(left);
+                    var rightNum = ToNumber(right, span);
+                    return leftNum.CompareTo(rightNum);
+                }
+            case string leftStr when right is string rightStr:
+                return string.Compare(leftStr, rightStr, StringComparison.Ordinal);
+            default:
+                throw new TemplateExpressionException(
+                    $"Cannot compare {left?.GetType().Name ?? "null"} with {right?.GetType().Name ?? "null"}",
+                    span
+                );
         }
-
-        if (left is string leftStr && right is string rightStr)
-            return string.Compare(leftStr, rightStr, StringComparison.Ordinal);
-
-        throw new TemplateExpressionException(
-            $"Cannot compare {left?.GetType().Name ?? "null"} with {right?.GetType().Name ?? "null"}",
-            span
-        );
     }
 
     public object? Evaluate(TemplateExpression expression)
@@ -171,7 +170,7 @@ public sealed class TemplateExpressionEvaluator(EvaluationContext context)
                 member.Span
             );
 
-        // Handle dictionary-like objects
+        // Handle dictionary-like objects (primary approach for AOT compatibility)
         if (target is IDictionary<string, object?> dict)
         {
             if (dict.TryGetValue(member.MemberName, out var value))
@@ -183,20 +182,11 @@ public sealed class TemplateExpressionEvaluator(EvaluationContext context)
             );
         }
 
-        // Handle object properties via reflection
-        var type = target.GetType();
-        var property = type.GetProperty(member.MemberName);
-
-        if (property != null)
-            return property.GetValue(target);
-
-        var field = type.GetField(member.MemberName);
-
-        if (field != null)
-            return field.GetValue(target);
-
+        // For AOT compatibility, only support dictionary-based member access
+        // Users should use Dictionary<string, object?> for nested objects
         throw new TemplateExpressionException(
-            $"Property '{member.MemberName}' not found on {type.Name}",
+            $"Member access is only supported for Dictionary<string, object?> types. " +
+            $"Found: {target.GetType().Name}. Use dictionaries for nested data structures.",
             member.Span
         );
     }

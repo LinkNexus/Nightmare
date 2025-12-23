@@ -123,6 +123,7 @@ context.RegisterFunction("filePrompt", args => {
 ### Use Case 5: Complex Request Bodies
 
 ```csharp
+// For AOT compatibility, use Dictionary<string, object?>
 context.SetVariable("user", new Dictionary<string, object?> {
     ["name"] = "John",
     ["email"] = "john@example.com"
@@ -130,6 +131,22 @@ context.SetVariable("user", new Dictionary<string, object?> {
 
 // Expression: {{ 'Name: ' + user.name + ', Email: ' + user.email }}
 // Result: Name: John, Email: john@example.com
+```
+
+## Important: AOT Compatibility
+
+This system is **AOT compatible** and does not use reflection. All data structures must use `Dictionary<string, object?>` for nested objects:
+
+```csharp
+// ✅ Correct - AOT compatible
+var user = new Dictionary<string, object?> {
+    ["profile"] = new Dictionary<string, object?> {
+        ["name"] = "John"
+    }
+};
+
+// ❌ Incorrect - will not work (no reflection support)
+var user = new { profile = new { name = "John" } };
 ```
 
 ## Integration with Your Config File

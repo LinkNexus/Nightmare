@@ -2,6 +2,8 @@
 
 A comprehensive template expression parser and evaluator for the Nightmare REST HTTP Client.
 
+**✅ AOT Compatible** - No reflection, ready for native AOT compilation.
+
 ## Overview
 
 This system allows you to embed dynamic expressions within JSON configuration files using `{{ }}` syntax. Expressions are parsed into an Abstract Syntax Tree (AST) and can be evaluated on-demand with custom contexts.
@@ -48,11 +50,13 @@ Access variables from the evaluation context:
 - `{{ "Count: " + count }}`
 
 ### Member Access
-Access nested properties:
+Access nested properties using dictionaries:
 ```
 {{ user.name }}
 {{ config.server.host }}
 ```
+
+**Note:** For AOT compatibility, member access only works with `Dictionary<string, object?>` types. Do not use reflection-based property access.
 
 ### Index Access
 Access array/list elements and dictionary values:
@@ -194,6 +198,7 @@ catch (TemplateExpressionException ex)
 - **Extensibility**: Easy to add custom functions via context
 - **Type Flexibility**: Dynamic typing with automatic conversions
 - **Error Recovery**: Clear error messages with exact error locations
+- **AOT Compatible**: No reflection - uses dictionary-based data structures only
 
 ## Extending with Custom Functions
 
