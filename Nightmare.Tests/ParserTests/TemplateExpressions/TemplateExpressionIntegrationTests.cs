@@ -92,9 +92,9 @@ public class TemplateExpressionIntegrationTests
 
         var context = new EvaluationContext();
         context.SetVariable("name", "john");
-        context.RegisterFunction("uuid", args => "test-uuid-123");
-        context.RegisterFunction("timestamp", args => 1234567890);
-        context.RegisterFunction("upper", args => args[0]?.ToString()?.ToUpper());
+        context.RegisterFunction(new TestUuidFunction());
+        context.RegisterFunction(new TestTimestampFunction());
+        context.RegisterFunction(new TestUpperFunction());
 
         var requestIdNode = Assert.IsType<JsonString>(obj.GetProperty("requestId"));
         var requestId = TemplateStringEvaluator.Evaluate(requestIdNode.Template, context);

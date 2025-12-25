@@ -1,4 +1,6 @@
 using Nightmare.Parser.TemplateExpressions;
+using Nightmare.Parser.TemplateExpressions.Functions;
+using Nightmare.Parser.TemplateExpressions.FunctionsSyntax.Functions;
 
 namespace Nightmare.Parser.Examples;
 
@@ -21,12 +23,12 @@ public static class TemplateExpressionExamples
 
         var examples = new[]
         {
-            ("Simple addition", "{{ 10 + 5 }}"),
-            ("Multiplication", "{{ 6 * 7 }}"),
-            ("Division", "{{ 100 / 4 }}"),
-            ("Modulo", "{{ 17 % 5 }}"),
-            ("Complex expression", "{{ (10 + 5) * 2 - 3 }}"),
-            ("Calculate total", "{{ price * quantity * (1 + tax) }}"),
+            ("Simple addition", "10 + 5"),
+            ("Multiplication", "6 * 7"),
+            ("Division", "100 / 4"),
+            ("Modulo", "17 % 5"),
+            ("Complex expression", "(10 + 5) * 2 - 3"),
+            ("Calculate total", "price * quantity * (1 + tax)"),
         };
 
         foreach (var (description, expression) in examples)
@@ -53,11 +55,11 @@ public static class TemplateExpressionExamples
 
         var examples = new[]
         {
-            ("Concatenation", "{{ 'Hello ' + 'World' }}"),
-            ("Variable concat", "{{ firstName + ' ' + lastName }}"),
-            ("Mixed types", "{{ 'Age: ' + age }}"),
-            ("URL building", "{{ baseUrl + endpoint }}"),
-            ("Complex URL", "{{ baseUrl + endpoint + '/' + age }}"),
+            ("Concatenation", "'Hello ' + 'World'"),
+            ("Variable concat", "firstName + ' ' + lastName"),
+            ("Mixed types", "'Age: ' + age"),
+            ("URL building", "baseUrl + endpoint"),
+            ("Complex URL", "baseUrl + endpoint + '/' + age"),
         };
 
         foreach (var (description, expression) in examples)
@@ -84,14 +86,14 @@ public static class TemplateExpressionExamples
 
         var examples = new[]
         {
-            ("Equality", "{{ 5 == 5 }}"),
-            ("Inequality", "{{ 10 != 5 }}"),
-            ("Greater than", "{{ score > passing }}"),
-            ("Less or equal", "{{ score <= 100 }}"),
-            ("Logical AND", "{{ isActive && isAdmin }}"),
-            ("Logical OR", "{{ isActive || isAdmin }}"),
-            ("Logical NOT", "{{ !isAdmin }}"),
-            ("Complex logic", "{{ (score > passing) && isActive }}"),
+            ("Equality", "5 == 5"),
+            ("Inequality", "10 != 5"),
+            ("Greater than", "score > passing"),
+            ("Less or equal", "score <= 100"),
+            ("Logical AND", "isActive && isAdmin"),
+            ("Logical OR", "isActive || isAdmin"),
+            ("Logical NOT", "!isAdmin"),
+            ("Complex logic", "(score > passing) && isActive"),
         };
 
         foreach (var (description, expression) in examples)
@@ -116,11 +118,11 @@ public static class TemplateExpressionExamples
 
         var examples = new[]
         {
-            ("Simple ternary", "{{ true ? 'yes' : 'no' }}"),
-            ("Number check", "{{ temperature > 20 ? 'warm' : 'cold' }}"),
-            ("Membership", "{{ isMember ? 'Welcome back!' : 'Please sign up' }}"),
-            ("Nested ternary", "{{ points > 200 ? 'Gold' : (points > 100 ? 'Silver' : 'Bronze') }}"),
-            ("With calculation", "{{ isMember ? points * 2 : points }}"),
+            ("Simple ternary", "true ? 'yes' : 'no'"),
+            ("Number check", "temperature > 20 ? 'warm' : 'cold'"),
+            ("Membership", "isMember ? 'Welcome back!' : 'Please sign up'"),
+            ("Nested ternary", "points > 200 ? 'Gold' : (points > 100 ? 'Silver' : 'Bronze')"),
+            ("With calculation", "isMember ? points * 2 : points"),
         };
 
         foreach (var (description, expression) in examples)
@@ -167,11 +169,11 @@ public static class TemplateExpressionExamples
 
         var examples = new[]
         {
-            ("Simple member", "{{ user.username }}"),
-            ("Nested member", "{{ user.profile.firstName }}"),
-            ("Deep nesting", "{{ config.server.host }}"),
-            ("Combined", "{{ user.profile.firstName + ' ' + user.profile.lastName }}"),
-            ("URL from config", "{{ 'https://' + config.server.host + ':' + config.server.port }}"),
+            ("Simple member", "user.username"),
+            ("Nested member", "user.profile.firstName"),
+            ("Deep nesting", "config.server.host"),
+            ("Combined", "user.profile.firstName + ' ' + user.profile.lastName"),
+            ("URL from config", "'https://' + config.server.host + ':' + config.server.port"),
         };
 
         foreach (var (description, expression) in examples)
@@ -205,12 +207,12 @@ public static class TemplateExpressionExamples
 
         var examples = new[]
         {
-            ("First item", "{{ items[0] }}"),
-            ("Last item", "{{ items[2] }}"),
-            ("Numeric array", "{{ numbers[1] }}"),
-            ("Array math", "{{ numbers[0] + numbers[1] }}"),
-            ("Nested access", "{{ users[1].name }}"),
-            ("Complex", "{{ users[0].name + ' is ' + users[0].age + ' years old' }}"),
+            ("First item", "items[0]"),
+            ("Last item", "items[2]"),
+            ("Numeric array", "numbers[1]"),
+            ("Array math", "numbers[0] + numbers[1]"),
+            ("Nested access", "users[1].name"),
+            ("Complex", "users[0].name + ' is ' + users[0].age + ' years old'"),
         };
 
         foreach (var (description, expression) in examples)
@@ -233,49 +235,23 @@ public static class TemplateExpressionExamples
         context.SetVariable("name", "World");
 
         // Register custom functions
-        context.RegisterFunction("upper", args =>
-        {
-            var str = args[0]?.ToString() ?? "";
-            return str.ToUpper();
-        });
-
-        context.RegisterFunction("lower", args =>
-        {
-            var str = args[0]?.ToString() ?? "";
-            return str.ToLower();
-        });
-
-        context.RegisterFunction("concat", args =>
-        {
-            return string.Join("", args.Select(a => a?.ToString() ?? ""));
-        });
-
-        context.RegisterFunction("max", args =>
-        {
-            return args.Select(a => Convert.ToDouble(a)).Max();
-        });
-
-        context.RegisterFunction("min", args =>
-        {
-            return args.Select(a => Convert.ToDouble(a)).Min();
-        });
-
-        context.RegisterFunction("len", args =>
-        {
-            var str = args[0]?.ToString() ?? "";
-            return (double)str.Length;
-        });
+        context.RegisterFunction(new UpperFunction());
+        context.RegisterFunction(new LowerFunction());
+        context.RegisterFunction(new ConcatFunction());
+        context.RegisterFunction(new MaxFunction());
+        context.RegisterFunction(new MinFunction());
+        context.RegisterFunction(new LenFunction());
 
         var examples = new[]
         {
-            ("Upper case", "{{ upper('hello') }}"),
-            ("Lower case", "{{ lower('WORLD') }}"),
-            ("Variable to upper", "{{ upper(name) }}"),
-            ("Concatenate", "{{ concat('Hello', ' ', 'World', '!') }}"),
-            ("Maximum", "{{ max(10, 25, 15, 30, 5) }}"),
-            ("Minimum", "{{ min(10, 25, 15, 30, 5) }}"),
-            ("String length", "{{ len('Hello World') }}"),
-            ("Nested calls", "{{ upper(concat('hello', ' ', 'world')) }}"),
+            ("Upper case", "upper('hello')"),
+            ("Lower case", "lower('WORLD')"),
+            ("Variable to upper", "upper(name)"),
+            ("Concatenate", "concat('Hello', ' ', 'World', '!')"),
+            ("Maximum", "max(10, 25, 15, 30, 5)"),
+            ("Minimum", "min(10, 25, 15, 30, 5)"),
+            ("String length", "len('Hello World')"),
+            ("Nested calls", "upper(concat('hello', ' ', 'world'))"),
         };
 
         foreach (var (description, expression) in examples)
@@ -307,33 +283,20 @@ public static class TemplateExpressionExamples
         context.SetVariable("isProduction", false);
 
         // Register utility functions
-        context.RegisterFunction("env", args =>
-        {
-            var name = args[0]?.ToString() ?? "";
-            // In real scenario, would read from environment
-            return name == "API_KEY" ? "secret_key_12345" : null;
-        });
-
-        context.RegisterFunction("timestamp", args =>
-        {
-            return DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        });
-
-        context.RegisterFunction("uuid", args =>
-        {
-            return Guid.NewGuid().ToString();
-        });
+        context.RegisterFunction(new EnvFunction());
+        context.RegisterFunction(new TimeStampFunction());
+        context.RegisterFunction(new UuidFunction());
 
         var examples = new[]
         {
-            ("Build API URL", "{{ base_url + '/api/' + api_version }}"),
-            ("User endpoint", "{{ base_url + '/users/' + user.id }}"),
-            ("Environment variable", "{{ env('API_KEY') }}"),
-            ("Conditional URL", "{{ isProduction ? 'https://api.prod.com' : base_url }}"),
-            ("Auth header", "{{ 'Bearer ' + env('API_KEY') }}"),
-            ("Request ID", "{{ 'req_' + timestamp() }}"),
-            ("Correlation ID", "{{ uuid() }}"),
-            ("Dynamic route", "{{ base_url + '/users/' + user.id + '/posts' }}"),
+            ("Build API URL", "base_url + '/api/' + api_version"),
+            ("User endpoint", "base_url + '/users/' + user.id"),
+            ("Environment variable", "env('API_KEY')"),
+            ("Conditional URL", "isProduction ? 'https://api.prod.com' : base_url"),
+            ("Auth header", "'Bearer ' + env('API_KEY')"),
+            ("Request ID", "'req_' + timestamp()"),
+            ("Correlation ID", "uuid()"),
+            ("Dynamic route", "base_url + '/users/' + user.id + '/posts'"),
         };
 
         foreach (var (description, expression) in examples)

@@ -1,0 +1,33 @@
+{
+  "profiles": {
+    "dev": {
+      "default": true,
+      "data": {
+        "base_url": "https://httpbin.org",
+        "user": {
+          "username": "{{ upper(\"h\") + 'ello' }}, World!",
+          "password": "{{ prompt('Enter password for the dev server: ') }}"
+        }
+      }
+    }
+  },
+  "requests": {
+    "auth": {
+      "requests": {
+        "login": {
+          "url": "{{ base_url }}/post",
+          "method": "POST",
+          "headers": {
+            "Accept": "application/json",
+            "Content-Type": "multipart/form-data",
+            "X-Requested-With": "XMLHttpRequest"
+          },
+          "cookies": {
+            "session": "1234567890"
+          },
+          "body": "{{ json_encode(user) }}"
+        }
+      }
+    }
+  }
+}

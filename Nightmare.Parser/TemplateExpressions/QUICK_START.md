@@ -1,5 +1,18 @@
 # Quick Start Guide - Template Expression System
 
+## ⚠️ Important: `{{ }}` Markers
+
+- **In JSON strings**: Use `{{ expression }}` → The `JsonLexer` extracts these
+- **Direct evaluation**: Use `expression` (no markers) → Call `TemplateExpressionEvaluator.Evaluate()`
+
+```csharp
+// ✅ In JSON config (with {{ }})
+var json = @"{ ""url"": ""{{ base_url }}/users"" }";
+
+// ✅ Direct evaluation (without {{ }})
+var result = TemplateExpressionEvaluator.Evaluate("base_url + '/users'", context);
+```
+
 ## What You Have Now
 
 A complete expression parser and evaluator that works seamlessly with your existing JSON parser.
@@ -16,15 +29,17 @@ var context = new EvaluationContext();
 context.SetVariable("name", "John");
 context.SetVariable("age", 30);
 
-// Evaluate expression
-var result = TemplateExpressionEvaluator.Evaluate("{{ name + ' is ' + age }}", context);
+// Evaluate expression (without {{ }} markers)
+var result = TemplateExpressionEvaluator.Evaluate("name + ' is ' + age", context);
 // Result: "John is 30"
 ```
+
+**Important:** When calling `TemplateExpressionEvaluator.Evaluate()` directly, pass the expression **without** `{{ }}` markers.
 
 ### 2. With Your JSON Config
 
 ```csharp
-// Your JSON config
+// Your JSON config ({{ }} markers are in the JSON strings)
 var json = @"{
   ""url"": ""{{ base_url }}/users/{{ userId }}"",
   ""timeout"": ""{{ retries * 1000 }}""
@@ -39,12 +54,14 @@ context.SetVariable("base_url", "https://api.example.com");
 context.SetVariable("userId", 123);
 context.SetVariable("retries", 3);
 
-// Extract and evaluate
+// Extract and evaluate (TemplateStringEvaluator handles {{ }} markers)
 var obj = (JsonObject)ast;
 var urlString = (JsonString)obj.GetProperty("url")!;
 var finalUrl = TemplateStringEvaluator.Evaluate(urlString.Template, context);
 // Result: "https://api.example.com/users/123"
 ```
+
+**Key Point:** `{{ }}` markers appear in JSON string values. The `JsonLexer` extracts them, and `TemplateStringEvaluator` evaluates them.
 
 ### 3. Register Custom Functions
 
@@ -68,11 +85,8 @@ context.RegisterFunction("prompt", args => {
     return Console.ReadLine();
 });
 
-// Use them
-var result = TemplateExpressionEvaluator.Evaluate(
-    "{{ upper('hello') }}", 
-    context
-);
+// Use them (without {{ }} markers when calling directly)
+var result = TemplateExpressionEvaluator.Evaluate("upper('hello')", context);
 // Result: "HELLO"
 ```
 
@@ -85,7 +99,7 @@ var result = TemplateExpressionEvaluator.Evaluate(
 context.SetVariable("base_url", "https://httpbin.org");
 context.SetVariable("api_version", "v1");
 
-// Expression: {{ base_url }}/{{ api_version }}/users
+// Expression: base_url + '/' + api_version + '/users'
 // Result: https://httpbin.org/v1/users
 ```
 
@@ -95,7 +109,7 @@ context.SetVariable("api_version", "v1");
 // Profile variables
 context.SetVariable("token", "eyJhbGci...");
 
-// Expression: {{ 'Bearer ' + token }}
+// Expression: 'Bearer ' + token
 // Result: Bearer eyJhbGci...
 ```
 
@@ -104,7 +118,7 @@ context.SetVariable("token", "eyJhbGci...");
 ```csharp
 context.SetVariable("env", "production");
 
-// Expression: {{ env == 'production' ? 'https://api.prod.com' : 'http://localhost:3000' }}
+// Expression: env == 'production' ? 'https://api.prod.com' : 'http://localhost:3000'
 // Result: https://api.prod.com
 ```
 
@@ -116,7 +130,7 @@ context.RegisterFunction("filePrompt", args => {
     return "/path/to/selected/file.jpg";
 });
 
-// Expression: {{ filePrompt() }}
+// Expression: filePrompt()
 // Result: /path/to/selected/file.jpg
 ```
 
@@ -129,7 +143,7 @@ context.SetVariable("user", new Dictionary<string, object?> {
     ["email"] = "john@example.com"
 });
 
-// Expression: {{ 'Name: ' + user.name + ', Email: ' + user.email }}
+// Expression: 'Name: ' + user.name + ', Email: ' + user.email
 // Result: Name: John, Email: john@example.com
 ```
 

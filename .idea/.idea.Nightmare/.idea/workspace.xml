@@ -8,22 +8,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/ParserException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/BaseTemplateFunction.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/FunctionParamValueType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/FunctionParameter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/DateFunctions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/ReadFileFunction.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/StringFunctions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/UtilityFunctions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare/.nightmare.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare/Config/ConfigManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare/Config/ConfigNotFoundException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare/UI/ErrorPopup.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Nightmare/WindowReloader.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/JsonNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/JsonParseException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonParseException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/Nightmare.Parser.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/Nightmare.Parser.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/Examples.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/Examples.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/IntegrationExample.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/IntegrationExample.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/QUICK_START.md" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/QUICK_START.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionLexer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionLexer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionParser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Tests/ParserTests/TemplateExpressions/TEST_COVERAGE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Tests/ParserTests/TemplateExpressions/TemplateExpressionEvaluatorTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Tests/ParserTests/TemplateExpressions/TemplateExpressionEvaluatorTests.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare.Tests/ParserTests/TemplateExpressions/TemplateExpressionIntegrationTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Tests/ParserTests/TemplateExpressions/TemplateExpressionIntegrationTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare/Nightmare.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Nightmare.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DpaMonitoringSettings">
+    <option name="firstShow" value="false" />
+  </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="13" />
+    <option name="cachedIndexableFilesCount" value="15" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -36,9 +61,20 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5878d76d3b81484eafbba90b77c960fed2b38/ea/5600024d/Exception.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3f44c5b9eb6851301091fc65ce6dd6671e1a75f8a7f12837bc921ecf12ab/Exception.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4583b87215de4e3e1ac62055ea9b79f57c584a6ca62655e9241a56403243d968/View.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5c21b9149ef32e1f68396d6e6fc7311324c9829ed40328c33f6d5f859a757/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/906dc7459b29a3c66ebc05a3ab7a19f7e1a67a5d7e4d71f989e1efb37fadb1/CollectionAsserts.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/96bf2e4d82de0d4d6d85e9d4d7215ea351ff4df2f362c0b651e163e313ba93/View.Layout.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/986365c0ecc7c4361a9a7b5ec78aa36ae9279963126cf7dad26b6807cda1afd/MessageBox.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Nightmare.Parser/ParserException.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Nightmare.Tests/ParserTests/JsonLexerTests.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Nightmare.Tests/UnitTest1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Nightmare/Config/ConfigNotFoundException.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Nightmare/UI/ErrorPopup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Nightmare/WindowReloader.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -53,30 +89,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.Nightmare.executor&quot;: &quot;Debug&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;rider.code.cleanup.on.save&quot;: &quot;true&quot;,
-    &quot;rider.code.cleanup.on.save.profile&quot;: &quot;Built-in: Reformat &amp; Apply Syntax Style&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.Nightmare.executor": "Debug",
+    ".NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunAdvancedExample.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunExample.executor": "Debug",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.ArithmeticExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.ComparisonExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.FunctionCallExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.MemberAccessExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.RunAll.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.StringExamples.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "rider.code.cleanup.on.save": "true",
+    "rider.code.cleanup.on.save.profile": "Built-in: Reformat & Apply Syntax Style",
+    "settings.editor.selected.configurable": "settings.sync",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecapSpentCounter">
     <option name="endsOfQuotaMs" value="1766424622583" />
     <option name="spentUsd" value="0.18662325" />
@@ -102,6 +146,101 @@
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
       <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Nightmare.Parser.Examples.IntegrationExample.RunAdvancedExample" type="DotNetStaticMethod" factoryName=".NET Static Method" temporary="true">
+      <option name="EXE_PATH" value="$APPLICATION_HOME_DIR$/lib/ReSharperHost/JetLauncherILc.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Nightmare.Parser/Nightmare.Parser.csproj" />
+      <option name="PROJECT_TFM" value="net10.0" />
+      <option name="CLASS_NAME" value="Nightmare.Parser.Examples.IntegrationExample" />
+      <option name="METHOD_NAME" value="RunAdvancedExample" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Nightmare.Parser.Examples.IntegrationExample.RunExample" type="DotNetStaticMethod" factoryName=".NET Static Method" temporary="true">
+      <option name="EXE_PATH" value="$APPLICATION_HOME_DIR$/lib/ReSharperHost/JetLauncherILc.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Nightmare.Parser/Nightmare.Parser.csproj" />
+      <option name="PROJECT_TFM" value="net10.0" />
+      <option name="CLASS_NAME" value="Nightmare.Parser.Examples.IntegrationExample" />
+      <option name="METHOD_NAME" value="RunExample" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Nightmare.Parser.Examples.TemplateExpressionExamples.FunctionCallExamples" type="DotNetStaticMethod" factoryName=".NET Static Method" temporary="true">
+      <option name="EXE_PATH" value="$APPLICATION_HOME_DIR$/lib/ReSharperHost/JetLauncherILc.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Nightmare.Parser/Nightmare.Parser.csproj" />
+      <option name="PROJECT_TFM" value="net10.0" />
+      <option name="CLASS_NAME" value="Nightmare.Parser.Examples.TemplateExpressionExamples" />
+      <option name="METHOD_NAME" value="FunctionCallExamples" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Nightmare.Parser.Examples.TemplateExpressionExamples.MemberAccessExamples" type="DotNetStaticMethod" factoryName=".NET Static Method" temporary="true">
+      <option name="EXE_PATH" value="$APPLICATION_HOME_DIR$/lib/ReSharperHost/JetLauncherILc.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Nightmare.Parser/Nightmare.Parser.csproj" />
+      <option name="PROJECT_TFM" value="net10.0" />
+      <option name="CLASS_NAME" value="Nightmare.Parser.Examples.TemplateExpressionExamples" />
+      <option name="METHOD_NAME" value="MemberAccessExamples" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Nightmare.Parser.Examples.TemplateExpressionExamples.RunAll" type="DotNetStaticMethod" factoryName=".NET Static Method" temporary="true">
+      <option name="EXE_PATH" value="$APPLICATION_HOME_DIR$/lib/ReSharperHost/JetLauncherILc.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Nightmare.Parser/Nightmare.Parser.csproj" />
+      <option name="PROJECT_TFM" value="net10.0" />
+      <option name="CLASS_NAME" value="Nightmare.Parser.Examples.TemplateExpressionExamples" />
+      <option name="METHOD_NAME" value="RunAll" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -141,6 +280,15 @@
       <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunExample" />
+        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunAdvancedExample" />
+        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.RunAll" />
+        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.FunctionCallExamples" />
+        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.MemberAccessExamples" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -154,7 +302,11 @@
       <workItem from="1766408856453" duration="1965000" />
       <workItem from="1766412839397" duration="4071000" />
       <workItem from="1766417101455" duration="13627000" />
-      <workItem from="1766478501714" duration="12528000" />
+      <workItem from="1766478501714" duration="14209000" />
+      <workItem from="1766527374493" duration="270000" />
+      <workItem from="1766527891149" duration="10481000" />
+      <workItem from="1766565860554" duration="13251000" />
+      <workItem from="1766612391218" duration="17943000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -188,7 +340,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766494218384</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Remove outdated test coverage documentation and ensure AOT compatibility notes across TemplateExpressions documentation. Minor refactors for TemplateExpressionLexer and parser consistency.">
+      <option name="closed" value="true" />
+      <created>1766525802068</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1766525802068</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,7 +364,8 @@
     <MESSAGE value="Enhance `JsonLexer` and `JsonParser` with comprehensive unit tests, improve tokenization, and fix boundary checks" />
     <MESSAGE value="Add template expression system with parser and evaluator, enhance JSON handling, and improve error reporting" />
     <MESSAGE value="Add template expression support with evaluation and syntax validation, enhance JSON parsing capabilities, and introduce new utility functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add template expression support with evaluation and syntax validation, enhance JSON parsing capabilities, and introduce new utility functions" />
+    <MESSAGE value="Remove outdated test coverage documentation and ensure AOT compatibility notes across TemplateExpressions documentation. Minor refactors for TemplateExpressionLexer and parser consistency." />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove outdated test coverage documentation and ensure AOT compatibility notes across TemplateExpressions documentation. Minor refactors for TemplateExpressionLexer and parser consistency." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

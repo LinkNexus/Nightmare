@@ -1,4 +1,7 @@
 using System.Globalization;
+using Nightmare.Parser.TemplateExpressions.Functions;
+using Nightmare.Parser.TemplateExpressions.FunctionsSyntax;
+using Nightmare.Parser.TemplateExpressions.FunctionsSyntax.Functions;
 
 namespace Nightmare.Parser.TemplateExpressions;
 
@@ -8,21 +11,26 @@ namespace Nightmare.Parser.TemplateExpressions;
 public class EvaluationContext
 {
     private readonly Dictionary<string, object?> _variables = new();
-    private readonly Dictionary<string, Func<object?[], object?>> _functions = new();
+
+    private readonly List<BaseTemplateFunction> _functions =
+    [
+        new LowerFunction(),
+        new ConcatFunction()
+    ];
 
     public void SetVariable(string name, object? value)
     {
         _variables[name] = value;
     }
 
-    public object? GetVariable(string name)
+    public object? GetVariable(string name, TextSpan span)
     {
         if (_variables.TryGetValue(name, out var value))
             return value;
 
         throw new TemplateExpressionException(
             $"Variable '{name}' not found in context",
-            new TextSpan(0, 0, 0, 0, 0, 0)
+            span
         );
     }
 
@@ -31,25 +39,30 @@ public class EvaluationContext
         return _variables.ContainsKey(name);
     }
 
-    public void RegisterFunction(string name, Func<object?[], object?> function)
+    public void RegisterFunction(BaseTemplateFunction function)
     {
-        _functions[name] = function;
+        _functions.Add(function);
     }
 
-    public Func<object?[], object?> GetFunction(string name)
+    public BaseTemplateFunction GetFunction(string name, TextSpan span)
     {
-        if (_functions.TryGetValue(name, out var function))
-            return function;
-
-        throw new TemplateExpressionException(
-            $"Function '{name}' not found in context",
-            new TextSpan(0, 0, 0, 0, 0, 0)
-        );
+        try
+        {
+            return _functions
+                .First(f => f.GetName() == name);
+        }
+        catch (InvalidOperationException)
+        {
+            throw new TemplateExpressionException(
+                $"Function '{name}' not found in context",
+                span
+            );
+        }
     }
 
     public bool HasFunction(string name)
     {
-        return _functions.ContainsKey(name);
+        return _functions.Any(f => f.GetName() == name);
     }
 }
 
@@ -116,11 +129,11 @@ public sealed class TemplateExpressionEvaluator(EvaluationContext context)
         switch (left)
         {
             case double or int or long or float:
-                {
-                    var leftNum = Convert.ToDouble(left);
-                    var rightNum = ToNumber(right, span);
-                    return leftNum.CompareTo(rightNum);
-                }
+            {
+                var leftNum = Convert.ToDouble(left);
+                var rightNum = ToNumber(right, span);
+                return leftNum.CompareTo(rightNum);
+            }
             case string leftStr when right is string rightStr:
                 return string.Compare(leftStr, rightStr, StringComparison.Ordinal);
             default:
@@ -157,7 +170,7 @@ public sealed class TemplateExpressionEvaluator(EvaluationContext context)
 
     private object? EvaluateIdentifier(IdentifierExpression identifier)
     {
-        return context.GetVariable(identifier.Name);
+        return context.GetVariable(identifier.Name, identifier.Span);
     }
 
     private object? EvaluateMemberAccess(MemberAccessExpression member)
@@ -246,25 +259,15 @@ public sealed class TemplateExpressionEvaluator(EvaluationContext context)
             );
 
         var functionName = identifier.Name;
-        var function = context.GetFunction(functionName);
+        var function = context.GetFunction(functionName, call.Span);
 
         // Evaluate arguments
         var arguments = call.Arguments
             .Select(Evaluate)
             .ToArray();
 
-        // Call the function
-        try
-        {
-            return function(arguments);
-        }
-        catch (Exception ex) when (ex is not TemplateExpressionException)
-        {
-            throw new TemplateExpressionException(
-                $"Error calling function '{functionName}': {ex.Message}",
-                call.Span
-            );
-        }
+        // Call the function - it will handle its own errors with proper span
+        return function.Call(arguments, call.Span);
     }
 
     private object? EvaluateUnary(UnaryExpression unary)

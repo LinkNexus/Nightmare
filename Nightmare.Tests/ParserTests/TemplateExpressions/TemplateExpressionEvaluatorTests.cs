@@ -202,15 +202,12 @@ public class TemplateExpressionEvaluatorTests
     {
         var context = new EvaluationContext();
         var callCount = 0;
-        context.RegisterFunction("test", args =>
-        {
-            callCount++;
-            return "called";
-        });
+        context.RegisterFunction(new SideEffectFunction(() => callCount++));
+        context.RegisterFunction(new TestFunction());
 
-        var result = TemplateExpressionEvaluator.Evaluate("test()", context);
+        var result = TemplateExpressionEvaluator.Evaluate("sideEffect()", context);
 
-        Assert.Equal("called", result);
+        Assert.Null(result);
         Assert.Equal(1, callCount);
     }
 
@@ -218,12 +215,7 @@ public class TemplateExpressionEvaluatorTests
     public void Evaluate_FunctionCallWithArguments_PassesArguments()
     {
         var context = new EvaluationContext();
-        context.RegisterFunction("add", args =>
-        {
-            var a = Convert.ToDouble(args[0]);
-            var b = Convert.ToDouble(args[1]);
-            return a + b;
-        });
+        context.RegisterFunction(new AddFunction());
 
         var result = TemplateExpressionEvaluator.Evaluate("add(5, 3)", context);
 
@@ -272,11 +264,7 @@ public class TemplateExpressionEvaluatorTests
         var context = new EvaluationContext();
         context.SetVariable("a", 10);
         context.SetVariable("b", 5);
-        context.RegisterFunction("max", args =>
-        {
-            var nums = args.Select(a => Convert.ToDouble(a)).ToArray();
-            return nums.Max();
-        });
+        context.RegisterFunction(new MaxFunction());
 
         var result = TemplateExpressionEvaluator.Evaluate(
             "(a + b) * 2 > 25 ? max(a, b) : 0",
@@ -291,11 +279,7 @@ public class TemplateExpressionEvaluatorTests
     {
         var context = new EvaluationContext();
         var called = false;
-        context.RegisterFunction("sideEffect", args =>
-        {
-            called = true;
-            return true;
-        });
+        context.RegisterFunction(new SideEffectFunction(() => called = true));
 
         TemplateExpressionEvaluator.Evaluate("false && sideEffect()", context);
 
@@ -307,11 +291,7 @@ public class TemplateExpressionEvaluatorTests
     {
         var context = new EvaluationContext();
         var called = false;
-        context.RegisterFunction("sideEffect", args =>
-        {
-            called = true;
-            return false;
-        });
+        context.RegisterFunction(new SideEffectFunction(() => called = true));
 
         TemplateExpressionEvaluator.Evaluate("true || sideEffect()", context);
 
@@ -352,7 +332,7 @@ public class TemplateExpressionEvaluatorTests
     public void EvaluationContext_HasFunction_ReturnsTrueForRegisteredFunction()
     {
         var context = new EvaluationContext();
-        context.RegisterFunction("test", args => null);
+        context.RegisterFunction(new TestNullFunction());
 
         Assert.True(context.HasFunction("test"));
         Assert.False(context.HasFunction("nonexistent"));

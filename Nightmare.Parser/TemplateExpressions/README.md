@@ -124,15 +124,17 @@ context.RegisterFunction("readFile", args =>
     return File.ReadAllText(path);
 });
 
-// Parse and evaluate expressions
-var expr1 = "{{ base_url + '/users/' + user.id }}";
+// Parse and evaluate expressions (WITHOUT {{ }} markers)
+var expr1 = "base_url + '/users/' + user.id";
 var result1 = TemplateExpressionEvaluator.Evaluate(expr1, context);
 // Result: "https://api.example.com/users/123"
 
-var expr2 = "{{ user.id > 100 ? 'Premium' : 'Standard' }}";
+var expr2 = "user.id > 100 ? 'Premium' : 'Standard'";
 var result2 = TemplateExpressionEvaluator.Evaluate(expr2, context);
 // Result: "Premium"
 ```
+
+**Note:** When using `TemplateExpressionEvaluator.Evaluate()` directly, pass the expression content **without** `{{ }}` markers. The markers are only used in JSON string values and are handled by the `JsonLexer`.
 
 ## Integration with JSON Parser
 

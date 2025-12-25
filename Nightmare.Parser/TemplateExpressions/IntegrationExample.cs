@@ -58,10 +58,6 @@ public static class IntegrationExample
         context.SetVariable("score", 42);
         context.SetVariable("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...");
 
-        // Register utility functions
-        context.RegisterFunction("uuid", args => Guid.NewGuid().ToString());
-        context.RegisterFunction("timestamp", args => DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-
         Console.WriteLine("   ✓ Context configured\n");
 
         // Step 3: Navigate to request configuration
@@ -127,13 +123,10 @@ public static class IntegrationExample
         });
 
         if (TemplateStringEvaluator.TryEvaluate(invalidTemplate, context, out var result, out var error))
-        {
             Console.WriteLine($"   Result: {result}");
-        }
         else
-        {
-            Console.WriteLine($"   ✗ Evaluation failed: {error?.Message}");
-        }
+            Console.WriteLine(
+                $"   ✗ Evaluation failed: {error?.Message} at line {error?.Line}, column {error?.Column}");
 
         Console.WriteLine("\n=== Example Complete ===");
     }
@@ -173,30 +166,6 @@ public static class IntegrationExample
         context.SetVariable("config", config);
         context.SetVariable("userRole", "admin");
 
-        // Register complex functions
-        context.RegisterFunction("env", args =>
-        {
-            var key = args[0]?.ToString() ?? "";
-            var defaultValue = args.Length > 1 ? args[1] : null;
-            // Simulate environment variable lookup
-            return key == "API_SECRET" ? "secret123" : defaultValue;
-        });
-
-        context.RegisterFunction("hash", args =>
-        {
-            var input = args[0]?.ToString() ?? "";
-            using var sha256 = System.Security.Cryptography.SHA256.Create();
-            var bytes = System.Text.Encoding.UTF8.GetBytes(input);
-            var hash = sha256.ComputeHash(bytes);
-            return BitConverter.ToString(hash).Replace("-", "").ToLower();
-        });
-
-        context.RegisterFunction("ifelse", args =>
-        {
-            var condition = args.Length > 0 && args[0] is bool b && b;
-            return condition ? args[1] : args[2];
-        });
-
         var examples = new[]
         {
             ("Array access", "{{ config.api.endpoints[0].name }}"),
@@ -204,11 +173,11 @@ public static class IntegrationExample
             ("Conditional feature", "{{ config.features.authentication ? 'Auth enabled' : 'Auth disabled' }}"),
             ("Environment with default", "{{ env('MISSING_VAR', 'default_value') }}"),
             ("Complex URL", "{{ 'https://api.' + config.environment + '.com/' + config.api.endpoints[1].version }}"),
-            ("Role-based logic", "{{ userRole == 'admin' ? config.features.ratelimit.maxRequests * 2 : config.features.ratelimit.maxRequests }}"),
+            ("Role-based logic",
+                "{{ userRole == 'admin' ? config.features.ratelimit.maxRequests * 2 : config.features.ratelimit.maxRequests }}")
         };
 
         foreach (var (description, expression) in examples)
-        {
             try
             {
                 var result = TemplateExpressionEvaluator.Evaluate(expression, context);
@@ -220,7 +189,6 @@ public static class IntegrationExample
             {
                 Console.WriteLine($"{description}: ERROR - {ex.Message}\n");
             }
-        }
 
         Console.WriteLine("=== Advanced Example Complete ===");
     }

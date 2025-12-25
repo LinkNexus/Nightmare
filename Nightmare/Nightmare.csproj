@@ -10,11 +10,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <EmbeddedResource Include=".nightmare.json"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.CommandLine" Version="2.0.1"/>
         <PackageReference Include="Terminal.Gui" Version="2.0.0-develop.4746"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Nightmare.Parser\Nightmare.Parser.csproj" />
+        <ProjectReference Include="..\Nightmare.Parser\Nightmare.Parser.csproj"/>
     </ItemGroup>
 
 </Project>
