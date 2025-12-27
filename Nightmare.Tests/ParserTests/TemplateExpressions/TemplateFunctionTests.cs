@@ -1,6 +1,5 @@
 using Nightmare.Parser;
 using Nightmare.Parser.TemplateExpressions;
-using Nightmare.Parser.TemplateExpressions.Functions;
 using Nightmare.Parser.TemplateExpressions.FunctionsSyntax;
 using Nightmare.Parser.TemplateExpressions.FunctionsSyntax.Functions;
 using Xunit;
@@ -267,7 +266,7 @@ public class TemplateFunctionTests
     public void FunctionWithMultipleTypeOptions_ShouldAcceptAny()
     {
         var context = new EvaluationContext();
-        
+
         // Hash function accepts String or Number
         context.RegisterFunction(new HashFunction());
 

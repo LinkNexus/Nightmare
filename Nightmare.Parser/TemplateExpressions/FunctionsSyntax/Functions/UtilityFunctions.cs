@@ -1,8 +1,10 @@
-using Nightmare.Parser.TemplateExpressions.FunctionsSyntax;
+using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 
-namespace Nightmare.Parser.TemplateExpressions.Functions;
+namespace Nightmare.Parser.TemplateExpressions.FunctionsSyntax.Functions;
 
-public class UuidFunction : BaseTemplateFunction
+public class UuidFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -20,7 +22,7 @@ public class UuidFunction : BaseTemplateFunction
     }
 }
 
-public class HashFunction : BaseTemplateFunction
+public class HashFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -47,7 +49,7 @@ public class HashFunction : BaseTemplateFunction
     }
 }
 
-public class EnvFunction : BaseTemplateFunction
+public class EnvFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -77,7 +79,7 @@ public class EnvFunction : BaseTemplateFunction
     }
 }
 
-public class IfElseFunction : BaseTemplateFunction
+public class IfElseFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -120,7 +122,7 @@ public class IfElseFunction : BaseTemplateFunction
     }
 }
 
-public class MinFunction : BaseTemplateFunction
+public class MinFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -143,13 +145,13 @@ public class MinFunction : BaseTemplateFunction
     protected override object? Execute(object?[] args, TextSpan span)
     {
         var numbers = (object?[])args[0]!;
-        if (numbers.Length == 0)
-            throw Error("min requires at least one argument", span);
-        return numbers.Min(Convert.ToDouble);
+        return numbers.Length == 0
+            ? throw Error("min requires at least one argument", span)
+            : numbers.Min(Convert.ToDouble);
     }
 }
 
-public class LenFunction : BaseTemplateFunction
+public class LenFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -178,7 +180,7 @@ public class LenFunction : BaseTemplateFunction
     }
 }
 
-public class MaxFunction : BaseTemplateFunction
+public class MaxFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -187,7 +189,6 @@ public class MaxFunction : BaseTemplateFunction
             new FunctionParameter(
                 "numbers",
                 [FunctionParamValueType.Number],
-                true,
                 Variadic: true
             )
         ];
@@ -201,8 +202,71 @@ public class MaxFunction : BaseTemplateFunction
     protected override object? Execute(object?[] args, TextSpan span)
     {
         var numbers = (object?[])args[0]!;
-        if (numbers.Length == 0)
-            throw Error("max requires at least one argument", span);
-        return numbers.Max(Convert.ToDouble);
+        return numbers.Length == 0
+            ? throw Error("max requires at least one argument", span)
+            : numbers.Max(Convert.ToDouble);
+    }
+}
+
+public class PromptFunction : TemplateFunction
+{
+    private readonly IApplication _application;
+    private readonly Dialog _dialog;
+    private readonly Label _label;
+    private readonly TextField _textField;
+
+    private string _input = string.Empty;
+
+    public PromptFunction(IApplication application)
+    {
+        _application = application;
+        _dialog = new Dialog
+        {
+            Width = Dim.Percent(50),
+            Height = Dim.Auto(),
+            Title = "Prompt"
+        };
+
+        _label = new Label();
+
+        _textField = new TextField
+        {
+            X = Pos.Right(_label) + 1,
+            Y = Pos.Top(_label),
+            Width = Dim.Fill()
+        };
+        _textField.TextChanged += (_, _) => { _input = _textField.Text; };
+
+        _dialog.Add(_label, _textField);
+        _dialog.Accepting += (_, args) =>
+        {
+            application.RequestStop();
+            args.Handled = true;
+        };
+    }
+
+    protected override FunctionParameter[] ListArgs()
+    {
+        return
+        [
+            new FunctionParameter(
+                "message",
+                [FunctionParamValueType.String],
+                false,
+                "Enter the value: "
+            )
+        ];
+    }
+
+    public override string GetName()
+    {
+        return "prompt";
+    }
+
+    protected override object? Execute(object?[] args, TextSpan span)
+    {
+        _label.Text = (string)args[0]!;
+        _application.Run(_dialog);
+        return _input;
     }
 }

@@ -1,8 +1,6 @@
-using Nightmare.Parser.TemplateExpressions.FunctionsSyntax;
+namespace Nightmare.Parser.TemplateExpressions.FunctionsSyntax.Functions;
 
-namespace Nightmare.Parser.TemplateExpressions.Functions;
-
-public class TimeStampFunction : BaseTemplateFunction
+public class TimeStampFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -20,7 +18,7 @@ public class TimeStampFunction : BaseTemplateFunction
     }
 }
 
-public class DateFunction : BaseTemplateFunction
+public class DateFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -59,9 +57,15 @@ public class DateFunction : BaseTemplateFunction
                 return dateTime.ToString(format);
             }
 
-            case "years" or "months" or "weeks" or "days" or "hours" or "minutes" or "seconds":
-                var parts = format.Split(" ");
-                if (parts.Length != 2) throw Error("Invalid date format", span);
+            case string dateStr:
+                if (long.TryParse(dateStr, out var unixVal))
+                    return DateTimeOffset.FromUnixTimeSeconds(unixVal).UtcDateTime.ToString(format);
+
+                if (dateStr is "now") return DateTime.Now.ToString(format);
+
+                var parts = dateStr.Split(" ");
+                if (parts is not [_, "years" or "months" or "weeks" or "days" or "hours" or "minutes" or "seconds"])
+                    throw Error("Invalid date format", span);
 
                 if (int.TryParse(parts[0], out var count))
                     return parts[1] switch
@@ -76,9 +80,6 @@ public class DateFunction : BaseTemplateFunction
                         _ => throw Error("Invalid time unit", span)
                     };
                 throw Error("The first part of the time must be a number", span);
-
-            case "now":
-                return DateTime.Now.ToString(format);
 
             default:
                 throw Error("Invalid time", span);

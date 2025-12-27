@@ -1,6 +1,5 @@
 using Nightmare.Parser;
 using Nightmare.Parser.TemplateExpressions;
-using Nightmare.Parser.TemplateExpressions.Functions;
 using Nightmare.Parser.TemplateExpressions.FunctionsSyntax;
 using Xunit;
 

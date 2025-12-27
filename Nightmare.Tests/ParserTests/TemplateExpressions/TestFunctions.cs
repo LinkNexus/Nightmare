@@ -1,12 +1,11 @@
 using Nightmare.Parser;
-using Nightmare.Parser.TemplateExpressions.Functions;
 using Nightmare.Parser.TemplateExpressions.FunctionsSyntax;
 
 namespace Nightmare.Tests.ParserTests.TemplateExpressions;
 
 // Test helper functions for unit tests
 
-public class TestFunction : BaseTemplateFunction
+public class TestFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -26,7 +25,10 @@ public class TestFunction : BaseTemplateFunction
         ];
     }
 
-    public override string GetName() => "test";
+    public override string GetName()
+    {
+        return "test";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -34,14 +36,17 @@ public class TestFunction : BaseTemplateFunction
     }
 }
 
-public class TestNullFunction : BaseTemplateFunction
+public class TestNullFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
         return [];
     }
 
-    public override string GetName() => "test";
+    public override string GetName()
+    {
+        return "test";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -49,7 +54,7 @@ public class TestNullFunction : BaseTemplateFunction
     }
 }
 
-public class AddFunction : BaseTemplateFunction
+public class AddFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -60,7 +65,10 @@ public class AddFunction : BaseTemplateFunction
         ];
     }
 
-    public override string GetName() => "add";
+    public override string GetName()
+    {
+        return "add";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -68,7 +76,7 @@ public class AddFunction : BaseTemplateFunction
     }
 }
 
-public class MaxFunction : BaseTemplateFunction
+public class MaxFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -77,13 +85,16 @@ public class MaxFunction : BaseTemplateFunction
             new FunctionParameter(
                 "numbers",
                 [FunctionParamValueType.Number],
-                Required: true,
+                true,
                 Variadic: true
             )
         ];
     }
 
-    public override string GetName() => "max";
+    public override string GetName()
+    {
+        return "max";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -92,7 +103,7 @@ public class MaxFunction : BaseTemplateFunction
     }
 }
 
-public class SideEffectFunction : BaseTemplateFunction
+public class SideEffectFunction : TemplateFunction
 {
     private readonly Action _action;
 
@@ -106,7 +117,10 @@ public class SideEffectFunction : BaseTemplateFunction
         return [];
     }
 
-    public override string GetName() => "sideEffect";
+    public override string GetName()
+    {
+        return "sideEffect";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -115,14 +129,17 @@ public class SideEffectFunction : BaseTemplateFunction
     }
 }
 
-public class FailingFunction : BaseTemplateFunction
+public class FailingFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
         return [];
     }
 
-    public override string GetName() => "failing";
+    public override string GetName()
+    {
+        return "failing";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -130,7 +147,7 @@ public class FailingFunction : BaseTemplateFunction
     }
 }
 
-public class DivideFunction : BaseTemplateFunction
+public class DivideFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -141,7 +158,10 @@ public class DivideFunction : BaseTemplateFunction
         ];
     }
 
-    public override string GetName() => "divide";
+    public override string GetName()
+    {
+        return "divide";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -153,7 +173,7 @@ public class DivideFunction : BaseTemplateFunction
     }
 }
 
-public class OuterFunction : BaseTemplateFunction
+public class OuterFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -173,7 +193,10 @@ public class OuterFunction : BaseTemplateFunction
         ];
     }
 
-    public override string GetName() => "outer";
+    public override string GetName()
+    {
+        return "outer";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -181,14 +204,17 @@ public class OuterFunction : BaseTemplateFunction
     }
 }
 
-public class InnerFunction : BaseTemplateFunction
+public class InnerFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
         return [];
     }
 
-    public override string GetName() => "inner";
+    public override string GetName()
+    {
+        return "inner";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -196,7 +222,7 @@ public class InnerFunction : BaseTemplateFunction
     }
 }
 
-public class ValidatorFunction : BaseTemplateFunction
+public class ValidatorFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -216,7 +242,10 @@ public class ValidatorFunction : BaseTemplateFunction
         ];
     }
 
-    public override string GetName() => "validator";
+    public override string GetName()
+    {
+        return "validator";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -224,7 +253,7 @@ public class ValidatorFunction : BaseTemplateFunction
     }
 }
 
-public class PrintFunction : BaseTemplateFunction
+public class PrintFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -244,7 +273,10 @@ public class PrintFunction : BaseTemplateFunction
         ];
     }
 
-    public override string GetName() => "print";
+    public override string GetName()
+    {
+        return "print";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -252,14 +284,17 @@ public class PrintFunction : BaseTemplateFunction
     }
 }
 
-public class TestUuidFunction : BaseTemplateFunction
+public class TestUuidFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
         return [];
     }
 
-    public override string GetName() => "uuid";
+    public override string GetName()
+    {
+        return "uuid";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -267,14 +302,17 @@ public class TestUuidFunction : BaseTemplateFunction
     }
 }
 
-public class TestTimestampFunction : BaseTemplateFunction
+public class TestTimestampFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
         return [];
     }
 
-    public override string GetName() => "timestamp";
+    public override string GetName()
+    {
+        return "timestamp";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
@@ -282,7 +320,7 @@ public class TestTimestampFunction : BaseTemplateFunction
     }
 }
 
-public class TestUpperFunction : BaseTemplateFunction
+public class TestUpperFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -302,7 +340,10 @@ public class TestUpperFunction : BaseTemplateFunction
         ];
     }
 
-    public override string GetName() => "upper";
+    public override string GetName()
+    {
+        return "upper";
+    }
 
     protected override object? Execute(object?[] args, TextSpan span)
     {

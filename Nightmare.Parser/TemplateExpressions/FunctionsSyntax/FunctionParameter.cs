@@ -1,5 +1,3 @@
-using Nightmare.Parser.TemplateExpressions.Functions;
-
 namespace Nightmare.Parser.TemplateExpressions.FunctionsSyntax;
 
 public record FunctionParameter(

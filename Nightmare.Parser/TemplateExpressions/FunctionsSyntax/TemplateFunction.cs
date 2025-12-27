@@ -1,6 +1,6 @@
 namespace Nightmare.Parser.TemplateExpressions.FunctionsSyntax;
 
-public abstract class BaseTemplateFunction
+public abstract class TemplateFunction
 {
     protected readonly FunctionParameter[] Args;
 
@@ -8,7 +8,7 @@ public abstract class BaseTemplateFunction
     public abstract string GetName();
     protected abstract object? Execute(object?[] args, TextSpan span);
 
-    protected BaseTemplateFunction()
+    protected TemplateFunction()
     {
         Args = ListArgs();
     }

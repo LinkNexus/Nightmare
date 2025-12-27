@@ -1,8 +1,6 @@
-using Nightmare.Parser.TemplateExpressions.Functions;
-
 namespace Nightmare.Parser.TemplateExpressions.FunctionsSyntax.Functions;
 
-public class UpperFunction : BaseTemplateFunction
+public class UpperFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -26,7 +24,7 @@ public class UpperFunction : BaseTemplateFunction
     }
 }
 
-public class LowerFunction : BaseTemplateFunction
+public class LowerFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -50,7 +48,7 @@ public class LowerFunction : BaseTemplateFunction
     }
 }
 
-public class ConcatFunction : BaseTemplateFunction
+public class ConcatFunction : TemplateFunction
 {
     protected override FunctionParameter[] ListArgs()
     {
@@ -59,7 +57,7 @@ public class ConcatFunction : BaseTemplateFunction
             new FunctionParameter(
                 "values",
                 [FunctionParamValueType.String],
-                Required: true,
+                true,
                 Variadic: true
             )
         ];

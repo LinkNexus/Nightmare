@@ -1,6 +1,6 @@
 namespace Nightmare.Parser;
 
-public class ParserException(string message, TextSpan span)
+public class TracedException(string message, TextSpan span)
     : Exception(message)
 {
     public TextSpan Span { get; } = span;

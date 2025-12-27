@@ -1,7 +1,7 @@
 using System.Globalization;
-using Nightmare.Parser.TemplateExpressions.Functions;
 using Nightmare.Parser.TemplateExpressions.FunctionsSyntax;
 using Nightmare.Parser.TemplateExpressions.FunctionsSyntax.Functions;
+using Terminal.Gui.App;
 
 namespace Nightmare.Parser.TemplateExpressions;
 
@@ -12,11 +12,31 @@ public class EvaluationContext
 {
     private readonly Dictionary<string, object?> _variables = new();
 
-    private readonly List<BaseTemplateFunction> _functions =
+    private readonly List<TemplateFunction> _functions =
     [
         new LowerFunction(),
-        new ConcatFunction()
+        new UpperFunction(),
+        new ConcatFunction(),
+        new DateFunction(),
+        new EnvFunction(),
+        new HashFunction(),
+        new IfElseFunction(),
+        new LenFunction(),
+        new MaxFunction(),
+        new MinFunction(),
+        new ReadFileFunction(),
+        new TimeStampFunction(),
+        new UuidFunction()
     ];
+
+    public EvaluationContext(IApplication? application = null)
+    {
+        if (application is not null)
+        {
+            _functions.Add(new PromptFunction(application));
+            _functions.Add(new FilePromptFunction(application));
+        }
+    }
 
     public void SetVariable(string name, object? value)
     {
@@ -39,12 +59,17 @@ public class EvaluationContext
         return _variables.ContainsKey(name);
     }
 
-    public void RegisterFunction(BaseTemplateFunction function)
+    public void ClearVariables()
     {
-        _functions.Add(function);
+        _variables.Clear();
     }
 
-    public BaseTemplateFunction GetFunction(string name, TextSpan span)
+    public void RegisterFunction(TemplateFunction function)
+    {
+        _functions.Insert(0, function);
+    }
+
+    public TemplateFunction GetFunction(string name, TextSpan span)
     {
         try
         {
