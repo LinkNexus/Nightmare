@@ -1,3 +1,6 @@
+using System.Text;
+using System.Text.Json;
+
 namespace Nightmare.Parser.TemplateExpressions;
 
 public static class JsonValueExtensions
@@ -15,6 +18,50 @@ public static class JsonValueExtensions
             null => null,
             _ => throw new ArgumentException($"Unexpected value type: {value.GetType()}")
         };
+    }
+
+    public static string Serialize(JsonValue value, EvaluationContext context)
+    {
+        using var stream = new MemoryStream();
+        using var writer = new Utf8JsonWriter(stream);
+
+        WriteValue(Convert(value, context));
+        writer.Flush();
+        return Encoding.UTF8.GetString(stream.ToArray());
+
+        void WriteValue(object? value)
+        {
+            switch (value)
+            {
+                case null:
+                    writer.WriteNullValue();
+                    break;
+                case string str:
+                    writer.WriteStringValue(str);
+                    break;
+                case bool boolVal:
+                    writer.WriteBooleanValue(boolVal);
+                    break;
+                case double num:
+                    writer.WriteNumberValue(num);
+                    break;
+                case IEnumerable<object?> array:
+                    writer.WriteStartArray();
+                    foreach (var item in array) WriteValue(item);
+                    writer.WriteEndArray();
+                    break;
+                case Dictionary<string, object?> dict:
+                    writer.WriteStartObject();
+                    foreach (var (k, v) in dict)
+                    {
+                        writer.WritePropertyName(k);
+                        WriteValue(v);
+                    }
+
+                    writer.WriteEndObject();
+                    break;
+            }
+        }
     }
 
     public static string Convert(JsonString str, EvaluationContext context)

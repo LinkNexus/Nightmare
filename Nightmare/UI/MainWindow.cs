@@ -143,9 +143,4 @@ public class MainWindow : Window
             _errorView.Text = $"{e.Message} at line {e.Line}, column {e.Column}";
         }
     }
-
-    private Task<HttpResponseMessage> ExecuteRequest(JsonProperty request)
-    {
-        // var httpRequest = new HttpRequestMessage()
-    }
 }

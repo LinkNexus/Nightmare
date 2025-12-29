@@ -14,7 +14,6 @@ public static class TemplateStringEvaluator
         var result = new System.Text.StringBuilder();
 
         foreach (var segment in segments)
-        {
             switch (segment)
             {
                 case TemplateTextSegment text:
@@ -36,12 +35,33 @@ public static class TemplateStringEvaluator
                             // Re-throw with the correct span from the segment
                             throw new TemplateExpressionException(ex.Message, expression.Span);
                         }
+
                         break;
                     }
             }
-        }
 
         return result.ToString();
+    }
+
+    /// <summary>
+    /// Evaluate a TemplateString. If it's a single expression segment, return the raw evaluated value;
+    /// otherwise return the concatenated string result (for mixed text + expressions).
+    /// </summary>
+    public static object? EvaluateValue(TemplateString template, EvaluationContext context)
+    {
+        var segments = template.GetSegments();
+
+        if (segments is not [TemplateExpressionSegment expression]) return Evaluate(template, context);
+
+        try
+        {
+            return TemplateExpressionEvaluator.Evaluate(expression.Expression, context);
+        }
+        catch (TemplateExpressionException ex)
+        {
+            // Re-throw with the correct span from the segment
+            throw new TemplateExpressionException(ex.Message, expression.Span);
+        }
     }
 
     /// <summary>
@@ -75,9 +95,7 @@ public static class TemplateStringEvaluator
         var segments = template.GetSegments();
 
         foreach (var segment in segments)
-        {
             if (segment is TemplateExpressionSegment expression)
-            {
                 try
                 {
                     // Just parse, don't evaluate
@@ -88,8 +106,6 @@ public static class TemplateStringEvaluator
                     // Re-throw with the correct span from the segment
                     throw new TemplateExpressionException(ex.Message, expression.Span);
                 }
-            }
-        }
     }
 
     /// <summary>
@@ -101,9 +117,7 @@ public static class TemplateStringEvaluator
         var variables = new HashSet<string>();
 
         foreach (var segment in segments)
-        {
             if (segment is TemplateExpressionSegment expression)
-            {
                 try
                 {
                     var ast = TemplateExpressionParser.Parse(expression.Expression);
@@ -113,8 +127,6 @@ public static class TemplateStringEvaluator
                 {
                     // Ignore parse errors when collecting variables
                 }
-            }
-        }
 
         return variables;
     }

@@ -25,6 +25,7 @@ public class EvaluationContext
         new MaxFunction(),
         new MinFunction(),
         new ReadFileFunction(),
+        new FileFunction(),
         new TimeStampFunction(),
         new UuidFunction()
     ];
@@ -154,11 +155,11 @@ public sealed class TemplateExpressionEvaluator(EvaluationContext context)
         switch (left)
         {
             case double or int or long or float:
-            {
-                var leftNum = Convert.ToDouble(left);
-                var rightNum = ToNumber(right, span);
-                return leftNum.CompareTo(rightNum);
-            }
+                {
+                    var leftNum = Convert.ToDouble(left);
+                    var rightNum = ToNumber(right, span);
+                    return leftNum.CompareTo(rightNum);
+                }
             case string leftStr when right is string rightStr:
                 return string.Compare(leftStr, rightStr, StringComparison.Ordinal);
             default:

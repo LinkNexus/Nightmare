@@ -93,9 +93,11 @@ public class FileFunction : TemplateFunction
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
-        if (!File.Exists((string)args[0]!))
-            throw Error("The file does not exists", span);
+        var path = (string)args[0]!;
 
-        // return
+        if (!File.Exists(path))
+            throw Error($"The file '{path}' does not exist", span);
+
+        return new FileReference(path);
     }
 }

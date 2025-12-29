@@ -8,17 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Nightmare/UI/ProfilesDialog.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Nightmare/UI/RecipesView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Nightmare/UI/RequestView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Nightmare/UI/ResponseView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/JsonNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonNode.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/FileFunctions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/FileFunctions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/UtilityFunctions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/UtilityFunctions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/JsonValueExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/JsonValueExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateStringEvaluator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateStringEvaluator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare/Config/ConfigProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Config/ConfigProcessor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare/UI/RequestView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/RequestView.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +58,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/58d1b29247cab9207d2246c98578df647dcf332db71a2b3112625a7841ed91/Window.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5c21b9149ef32e1f68396d6e6fc7311324c9829ed40328c33f6d5f859a757/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/61141f35d08f5fd2b1476e649f8aa51e3d1319795d81d75f4920f9f15b774e/ListView.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/68b06b8592b1287fd78f3ee68566d6a38d6e2f45b9a9e6ebd4d0e9972f7c29/Object.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6c3fd44887522be5971b7911e9d9182dd7b3454b7e6741d973eefd255b1e3/ApplicationImpl.Run.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/986365c0ecc7c4361a9a7b5ec78aa36ae9279963126cf7dad26b6807cda1afd/MessageBox.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a53d11357bb71d8fb4d1c6888bcf8421814143efac1626556a1d18aee17d645f/IApplication.cs" root0="FORCE_HIGHLIGHTING" />
@@ -310,7 +309,7 @@
       <workItem from="1766862149232" duration="122000" />
       <workItem from="1766862350334" duration="63000" />
       <workItem from="1766862449095" duration="972000" />
-      <workItem from="1766863428426" duration="23347000" />
+      <workItem from="1766863428426" duration="34781000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -360,7 +359,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766872967374</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Add UI elements for profile selection and request management">
+      <option name="closed" value="true" />
+      <created>1767005200826</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1767005200826</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -395,7 +402,8 @@
     <MESSAGE value="Add template expression support with evaluation and syntax validation, enhance JSON parsing capabilities, and introduce new utility functions" />
     <MESSAGE value="Remove outdated test coverage documentation and ensure AOT compatibility notes across TemplateExpressions documentation. Minor refactors for TemplateExpressionLexer and parser consistency." />
     <MESSAGE value="Remove unused classes, examples, and documentation related to the deprecated template expression system." />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove unused classes, examples, and documentation related to the deprecated template expression system." />
+    <MESSAGE value="Add UI elements for profile selection and request management" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add UI elements for profile selection and request management" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
