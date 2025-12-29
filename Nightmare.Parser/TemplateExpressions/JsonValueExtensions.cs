@@ -20,12 +20,12 @@ public static class JsonValueExtensions
         };
     }
 
-    public static string Serialize(JsonValue value, EvaluationContext context)
+    public static string Serialize(object? value)
     {
         using var stream = new MemoryStream();
         using var writer = new Utf8JsonWriter(stream);
 
-        WriteValue(Convert(value, context));
+        WriteValue(value);
         writer.Flush();
         return Encoding.UTF8.GetString(stream.ToArray());
 
@@ -64,10 +64,15 @@ public static class JsonValueExtensions
         }
     }
 
-    public static string Convert(JsonString str, EvaluationContext context)
+    public static string Serialize(JsonValue value, EvaluationContext context)
+    {
+        return Serialize(Convert(value, context));
+    }
+
+    public static object? Convert(JsonString str, EvaluationContext context)
     {
         return str.Template.HasExpressions
-            ? TemplateStringEvaluator.Evaluate(str.Template, context)
+            ? TemplateStringEvaluator.EvaluateValue(str.Template, context)
             : str.Text;
     }
 

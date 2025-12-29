@@ -206,100 +206,150 @@ public class ConfigProcessor(IApplication application)
             switch (bodyVal)
             {
                 case JsonString bodyJs:
-                    {
-                        return GetRawBody(bodyJs);
-                    }
+                {
+                    return GetRawBody(bodyJs);
+                }
                 case JsonObject bodyObj:
+                {
+                    if (!bodyObj.TryGetProperty<JsonString>("type", out var typeJs))
+                        typeJs = null;
+
+                    var typeValue = typeJs is not null
+                        ? typeJs.Template.HasExpressions
+                            ? TemplateStringEvaluator.Evaluate(typeJs.Template, context)
+                            : typeJs.Text
+                        : null;
+
+                    switch (typeValue)
                     {
-                        if (!bodyObj.TryGetProperty<JsonString>("type", out var typeJs))
-                            typeJs = null;
-
-                        var typeValue = typeJs is not null
-                            ? typeJs.Template.HasExpressions
-                                ? TemplateStringEvaluator.Evaluate(typeJs.Template, context)
-                                : typeJs.Text
-                            : null;
-
-                        switch (typeValue)
+                        case "raw":
                         {
-                            case "raw":
+                            return !bodyObj.TryGetProperty<JsonString>("value", out var rawBody)
+                                ? null
+                                : GetRawBody(rawBody);
+                        }
+                        case "text":
+                        {
+                            if (!bodyObj.TryGetProperty<JsonString>("value", out var valueStr))
+                                return new StringContent(string.Empty, Encoding.UTF8, MediaTypeNames.Text.Plain);
+
+                            var value = valueStr.Template.HasExpressions
+                                ? TemplateStringEvaluator.Evaluate(valueStr.Template, context)
+                                : valueStr.Text;
+
+                            return new StringContent(value, Encoding.UTF8,
+                                MediaTypeNames.Text.Plain);
+                        }
+                        case "json":
+                        {
+                            if (!bodyObj.TryGetProperty("value", out var json))
+                                return new StringContent(string.Empty, Encoding.UTF8, MediaTypeNames.Application.Json);
+
+                            return new StringContent(
+                                JsonValueExtensions.Serialize(json, context),
+                                Encoding.UTF8, MediaTypeNames.Application.Json
+                            );
+                        }
+                        case "form":
+                        {
+                            var data = new List<KeyValuePair<string, string>>();
+
+                            if (bodyObj.TryGetProperty("value", out var formData))
+                                switch (formData)
                                 {
-                                    return !bodyObj.TryGetProperty<JsonString>("value", out var rawBody)
-                                        ? null
-                                        : GetRawBody(rawBody);
+                                    case JsonString formStr:
+                                    {
+                                        var evaluated = TemplateStringEvaluator
+                                            .EvaluateValue(formStr.Template, context);
+
+                                        if (evaluated is not Dictionary<string, object?> dict)
+                                            throw new ConfigProcessingException(
+                                                "Form data must be an object",
+                                                formStr.Span
+                                            );
+
+                                        foreach (var (k, v) in dict)
+                                            data.Add(new KeyValuePair<string, string>(k,
+                                                JsonValueExtensions.Serialize(v)));
+
+                                        break;
+                                    }
+
+                                    case JsonObject formObj:
+                                    {
+                                        foreach (var (k, v) in formObj.Properties)
+                                            data.Add(new KeyValuePair<string, string>(k,
+                                                JsonValueExtensions.Serialize(v, context)));
+
+                                        break;
+                                    }
+
+                                    default:
+                                        throw new ConfigProcessingException(
+                                            "Form data must be an object or a template string evaluating to an object",
+                                            formData!.Span
+                                        );
                                 }
-                            case "text":
+
+                            return new FormUrlEncodedContent(data);
+                        }
+                        case "multipart":
+                        {
+                            var multipart = new MultipartFormDataContent();
+
+                            if (!bodyObj.TryGetProperty<JsonObject>("value", out var parts)) return multipart;
+
+                            foreach (var (name, partVal) in parts.Properties)
+                                switch (partVal)
                                 {
-                                    if (!bodyObj.TryGetProperty<JsonString>("value", out var valueStr))
-                                        return new StringContent(string.Empty, Encoding.UTF8, MediaTypeNames.Text.Plain);
+                                    case JsonNull:
+                                        continue;
+                                    case JsonString partStr:
+                                    {
+                                        var evaluated = partStr.Template.HasExpressions
+                                            ? TemplateStringEvaluator.EvaluateValue(partStr.Template, context)
+                                            : partStr.Text;
 
-                                    var value = valueStr.Template.HasExpressions
-                                        ? TemplateStringEvaluator.Evaluate(valueStr.Template, context)
-                                        : valueStr.Text;
-
-                                    return new StringContent(value, Encoding.UTF8,
-                                        MediaTypeNames.Text.Plain);
-                                }
-                            case "json":
-                                {
-                                    if (!bodyObj.TryGetProperty("value", out var json))
-                                        return new StringContent(string.Empty, Encoding.UTF8, MediaTypeNames.Application.Json);
-
-                                    return new StringContent(
-                                        JsonValueExtensions.Serialize(json, context),
-                                        Encoding.UTF8, MediaTypeNames.Application.Json
-                                    );
-                                }
-                            case "multipart":
-                                {
-                                    var multipart = new MultipartFormDataContent();
-
-                                    if (!bodyObj.TryGetProperty<JsonObject>("data", out var parts)) return multipart;
-
-                                    foreach (var (name, partVal) in parts.Properties)
-                                        if (partVal is JsonString partStr)
+                                        if (evaluated is FileReference fileRef)
                                         {
-                                            var evaluated = partStr.Template.HasExpressions
-                                                ? TemplateStringEvaluator.EvaluateValue(partStr.Template, context)
-                                                : partStr.Text;
+                                            var stream = File.OpenRead(fileRef.Path);
+                                            var streamContent = new StreamContent(stream);
+                                            if (!string.IsNullOrEmpty(fileRef.ContentType))
+                                                streamContent.Headers.ContentType =
+                                                    MediaTypeHeaderValue.Parse(fileRef.ContentType);
 
-                                            if (evaluated is FileReference fileRef)
-                                            {
-                                                var stream = File.OpenRead(fileRef.Path);
-                                                var streamContent = new StreamContent(stream);
-                                                if (!string.IsNullOrEmpty(fileRef.ContentType))
-                                                    streamContent.Headers.ContentType =
-                                                        MediaTypeHeaderValue.Parse(fileRef.ContentType);
-
-                                                var fileName = fileRef.FileName ?? Path.GetFileName(fileRef.Path);
-                                                multipart.Add(streamContent, name, fileName);
-                                            }
-                                            else
-                                            {
-                                                multipart.Add(
-                                                    new StringContent(evaluated?.ToString() ?? string.Empty, Encoding.UTF8),
-                                                    name);
-                                            }
+                                            var fileName = fileRef.FileName ?? Path.GetFileName(fileRef.Path);
+                                            multipart.Add(streamContent, name, fileName);
                                         }
                                         else
                                         {
-                                            throw new ConfigProcessingException(
-                                                "Multipart Requests parts values must be strings",
-                                                partVal.Span
-                                            );
+                                            multipart.Add(
+                                                new StringContent(evaluated?.ToString() ?? string.Empty, Encoding.UTF8),
+                                                name);
                                         }
 
-                                    return multipart;
+                                        break;
+                                    }
+                                    default:
+                                        multipart.Add(
+                                            new StringContent(JsonValueExtensions.Serialize(partVal, context),
+                                                Encoding.UTF8),
+                                            name
+                                        );
+                                        break;
                                 }
-                            default:
-                                {
-                                    throw new ConfigProcessingException(
-                                        "Invalid body type. Must be one of: raw, text, json, multipart",
-                                        typeJs!.Span
-                                    );
-                                }
+
+                            return multipart;
+                        }
+                        default:
+                        {
+                            throw new ConfigProcessingException(
+                                "Invalid body type. Must be one of: raw, text, json, multipart",
+                                typeJs!.Span
+                            );
                         }
                     }
+                }
                 default:
                     throw new ConfigProcessingException(
                         "Invalid body value. Must be a string or an object with a `type` property and a `value` property.",

@@ -9,14 +9,11 @@
   <component name="ChangeListManager">
     <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/FileFunctions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/FileFunctions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/JsonValueExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/JsonValueExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateStringEvaluator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateStringEvaluator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare/Config/ConfigProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Config/ConfigProcessor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare/UI/RequestView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/RequestView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare/UI/ResponseView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/ResponseView.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -309,7 +306,7 @@
       <workItem from="1766862149232" duration="122000" />
       <workItem from="1766862350334" duration="63000" />
       <workItem from="1766862449095" duration="972000" />
-      <workItem from="1766863428426" duration="34781000" />
+      <workItem from="1766863428426" duration="40312000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -367,7 +364,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767005200826</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Add FileReference class and integrate file handling in template expressions, evaluation, and HTTP requests">
+      <option name="closed" value="true" />
+      <created>1767018648956</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1767018648956</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -403,7 +408,8 @@
     <MESSAGE value="Remove outdated test coverage documentation and ensure AOT compatibility notes across TemplateExpressions documentation. Minor refactors for TemplateExpressionLexer and parser consistency." />
     <MESSAGE value="Remove unused classes, examples, and documentation related to the deprecated template expression system." />
     <MESSAGE value="Add UI elements for profile selection and request management" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add UI elements for profile selection and request management" />
+    <MESSAGE value="Add FileReference class and integrate file handling in template expressions, evaluation, and HTTP requests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add FileReference class and integrate file handling in template expressions, evaluation, and HTTP requests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

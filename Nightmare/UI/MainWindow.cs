@@ -105,10 +105,64 @@ public class MainWindow : Window
             if (args == CurrentProfile) return;
 
             CurrentProfile = args;
-            _configProcessor?.ProcessProfile(_ast, args);
+
+            try
+            {
+                _errorView.Visible = false;
+                _configProcessor?.ProcessProfile(_ast, args);
+            }
+            catch (TracedException e)
+            {
+                DisplayError(e);
+            }
         };
 
-        _recipesView.RequestSelected += (_, args) => { };
+        var progressTimer = new System.Timers.Timer(100) { AutoReset = true };
+        var progressBar = new ProgressBar
+        {
+            Id = "Response Progress Bar",
+            BidirectionalMarquee = true,
+            ProgressBarStyle = ProgressBarStyle.MarqueeBlocks,
+            Width = Dim.Fill()
+        };
+        var progressDialog = new Dialog
+        {
+            Title = "Loading...",
+            X = Pos.Center(),
+            Y = Pos.Center(),
+            Height = Dim.Auto(),
+            Width = Dim.Percent(50)
+        };
+        progressDialog.Add(progressBar);
+        progressTimer.Elapsed += (_, _) => { progressBar.Pulse(); };
+
+        _recipesView.RequestSelected += async (_, args) =>
+        {
+            try
+            {
+                var requestTask = _configProcessor!.ProcessAndExecuteRequest(args);
+
+                // progressTimer.Start();
+
+                // _ = requestTask.ContinueWith(_ =>
+                // {
+                //     App.RequestStop();
+                //     progressTimer.Stop();
+                // });
+
+                // App.Run(progressDialog);
+
+                var (req, res) = await requestTask;
+                await _requestView.OnRequestSelected(req);
+                await _responseView.OnResponseReceived(res);
+            }
+            catch (TracedException ex)
+            {
+                // App.RequestStop();
+                // progressTimer.Stop();
+                DisplayError(ex);
+            }
+        };
     }
 
     public void Reload()
@@ -128,19 +182,24 @@ public class MainWindow : Window
         }
         catch (TracedException e)
         {
-            var title = e switch
-            {
-                JsonParseException => "Json Parse Error",
-                TemplateFunctionException => "Template Function Error",
-                TemplateExpressionException => "Template Expression Error",
-                ConfigProcessingException => "Config Processing Error",
-                JsonProcessingException => "Json Processing Error",
-                _ => "Unknown Error"
-            };
-
-            _errorView.Visible = true;
-            _errorView.Title = title;
-            _errorView.Text = $"{e.Message} at line {e.Line}, column {e.Column}";
+            DisplayError(e);
         }
+    }
+
+    private void DisplayError(TracedException e)
+    {
+        var title = e switch
+        {
+            JsonParseException => "Json Parse Error",
+            TemplateFunctionException => "Template Function Error",
+            TemplateExpressionException => "Template Expression Error",
+            ConfigProcessingException => "Config Processing Error",
+            JsonProcessingException => "Json Processing Error",
+            _ => "Unknown Error"
+        };
+
+        _errorView.Visible = true;
+        _errorView.Title = title;
+        _errorView.Text = $"{e.Message} at line {e.Line}, column {e.Column}";
     }
 }
