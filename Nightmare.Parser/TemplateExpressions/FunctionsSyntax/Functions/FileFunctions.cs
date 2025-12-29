@@ -66,7 +66,36 @@ public class FilePromptFunction : TemplateFunction
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
-        _application.Run(_dialog);
+        if (_application.TopRunnableView is Dialog) _application.RequestStop();
+
+        _application.Invoke(() => { _application.Run(_dialog); });
         return _filePath;
+    }
+}
+
+public class FileFunction : TemplateFunction
+{
+    protected override FunctionParameter[] ListArgs()
+    {
+        return
+        [
+            new FunctionParameter(
+                "path",
+                [FunctionParamValueType.String]
+            )
+        ];
+    }
+
+    public override string GetName()
+    {
+        return "file";
+    }
+
+    protected override object? Execute(object?[] args, TextSpan span)
+    {
+        if (!File.Exists((string)args[0]!))
+            throw Error("The file does not exists", span);
+
+        // return
     }
 }

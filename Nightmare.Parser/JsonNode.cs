@@ -28,6 +28,12 @@ public sealed class JsonObject(IEnumerable<JsonProperty> properties, TextSpan sp
         return _properties.GetValueOrDefault(name);
     }
 
+    public T? GetProperty<T>(string name) where T : JsonValue
+    {
+        var value = _properties.GetValueOrDefault(name);
+        return value as T;
+    }
+
     public bool TryGetProperty(string name, out JsonValue? value)
     {
         return _properties.TryGetValue(name, out value);

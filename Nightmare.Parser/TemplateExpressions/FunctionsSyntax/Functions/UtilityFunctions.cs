@@ -266,7 +266,9 @@ public class PromptFunction : TemplateFunction
     protected override object? Execute(object?[] args, TextSpan span)
     {
         _label.Text = (string)args[0]!;
-        _application.Run(_dialog);
+        if (_application.TopRunnableView is Dialog) _application.RequestStop();
+
+        _application.Invoke(() => { _application.Run(_dialog); });
         return _input;
     }
 }
