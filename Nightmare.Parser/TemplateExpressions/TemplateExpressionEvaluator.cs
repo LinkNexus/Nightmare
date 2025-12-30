@@ -29,7 +29,11 @@ public class EvaluationContext
         new ReadFileFunction(),
         new FileFunction(),
         new TimeStampFunction(),
-        new UuidFunction()
+        new UuidFunction(),
+        new UrlDecodeFunction(),
+        new UrlEncodeFunction(),
+        new Base64EncodeFunction(),
+        new Base64DecodeFunction()
     ];
 
     public EvaluationContext(IApplication? application = null)

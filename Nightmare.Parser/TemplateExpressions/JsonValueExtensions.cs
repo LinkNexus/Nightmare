@@ -91,7 +91,7 @@ public static class JsonValueExtensions
         return Serialize(Convert(value, context), context);
     }
 
-    public static object? Convert(JsonString str, EvaluationContext? context = null)
+    private static object? Convert(JsonString str, EvaluationContext? context = null)
     {
         if (context is null) return str.Text;
 
@@ -100,12 +100,12 @@ public static class JsonValueExtensions
             : str.Text;
     }
 
-    public static object?[] Convert(JsonArray array, EvaluationContext? context = null)
+    private static object?[] Convert(JsonArray array, EvaluationContext? context = null)
     {
         return array.Items.Select(item => Convert(item, context)).ToArray();
     }
 
-    public static Dictionary<string, object?> Convert(JsonObject obj, EvaluationContext? context = null)
+    private static Dictionary<string, object?> Convert(JsonObject obj, EvaluationContext? context = null)
     {
         var dict = new Dictionary<string, object?>();
 
