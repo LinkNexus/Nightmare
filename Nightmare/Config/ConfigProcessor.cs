@@ -31,7 +31,7 @@ public class ConfigProcessor(IApplication application)
             .GetProperty<JsonObject>("profiles")!
             .GetProperty<JsonObject>(selectedProfileName);
 
-        ProcessVariables(profile);
+        ProcessVariables(profile, ast);
     }
 
     public (string, string[]) ProcessProfiles(
@@ -51,7 +51,7 @@ public class ConfigProcessor(IApplication application)
                 ? (Key: selectedProfileName, Value: profile)
                 : GetDefaultProfile();
 
-        ProcessVariables(profilePair.Value);
+        ProcessVariables(profilePair.Value, ast);
 
         return (
             profilePair.Key,
@@ -83,7 +83,7 @@ public class ConfigProcessor(IApplication application)
         }
     }
 
-    private void ProcessVariables(JsonObject profile)
+    private void ProcessVariables(JsonObject profile, JsonObject ast)
     {
         _context.ClearVariables();
 
@@ -91,6 +91,8 @@ public class ConfigProcessor(IApplication application)
 
         foreach (var (key, value) in variables.Properties)
             _context.SetVariable(key, JsonValueExtensions.Convert(value, _context));
+
+        _context.Ast = ast;
     }
 
     public List<JsonProperty> ProcessRequests(JsonObject ast)
@@ -134,8 +136,7 @@ public class ConfigProcessor(IApplication application)
                 "&",
                 queryParams
                     .Properties
-                    .Where(p => p.Value is not JsonNull)
-                    .Select(p => $"{p.Key}={WebUtility.UrlEncode(JsonValueExtensions.Serialize(p.Value, context))}")
+                    .Select(p => $"{p.Key}={WebUtility.UrlEncode(JsonValueExtensions.ToString(p.Value, context))}")
             );
 
             urlBuilder.Query = string.IsNullOrEmpty(existingQuery)
@@ -159,17 +160,7 @@ public class ConfigProcessor(IApplication application)
         if (requestObject.TryGetProperty<JsonObject>("headers", out var headers))
             foreach (var (hName, hVal) in headers.Properties)
             {
-                var hStr = hVal is JsonString js
-                    ? js.Template.HasExpressions ? TemplateStringEvaluator.Evaluate(js.Template, context) : js.Text
-                    : hVal switch
-                    {
-                        JsonNumber n => n.Value.ToString(System.Globalization.CultureInfo.InvariantCulture),
-                        JsonBoolean b => b.Value ? "true" : "false",
-                        _ => throw new ConfigProcessingException(
-                            "Header values must be strings, numbers or booleans",
-                            hVal.Span
-                        )
-                    };
+                var hStr = JsonValueExtensions.ToString(hVal, context);
 
                 if (httpRequest.Headers.TryAddWithoutValidation(hName, hStr))
                     continue;
@@ -185,9 +176,8 @@ public class ConfigProcessor(IApplication application)
                         "; ",
                         cookies
                             .Properties
-                            .Where(p => p.Value is not JsonNull)
                             .Select(p =>
-                                $"{p.Key}={WebUtility.UrlEncode(JsonValueExtensions.Serialize(p.Value, context))}"
+                                $"{p.Key}={WebUtility.UrlEncode(JsonValueExtensions.ToString(p.Value, context))}"
                             )
                     )
                 );
@@ -270,7 +260,7 @@ public class ConfigProcessor(IApplication application)
 
                                         foreach (var (k, v) in dict)
                                             data.Add(new KeyValuePair<string, string>(k,
-                                                JsonValueExtensions.Serialize(v)));
+                                                JsonValueExtensions.Serialize(v, context)));
 
                                         break;
                                     }

@@ -10,6 +10,8 @@ namespace Nightmare.Parser.TemplateExpressions;
 /// </summary>
 public class EvaluationContext
 {
+    public JsonObject Ast { get; set; }
+
     private readonly Dictionary<string, object?> _variables = new();
 
     private readonly List<TemplateFunction> _functions =
@@ -32,6 +34,10 @@ public class EvaluationContext
 
     public EvaluationContext(IApplication? application = null)
     {
+        _functions.Add(new RequestFunction(this));
+        _functions.Add(new JsonDecodeFunction(this));
+        _functions.Add(new JsonEncodeFunction(this));
+
         if (application is not null)
         {
             _functions.Add(new PromptFunction(application));
@@ -155,11 +161,11 @@ public sealed class TemplateExpressionEvaluator(EvaluationContext context)
         switch (left)
         {
             case double or int or long or float:
-                {
-                    var leftNum = Convert.ToDouble(left);
-                    var rightNum = ToNumber(right, span);
-                    return leftNum.CompareTo(rightNum);
-                }
+            {
+                var leftNum = Convert.ToDouble(left);
+                var rightNum = ToNumber(right, span);
+                return leftNum.CompareTo(rightNum);
+            }
             case string leftStr when right is string rightStr:
                 return string.Compare(leftStr, rightStr, StringComparison.Ordinal);
             default:
@@ -203,31 +209,23 @@ public sealed class TemplateExpressionEvaluator(EvaluationContext context)
     {
         var target = Evaluate(member.Target);
 
-        if (target == null)
-            throw new TemplateExpressionException(
-                "Cannot access member of null",
-                member.Span
-            );
-
-        // Handle dictionary-like objects (primary approach for AOT compatibility)
-        if (target is IDictionary<string, object?> dict)
+        return target switch
         {
-            if (dict.TryGetValue(member.MemberName, out var value))
-                return value;
+            null => throw new TemplateExpressionException("Cannot access member of null", member.Span),
 
-            throw new TemplateExpressionException(
-                $"Property '{member.MemberName}' not found",
-                member.Span
-            );
-        }
+            IDictionary<string, object?> dict when dict.TryGetValue(member.MemberName, out var value) => value,
 
-        // For AOT compatibility, only support dictionary-based member access
-        // Users should use Dictionary<string, object?> for nested objects
-        throw new TemplateExpressionException(
-            $"Member access is only supported for Dictionary<string, object?> types. " +
-            $"Found: {target.GetType().Name}. Use dictionaries for nested data structures.",
-            member.Span
-        );
+            IDictionary<string, object?> => throw new TemplateExpressionException(
+                $"Property '{member.MemberName}' not found", member.Span),
+
+            JsonObject obj when obj.TryGetProperty(member.MemberName, out var value) => value,
+
+            JsonObject => throw new TemplateExpressionException($"Property '{member.MemberName}' not found",
+                member.Span),
+
+            _ => throw new TemplateExpressionException("Cannot access members of type " + target.GetType().Name,
+                member.Span)
+        };
     }
 
     private object? EvaluateIndexAccess(IndexAccessExpression index)

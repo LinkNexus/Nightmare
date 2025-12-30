@@ -195,7 +195,8 @@ public class RequestView : FrameView
                     Text = body,
                     ReadOnly = true,
                     Width = Dim.Fill(),
-                    Height = Dim.Fill()
+                    Height = Dim.Fill(),
+                    WordWrap = true
                 };
                 _bodyContainerView?.Add(_bodyView);
             }
@@ -208,7 +209,8 @@ public class RequestView : FrameView
                     Text = body,
                     ReadOnly = true,
                     Width = Dim.Fill(),
-                    Height = Dim.Fill()
+                    Height = Dim.Fill(),
+                    WordWrap = true
                 };
                 _bodyContainerView?.Add(_bodyView);
             }
@@ -248,5 +250,6 @@ public class RequestView : FrameView
         };
 
         _bodyView = tableView;
+        _bodyContainerView?.Add(tableView);
     }
 }
