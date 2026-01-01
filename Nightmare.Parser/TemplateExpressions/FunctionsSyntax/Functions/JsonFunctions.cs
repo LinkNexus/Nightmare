@@ -27,7 +27,7 @@ public class JsonEncodeFunction(EvaluationContext context) : TemplateFunction
 
     protected override object? Execute(object?[] args, TextSpan span)
     {
-        return JsonValueExtensions.Serialize(args[0], context);
+        return Utilities.Serialize(args[0], context);
     }
 }
 
@@ -62,7 +62,7 @@ public class JsonDecodeFunction(EvaluationContext context) : TemplateFunction
 
         try
         {
-            return JsonValueExtensions.Convert(
+            return Utilities.Convert(
                 JsonParser.Parse(json),
                 parseTemplates ? context : null
             );

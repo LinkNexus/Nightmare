@@ -1,10 +1,16 @@
 using System.Globalization;
+using Nightmare.Parser.TemplateExpressions;
 
 namespace Nightmare.Parser;
 
 public abstract class JsonValue(TextSpan span)
 {
     public TextSpan Span { get; } = span;
+
+    public void ThrowError(string message)
+    {
+        throw new JsonProcessingException(message, Span);
+    }
 }
 
 public sealed class JsonObject(IEnumerable<JsonProperty> properties, TextSpan span)
@@ -66,6 +72,24 @@ public sealed class JsonString(TemplateString template, TextSpan span) : JsonVal
 {
     public TemplateString Template { get; } = template;
     public string Text => Template.ToString();
+
+    public string ToString(EvaluationContext? context = null)
+    {
+        if (context is null) return Text;
+
+        return Template.HasExpressions
+            ? TemplateStringEvaluator.Evaluate(Template, context)
+            : Text;
+    }
+
+    public object? ToObject(EvaluationContext? context = null)
+    {
+        if (context is null) return Text;
+
+        return Template.HasExpressions
+            ? TemplateStringEvaluator.EvaluateValue(Template, context)
+            : Text;
+    }
 }
 
 public sealed class JsonNumber(string raw, TextSpan span) : JsonValue(span)
@@ -85,6 +109,11 @@ public sealed class JsonNull(TextSpan span) : JsonValue(span)
 
 public sealed record JsonProperty(string Name, JsonValue Value, TextSpan Span)
 {
+    public T ValueAs<T>() where T : JsonValue
+    {
+        return Value as T ??
+               throw new JsonProcessingException($"Property '{Name}' is not of type '{typeof(T).Name}'", Span);
+    }
 }
 
 public class JsonProcessingException(string message, TextSpan span)

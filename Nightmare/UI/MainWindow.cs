@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Nightmare.Config;
 using Nightmare.Parser;
 using Nightmare.Parser.TemplateExpressions;
@@ -20,8 +21,6 @@ public class MainWindow : Window
     private readonly FrameView _currentProfileView;
     private readonly ProfilesDialog _profilesDialog = new();
     private readonly RecipesView _recipesView;
-    private readonly RequestView _requestView;
-    private readonly ResponseView _responseView;
 
     private string CurrentProfile
     {
@@ -62,23 +61,23 @@ public class MainWindow : Window
             Y = Pos.Bottom(_currentProfileView) + 1
         };
 
-        _requestView = new RequestView
+        var requestView = new RequestView
         {
             X = Pos.Right(_recipesView) + 1,
             Y = Pos.Top(_currentProfileView)
         };
 
-        _responseView = new ResponseView
+        var responseView = new ResponseView
         {
             X = Pos.Right(_recipesView) + 1,
-            Y = Pos.Bottom(_requestView) + 1
+            Y = Pos.Bottom(requestView) + 1
         };
 
-        Add(_errorView, _currentProfileView, _recipesView, _requestView, _responseView);
+        Add(_errorView, _currentProfileView, _recipesView, requestView, responseView);
 
         IsRunningChanged += (_, args) =>
         {
-            _configProcessor ??= new ConfigProcessor(App);
+            _configProcessor ??= new ConfigProcessor(App!);
 
             if (args.Value)
                 Reload();
@@ -90,8 +89,8 @@ public class MainWindow : Window
                 ? Pos.Bottom(_errorView) + 1
                 : Pos.Top(this) + 1;
             _recipesView.Y = Pos.Bottom(_currentProfileView) + 1;
-            _requestView.Y = Pos.Top(_currentProfileView);
-            _responseView.Y = Pos.Bottom(_requestView) + 1;
+            requestView.Y = Pos.Top(_currentProfileView);
+            responseView.Y = Pos.Bottom(requestView) + 1;
         };
 
         KeyDown += (_, args) =>
@@ -140,7 +139,8 @@ public class MainWindow : Window
         {
             try
             {
-                var requestTask = _configProcessor!.ProcessAndExecuteRequest(args);
+                var req = _configProcessor!.ProcessRequest((JsonObject)args.Value);
+                var requestTask = _configProcessor.ExecuteRequest(req);
 
                 // progressTimer.Start();
 
@@ -152,15 +152,19 @@ public class MainWindow : Window
 
                 // App.Run(progressDialog);
 
-                var (req, res) = await requestTask;
-                await _requestView.OnRequestSelected(req);
-                await _responseView.OnResponseReceived(res);
+                var res = await requestTask;
+                requestView.OnRequestSelected(req);
+                await responseView.OnResponseReceived(res);
             }
             catch (TracedException ex)
             {
                 // App.RequestStop();
                 // progressTimer.Stop();
                 DisplayError(ex);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
             }
         };
     }
@@ -178,7 +182,13 @@ public class MainWindow : Window
                 _profilesDialog.ProfilesNames
             ) = _configProcessor.ProcessProfiles(_ast, CurrentProfile);
 
-            _recipesView.Requests = _configProcessor.ProcessRequests(_ast);
+            _recipesView.Requests =
+                _ast.TryGetProperty<JsonObject>("requests", out var requests)
+                    ? requests.Properties
+                        .Select(p => new JsonProperty(p.Key, p.Value, p.Value.Span))
+                        .ToList()
+                    : []
+                ;
         }
         catch (TracedException e)
         {

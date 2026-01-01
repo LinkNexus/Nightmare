@@ -10,7 +10,13 @@ namespace Nightmare.Parser.TemplateExpressions;
 /// </summary>
 public class EvaluationContext
 {
-    public JsonObject Ast { get; set; }
+    public JsonObject? Ast { get; set; }
+    public Dictionary<string, Response> ResponseCache { get; } = new();
+
+    /// <summary>
+    /// Delegate for executing requests and caching responses
+    /// </summary>
+    public Func<JsonObject, string, Task<Response>>? RequestExecutor { get; set; }
 
     private readonly Dictionary<string, object?> _variables = new();
 
@@ -41,6 +47,7 @@ public class EvaluationContext
         _functions.Add(new RequestFunction(this));
         _functions.Add(new JsonDecodeFunction(this));
         _functions.Add(new JsonEncodeFunction(this));
+        _functions.Add(new ResFunction(this));
 
         if (application is not null)
         {

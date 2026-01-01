@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace Nightmare.Parser.TemplateExpressions;
 
-public static class JsonValueExtensions
+public static class Utilities
 {
     public static object? Convert(JsonValue? value, EvaluationContext? context = null)
     {
@@ -12,7 +12,7 @@ public static class JsonValueExtensions
         {
             JsonObject obj => Convert(obj, context),
             JsonArray array => Convert(array, context),
-            JsonString str => Convert(str, context),
+            JsonString str => str.ToObject(context),
             JsonBoolean boolean => boolean.Value,
             JsonNull => null,
             JsonNumber number => number.Value,
@@ -89,15 +89,6 @@ public static class JsonValueExtensions
     public static string Serialize(JsonValue value, EvaluationContext context)
     {
         return Serialize(Convert(value, context), context);
-    }
-
-    private static object? Convert(JsonString str, EvaluationContext? context = null)
-    {
-        if (context is null) return str.Text;
-
-        return str.Template.HasExpressions
-            ? TemplateStringEvaluator.EvaluateValue(str.Template, context)
-            : str.Text;
     }
 
     private static object?[] Convert(JsonArray array, EvaluationContext? context = null)

@@ -45,7 +45,8 @@ public class RecipesView : FrameView
         _requestsTreeView.TreeBuilder = new DelegateTreeBuilder<JsonProperty>(
             arg =>
             {
-                if (arg.Value is JsonObject obj && obj.TryGetProperty<JsonObject>("requests", out var requestsProp))
+                var obj = arg.ValueAs<JsonObject>();
+                if (obj.TryGetProperty<JsonObject>("requests", out var requestsProp))
                     return requestsProp
                         .Properties
                         .Select(p => new JsonProperty(p.Key, p.Value, p.Value.Span))

@@ -1,7 +1,9 @@
 using System.Data;
+using System.Diagnostics;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 using System.Net.Http;
+using Nightmare.Parser.TemplateExpressions;
 
 namespace Nightmare.UI;
 
@@ -12,7 +14,7 @@ public class ResponseView : FrameView
     private readonly DataTable _headersTable = new();
     private readonly DataTable _cookiesTable = new();
     private readonly View _bodyContainerView;
-    private View _bodyView = new Label { Text = "(No body)" };
+    private TextView? _bodyTextView;
 
     public ResponseView()
     {
@@ -29,6 +31,7 @@ public class ResponseView : FrameView
             Width = Dim.Fill(),
             Height = Dim.Fill()
         };
+
 
         var headersTableView = new TableView { Width = Dim.Fill(), Height = Dim.Fill() };
         tabView.AddTab(
@@ -72,14 +75,13 @@ public class ResponseView : FrameView
             },
             false
         );
-        _bodyContainerView.Add(_bodyView);
 
         Add(_statusLabel, tabView);
     }
 
-    public async Task OnResponseReceived(HttpResponseMessage response)
+    public async Task OnResponseReceived(Response response)
     {
-        _statusLabel.Text = $"{(int)response.StatusCode} {response.ReasonPhrase}";
+        _statusLabel.Text = $"{response.StatusCode} {response.ReasonPhrase}";
 
         _headersTable.Clear();
         _cookiesTable.Clear();
@@ -87,109 +89,22 @@ public class ResponseView : FrameView
         foreach (var (key, value) in response.Headers)
             _headersTable.Rows.Add(key, string.Join(", ", value));
 
-        foreach (var (key, value) in response.Content.Headers)
+        foreach (var (key, value) in response.Body.Headers)
             _headersTable.Rows.Add(key, string.Join(", ", value));
 
-        // Parse Set-Cookie headers
-        if (response.Headers.TryGetValues("set-cookie", out var setCookies))
-            foreach (var cookie in setCookies)
-            {
-                var parts = cookie.Split(';')[0].Split('=', 2);
-                var key = parts[0].Trim();
-                var value = parts.Length > 1 ? parts[1].Trim() : "";
-                _cookiesTable.Rows.Add(key, value);
-            }
+        foreach (var (key, value) in response.Cookies)
+            _cookiesTable.Rows.Add(key, value);
 
-        // Display body
-        await DisplayBody(response.Content);
-    }
-
-    private async Task DisplayBody(HttpContent? content)
-    {
-        // Clear previous body view
-        if (_bodyView != null && _bodyContainerView != null)
+        if (_bodyTextView is not null)
         {
-            _bodyContainerView.Remove(_bodyView);
-            _bodyView.Dispose();
+            _bodyContainerView.Remove(_bodyTextView);
+            _bodyTextView.Dispose();
         }
 
-        if (content == null)
-        {
-            _bodyView = new Label { Text = "(No body)" };
-            _bodyContainerView?.Add(_bodyView);
-            return;
-        }
+        var body = response.Content;
 
-        var contentType = content.Headers.ContentType?.MediaType ?? "text/plain";
-
-        try
-        {
-            if (contentType.Contains("application/x-www-form-urlencoded", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var body = await content.ReadAsStringAsync();
-                DisplayFormData(body);
-            }
-            else if (contentType.Contains("multipart/form-data", StringComparison.InvariantCultureIgnoreCase))
-            {
-                // For multipart, show a text view
-                var body = await content.ReadAsStringAsync();
-                _bodyView = new TextView
-                {
-                    Text = body,
-                    ReadOnly = true,
-                    Width = Dim.Fill(),
-                    Height = Dim.Fill()
-                };
-                _bodyContainerView?.Add(_bodyView);
-            }
-            else if (contentType.Contains("application/json", StringComparison.InvariantCultureIgnoreCase) ||
-                     contentType.Contains("text/", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var body = await content.ReadAsStringAsync();
-                _bodyView = new TextView
-                {
-                    Text = body,
-                    ReadOnly = true,
-                    Width = Dim.Fill(),
-                    Height = Dim.Fill()
-                };
-                _bodyContainerView?.Add(_bodyView);
-            }
-            else
-            {
-                _bodyView = new Label { Text = $"(Binary content: {contentType})" };
-                _bodyContainerView?.Add(_bodyView);
-            }
-        }
-        catch (Exception ex)
-        {
-            _bodyView = new Label { Text = $"Error reading body: {ex.Message}" };
-            _bodyContainerView?.Add(_bodyView);
-        }
-    }
-
-    private void DisplayFormData(string body)
-    {
-        var formTable = new DataTable();
-        formTable.Columns.Add("Key", typeof(string));
-        formTable.Columns.Add("Value", typeof(string));
-
-        var pairs = body.Split('&');
-        foreach (var pair in pairs)
-        {
-            var parts = pair.Split('=', 2);
-            var key = Uri.UnescapeDataString(parts[0]);
-            var value = parts.Length > 1 ? Uri.UnescapeDataString(parts[1]) : "";
-            formTable.Rows.Add(key, value);
-        }
-
-        var tableView = new TableView
-        {
-            Table = new DataTableSource(formTable),
-            Width = Dim.Fill(),
-            Height = Dim.Fill()
-        };
-
-        _bodyView = tableView;
+        _bodyTextView = new TextView { Text = body, WordWrap = true, Width = Dim.Fill(), Height = Dim.Fill() };
+        _bodyContainerView.Remove(_bodyContainerView);
+        _bodyContainerView.Add(_bodyTextView);
     }
 }
