@@ -17,7 +17,11 @@ public class MainWindow : Window
 
     private ConfigProcessor _configProcessor;
 
-    private readonly FrameView _errorView;
+    private readonly FrameView _infoView;
+    private readonly ProgressBar _progressBar;
+    private readonly Label _errorLabel;
+    private readonly System.Timers.Timer _progressTimer = new();
+
     private readonly FrameView _currentProfileView;
     private readonly ProfilesDialog _profilesDialog = new();
     private readonly RecipesView _recipesView;
@@ -40,13 +44,26 @@ public class MainWindow : Window
 
         _configFilePath = configFilePath;
 
-        _errorView = new FrameView
+        // Info View
+        _infoView = new FrameView
         {
             Height = Dim.Auto(),
             Width = Dim.Fill(),
-            SchemeName = SchemeManager.SchemesToSchemeName(Schemes.Error),
             Y = Pos.Top(this) + 1
         };
+        _errorLabel = new Label
+        {
+            Width = Dim.Fill()
+        };
+        _progressTimer = new System.Timers.Timer(100) { AutoReset = true };
+        _progressBar = new ProgressBar
+        {
+            Id = "Response Progress Bar",
+            BidirectionalMarquee = true,
+            ProgressBarStyle = ProgressBarStyle.MarqueeBlocks,
+            Width = Dim.Fill()
+        };
+        _progressTimer.Elapsed += (_, _) => { _progressBar.Pulse(); };
 
         _currentProfileView = new FrameView
         {
@@ -73,7 +90,7 @@ public class MainWindow : Window
             Y = Pos.Bottom(requestView) + 1
         };
 
-        Add(_errorView, _currentProfileView, _recipesView, requestView, responseView);
+        Add(_infoView, _currentProfileView, _recipesView, requestView, responseView);
 
         IsRunningChanged += (_, args) =>
         {
@@ -83,10 +100,10 @@ public class MainWindow : Window
                 Reload();
         };
 
-        _errorView.VisibleChanged += (_, _) =>
+        _infoView.VisibleChanged += (_, _) =>
         {
-            _currentProfileView.Y = _errorView.Visible
-                ? Pos.Bottom(_errorView) + 1
+            _currentProfileView.Y = _infoView.Visible
+                ? Pos.Bottom(_infoView) + 1
                 : Pos.Top(this) + 1;
             _recipesView.Y = Pos.Bottom(_currentProfileView) + 1;
             requestView.Y = Pos.Top(_currentProfileView);
@@ -107,7 +124,7 @@ public class MainWindow : Window
 
             try
             {
-                _errorView.Visible = false;
+                _infoView.Visible = false;
                 _configProcessor?.ProcessProfile(_ast, args);
             }
             catch (TracedException e)
@@ -116,25 +133,6 @@ public class MainWindow : Window
             }
         };
 
-        var progressTimer = new System.Timers.Timer(100) { AutoReset = true };
-        var progressBar = new ProgressBar
-        {
-            Id = "Response Progress Bar",
-            BidirectionalMarquee = true,
-            ProgressBarStyle = ProgressBarStyle.MarqueeBlocks,
-            Width = Dim.Fill()
-        };
-        var progressDialog = new Dialog
-        {
-            Title = "Loading...",
-            X = Pos.Center(),
-            Y = Pos.Center(),
-            Height = Dim.Auto(),
-            Width = Dim.Percent(50)
-        };
-        progressDialog.Add(progressBar);
-        progressTimer.Elapsed += (_, _) => { progressBar.Pulse(); };
-
         _recipesView.RequestSelected += async (_, args) =>
         {
             try
@@ -142,15 +140,13 @@ public class MainWindow : Window
                 var req = _configProcessor!.ProcessRequest((JsonObject)args.Value);
                 var requestTask = _configProcessor.ExecuteRequest(req);
 
-                // progressTimer.Start();
+                _progressTimer.Start();
 
-                // _ = requestTask.ContinueWith(_ =>
-                // {
-                //     App.RequestStop();
-                //     progressTimer.Stop();
-                // });
-
-                // App.Run(progressDialog);
+                _infoView.RemoveAll();
+                _infoView.Add(_progressBar);
+                _infoView.Title = "Loading...";
+                _infoView.SchemeName = SchemeManager.SchemesToSchemeName(Schemes.Base);
+                _infoView.Visible = true;
 
                 var res = await requestTask;
                 requestView.OnRequestSelected(req);
@@ -158,13 +154,12 @@ public class MainWindow : Window
             }
             catch (TracedException ex)
             {
-                // App.RequestStop();
-                // progressTimer.Stop();
                 DisplayError(ex);
             }
-            catch (Exception e)
+            finally
             {
-                Debug.WriteLine("Error: " + e + e.Message);
+                _infoView.Remove(_progressBar);
+                _infoView.Visible = false;
             }
         };
     }
@@ -173,7 +168,7 @@ public class MainWindow : Window
     {
         try
         {
-            _errorView.Visible = false;
+            _infoView.Visible = false;
             _ast = ConfigManager.LoadConfig(_configFilePath);
 
             Title = _configProcessor.ProcessName(_ast);
@@ -208,8 +203,12 @@ public class MainWindow : Window
             _ => "Unknown Error"
         };
 
-        _errorView.Visible = true;
-        _errorView.Title = title;
-        _errorView.Text = $"{e.Message} at line {e.Line}, column {e.Column}";
+        _infoView.RemoveAll();
+
+        _infoView.SchemeName = SchemeManager.SchemesToSchemeName(Schemes.Error);
+        _infoView.Title = title;
+        _errorLabel.Text = $"{e.Message} at line {e.Line}, column {e.Column}";
+        _infoView.Add(_errorLabel);
+        _infoView.Visible = true;
     }
 }

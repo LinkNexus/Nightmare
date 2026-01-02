@@ -7,7 +7,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="" />
+    <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -58,6 +63,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6c3fd44887522be5971b7911e9d9182dd7b3454b7e6741d973eefd255b1e3/ApplicationImpl.Run.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/986365c0ecc7c4361a9a7b5ec78aa36ae9279963126cf7dad26b6807cda1afd/MessageBox.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a027e9baec4b70a47896ba69f4530471a10b23ec0d669bc1f15a66c3a8438/DataRow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a4a74455bc2c18eb52a6b63db8013218e38cc8e695af787044e66b471af19a/ArgumentNullException.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a53d11357bb71d8fb4d1c6888bcf8421814143efac1626556a1d18aee17d645f/IApplication.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b0d36e52aaf45aa96bb5572981a0e16fcf939422a914018eb575dfec834ada6/FileDialog.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d96b4060bc871ab33f25eabac64a29b09beec0b16d398da62774de13b176331/Runnable.cs" root0="SKIP_HIGHLIGHTING" />
@@ -82,45 +88,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.Nightmare.executor&quot;: &quot;Debug&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunAdvancedExample.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunExample.executor&quot;: &quot;Debug&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.ArithmeticExamples.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.ComparisonExamples.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.FunctionCallExamples.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.MemberAccessExamples.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.RunAll.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.StringExamples.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.compose.yaml: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;rider.code.cleanup.on.save&quot;: &quot;true&quot;,
-    &quot;rider.code.cleanup.on.save.profile&quot;: &quot;Built-in: Reformat &amp; Apply Syntax Style&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;youngstead.relativelinenumbers.settings.ApplicationSettingsConfigurable&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.Nightmare.executor": "Debug",
+    ".NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunAdvancedExample.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunExample.executor": "Debug",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.ArithmeticExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.ComparisonExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.FunctionCallExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.MemberAccessExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.RunAll.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.StringExamples.executor": "Run",
+    "Docker.compose.yaml: Compose Deployment.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Publish to folder.Publish Nightmare to folder.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "rider.code.cleanup.on.save": "true",
+    "rider.code.cleanup.on.save.profile": "Built-in: Reformat & Apply Syntax Style",
+    "settings.editor.selected.configurable": "youngstead.relativelinenumbers.settings.ApplicationSettingsConfigurable",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;,
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite",
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecapSpentCounter">
     <option name="endsOfQuotaMs" value="1766424622583" />
     <option name="spentUsd" value="0.18662325" />
@@ -129,6 +136,14 @@
     <option name="suspendCountdown" value="0" />
   </component>
   <component name="RunManager" selected=".NET Project.Nightmare">
+    <configuration name="Publish Nightmare to folder" type="DotNetFolderPublish" factoryName="Publish to folder">
+      <riderPublish configuration="Release" include_native_libs_for_self_extract="true" platform="Any CPU" produce_single_file="true" self_contained="true" target_folder="$PROJECT_DIR$/Nightmare/bin/Release/net10.0/osx-x64/publish" target_framework="net10.0" trim_unused_assemblies="true" uuid_high="-7950775308062238597" uuid_low="8074146101734598207">
+        <runtimes>
+          <item value="osx-x64" />
+        </runtimes>
+      </riderPublish>
+      <method v="2" />
+    </configuration>
     <configuration name="Nightmare" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -326,7 +341,7 @@
       <workItem from="1767359277430" duration="46000" />
       <workItem from="1767359361672" duration="87000" />
       <workItem from="1767359452741" duration="99000" />
-      <workItem from="1767359556807" duration="9391000" />
+      <workItem from="1767359556807" duration="15838000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -440,7 +455,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767377726939</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Update README with detailed project overview, setup instructions, and usage examples for Nightmare">
+      <option name="closed" value="true" />
+      <created>1767378265876</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1767378265876</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -483,7 +506,8 @@
     <MESSAGE value="Add `Res` function implementation, HTTP utilities, and request processor for improved template handling and execution" />
     <MESSAGE value="Add comprehensive JSON ID tests and clean up workspace configuration" />
     <MESSAGE value="Update workspace configuration, add word wrap to `ResponseView`, and refine tasks tracking" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update workspace configuration, add word wrap to `ResponseView`, and refine tasks tracking" />
+    <MESSAGE value="Update README with detailed project overview, setup instructions, and usage examples for Nightmare" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update README with detailed project overview, setup instructions, and usage examples for Nightmare" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -528,13 +552,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs</url>
-          <line>450</line>
+          <line>457</line>
           <properties documentPath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" containingFunctionPresentation="Method 'ExecuteRequest'">
             <startOffsets>
-              <option value="15925" />
+              <option value="16209" />
             </startOffsets>
             <endOffsets>
-              <option value="15944" />
+              <option value="16228" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="11" />
@@ -577,6 +601,32 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs</url>
+          <line>280</line>
+          <properties documentPath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" containingFunctionPresentation="Local function 'GetMultipartData'">
+            <startOffsets>
+              <option value="9621" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9641" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs</url>
+          <line>287</line>
+          <properties documentPath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" containingFunctionPresentation="Local function 'GetMultipartData'">
+            <startOffsets>
+              <option value="9873" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9893" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -306,6 +306,13 @@ public partial class ConfigProcessor
                         case null:
                             continue;
 
+                        case FileReference fileRef:
+                        {
+                            fileRef.FileName ??= Path.GetFileName(fileRef.Path);
+                            multipartData[partName] = fileRef;
+                            break;
+                        }
+
                         case object[] arr:
                         {
                             foreach (var i in arr)
