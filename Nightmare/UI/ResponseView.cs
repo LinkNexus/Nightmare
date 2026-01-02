@@ -78,6 +78,7 @@ public class ResponseView : FrameView
         _bodyTextView = new TextView
         {
             Title = "Body",
+            WordWrap = true,
             Width = Dim.Fill(),
             Height = Dim.Fill()
         };
