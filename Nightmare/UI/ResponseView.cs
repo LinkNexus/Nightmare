@@ -4,6 +4,7 @@ using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 using System.Net.Http;
 using Nightmare.Parser.TemplateExpressions;
+using Terminal.Gui.Drawing;
 
 namespace Nightmare.UI;
 
@@ -13,8 +14,8 @@ public class ResponseView : FrameView
 
     private readonly DataTable _headersTable = new();
     private readonly DataTable _cookiesTable = new();
-    private readonly View _bodyContainerView;
-    private TextView? _bodyTextView;
+    private readonly TextView _bodyTextView;
+    private readonly Label _responseTimeLabel;
 
     public ResponseView()
     {
@@ -24,6 +25,19 @@ public class ResponseView : FrameView
         Arrangement = ViewArrangement.Resizable;
 
         _statusLabel = new Label();
+
+        _responseTimeLabel = new Label
+        {
+            Y = Pos.Top(_statusLabel),
+            X = Pos.Right(_statusLabel) + 1
+        };
+        _responseTimeLabel.SetScheme(new Scheme
+        {
+            Normal = new Terminal.Gui.Drawing.Attribute
+            {
+                Foreground = Color.Cyan
+            }
+        });
 
         var tabView = new TabView
         {
@@ -61,7 +75,7 @@ public class ResponseView : FrameView
         _cookiesTable.Columns.Add("Value", typeof(string));
         cookiesTableView.Table = new DataTableSource(_cookiesTable);
 
-        _bodyContainerView = new View
+        _bodyTextView = new TextView
         {
             Title = "Body",
             Width = Dim.Fill(),
@@ -71,17 +85,18 @@ public class ResponseView : FrameView
             new Tab
             {
                 DisplayText = "Body",
-                View = _bodyContainerView
+                View = _bodyTextView
             },
             false
         );
 
-        Add(_statusLabel, tabView);
+        Add(_statusLabel, _responseTimeLabel, tabView);
     }
 
-    public async Task OnResponseReceived(Response response)
+    public void OnResponseReceived(Response response)
     {
         _statusLabel.Text = $"{response.StatusCode} {response.ReasonPhrase}";
+        _responseTimeLabel.Text = $"{response.ResponseTimeMs} ms";
 
         _headersTable.Clear();
         _cookiesTable.Clear();
@@ -89,22 +104,9 @@ public class ResponseView : FrameView
         foreach (var (key, value) in response.Headers)
             _headersTable.Rows.Add(key, string.Join(", ", value));
 
-        foreach (var (key, value) in response.Body.Headers)
-            _headersTable.Rows.Add(key, string.Join(", ", value));
-
         foreach (var (key, value) in response.Cookies)
             _cookiesTable.Rows.Add(key, value);
 
-        if (_bodyTextView is not null)
-        {
-            _bodyContainerView.Remove(_bodyTextView);
-            _bodyTextView.Dispose();
-        }
-
-        var body = response.Content;
-
-        _bodyTextView = new TextView { Text = body, WordWrap = true, Width = Dim.Fill(), Height = Dim.Fill() };
-        _bodyContainerView.Remove(_bodyContainerView);
-        _bodyContainerView.Add(_bodyTextView);
+        _bodyTextView.Text = response.Content;
     }
 }

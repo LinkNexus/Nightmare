@@ -27,28 +27,28 @@ public sealed class JsonParser
         return current;
     }
 
-    private JsonNumber ParseNumber()
+    private JsonNumber ParseNumber(string id = "$")
     {
         var token = Eat(TokenType.Number);
-        return new JsonNumber(token.Value ?? "", token.Span);
+        return new JsonNumber(token.Value ?? "", token.Span, id);
     }
 
-    private JsonString ParseString()
+    private JsonString ParseString(string id = "$")
     {
         var token = Eat(TokenType.String);
         var template = token.Template ?? new TemplateString([]);
-        return new JsonString(template, token.Span);
+        return new JsonString(template, token.Span, id);
     }
 
-    private JsonBoolean ParseBoolean(bool value)
+    private JsonBoolean ParseBoolean(bool value, string id = "$")
     {
         var token = Eat(value ? TokenType.True : TokenType.False);
-        return new JsonBoolean(value, token.Span);
+        return new JsonBoolean(value, token.Span, id);
     }
 
-    private JsonNull ParseNull()
+    private JsonNull ParseNull(string id = "$")
     {
-        return new JsonNull(Eat(TokenType.Null).Span);
+        return new JsonNull(Eat(TokenType.Null).Span, id);
     }
 
     private static TextSpan Combine(TextSpan a, TextSpan b)
@@ -58,7 +58,7 @@ public sealed class JsonParser
         );
     }
 
-    private JsonArray ParseArray()
+    private JsonArray ParseArray(string id = "$")
     {
         var start = Eat(TokenType.LeftBracket);
         var items = new List<JsonValue>();
@@ -66,23 +66,26 @@ public sealed class JsonParser
         if (Current.Type == TokenType.RightBracket)
         {
             var end = Eat(TokenType.RightBracket);
-            return new JsonArray(items, Combine(start.Span, end.Span));
+            return new JsonArray(items, Combine(start.Span, end.Span), id);
         }
 
+        var index = 0;
         while (true)
         {
-            var value = ParseValue();
+            var itemId = $"{id}[{index}]";
+            var value = ParseValue(itemId);
             items.Add(value);
 
             switch (Current.Type)
             {
                 case TokenType.Comma:
                     Eat(TokenType.Comma);
+                    index++;
                     continue;
                 case TokenType.RightBracket:
                 {
                     var end = Eat(TokenType.RightBracket);
-                    return new JsonArray(items, Combine(start.Span, end.Span));
+                    return new JsonArray(items, Combine(start.Span, end.Span), id);
                 }
                 default:
                     throw Error("Expected ',' or ']' in array");
@@ -90,7 +93,7 @@ public sealed class JsonParser
         }
     }
 
-    private JsonObject ParseObject()
+    private JsonObject ParseObject(string id = "$")
     {
         var start = Eat(TokenType.LeftBrace);
         var properties = new List<JsonProperty>();
@@ -98,7 +101,7 @@ public sealed class JsonParser
         if (Current.Type == TokenType.RightBrace)
         {
             var end = Eat(TokenType.RightBrace);
-            return new JsonObject(properties, Combine(start.Span, end.Span));
+            return new JsonObject(properties, Combine(start.Span, end.Span), id);
         }
 
         while (true)
@@ -111,8 +114,9 @@ public sealed class JsonParser
                 throw new JsonParseException("Property Name cannot contain expressions", nameToken.Span);
 
             var propertyName = template.ToString();
+            var propertyId = $"{id}.{propertyName}";
             Eat(TokenType.Colon);
-            var value = ParseValue();
+            var value = ParseValue(propertyId);
             var propertySpan = Combine(nameToken.Span, value.Span);
 
             properties.Add(new JsonProperty(propertyName, value, propertySpan));
@@ -126,7 +130,7 @@ public sealed class JsonParser
                 {
                     var end = Eat(TokenType.RightBrace);
                     return new JsonObject(
-                        properties, Combine(start.Span, end.Span)
+                        properties, Combine(start.Span, end.Span), id
                     );
                 }
                 default:
@@ -135,17 +139,17 @@ public sealed class JsonParser
         }
     }
 
-    private JsonValue ParseValue()
+    private JsonValue ParseValue(string id = "$")
     {
         return Current.Type switch
         {
-            TokenType.LeftBrace => ParseObject(),
-            TokenType.LeftBracket => ParseArray(),
-            TokenType.String => ParseString(),
-            TokenType.Number => ParseNumber(),
-            TokenType.True => ParseBoolean(true),
-            TokenType.False => ParseBoolean(false),
-            TokenType.Null => ParseNull(),
+            TokenType.LeftBrace => ParseObject(id),
+            TokenType.LeftBracket => ParseArray(id),
+            TokenType.String => ParseString(id),
+            TokenType.Number => ParseNumber(id),
+            TokenType.True => ParseBoolean(true, id),
+            TokenType.False => ParseBoolean(false, id),
+            TokenType.Null => ParseNull(id),
             _ => throw Error($"Unexpected token '{Current.Type}'")
         };
     }

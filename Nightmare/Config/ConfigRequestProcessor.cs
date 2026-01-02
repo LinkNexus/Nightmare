@@ -375,9 +375,12 @@ public partial class ConfigProcessor
         }
     }
 
-    public Request ProcessRequest(JsonObject request)
+    public Request ProcessRequest(JsonObject request, string? requestId = null)
     {
-        var req = new Request();
+        var req = new Request
+        {
+            Id = requestId ?? GetRequestId(request)
+        };
 
         if (!request.TryGetProperty<JsonString>("url", out var urlJson))
             request.ThrowError("The request object must contain a `url` property");
@@ -407,14 +410,29 @@ public partial class ConfigProcessor
             (req.Type, req.Body, req.Content) = ProcessBody(bodyJson!);
 
         return req;
+
+        string GetRequestId(JsonObject requestJson)
+        {
+            const string prefix = "$.requests.";
+            var truncated = requestJson.Id[prefix.Length..];
+
+            var parts = truncated.Split('.');
+            var remaining = new string[(parts.Length + 1) / 2];
+
+            for (var index = 0; index < parts.Length; index++)
+                if (index % 2 == 0)
+                    remaining[index / 2] = parts[index];
+
+            return string.Join(".", remaining);
+        }
     }
 
     private async Task<Response> ProcessAndExecuteRequest(JsonObject requestJson, string requestId)
     {
-        return await ExecuteRequest(ProcessRequest(requestJson), requestId);
+        return await ExecuteRequest(ProcessRequest(requestJson, requestId));
     }
 
-    public async Task<Response> ExecuteRequest(Request request, string? requestId = null)
+    public async Task<Response> ExecuteRequest(Request request)
     {
         var httpRequest = request.ToMessage();
 
@@ -426,6 +444,9 @@ public partial class ConfigProcessor
         _stopWatch.Stop();
 
         var response = await Response.Create(httpResponse, _stopWatch.ElapsedMilliseconds);
+
+        Debug.WriteLine($"Response for {request.Id}: {httpResponse.StatusCode}");
+        _context.ResponseCache[request.Id] = response;
 
         _stopWatch.Reset();
 

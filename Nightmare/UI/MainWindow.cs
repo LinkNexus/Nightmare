@@ -154,7 +154,7 @@ public class MainWindow : Window
 
                 var res = await requestTask;
                 requestView.OnRequestSelected(req);
-                await responseView.OnResponseReceived(res);
+                responseView.OnResponseReceived(res);
             }
             catch (TracedException ex)
             {
@@ -164,7 +164,7 @@ public class MainWindow : Window
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                Debug.WriteLine("Error: " + e + e.Message);
             }
         };
     }

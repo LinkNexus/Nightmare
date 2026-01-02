@@ -4,6 +4,8 @@ namespace Nightmare.Parser.TemplateExpressions;
 
 public class Request
 {
+    public string Id { get; set; }
+
     public string Method { get; set; }
 
     public string Url { get; set; }
@@ -52,25 +54,32 @@ public class Response
 
     public Dictionary<string, string> Cookies { get; } = new();
 
-    public HttpContent Body { get; set; }
-
     public string Content { get; set; }
 
     public DateTime Timestamp { get; set; }
 
     public long ResponseTimeMs { get; set; }
 
-    private Response(HttpResponseMessage res, long responseTimeMs)
+    private Response()
     {
-        ResponseTimeMs = responseTimeMs;
-        StatusCode = res.StatusCode.GetHashCode();
-        ReasonPhrase = res.ReasonPhrase;
+    }
+
+    public static async Task<Response> Create(HttpResponseMessage res, long responseTimeMs)
+    {
+        var instance = new Response
+        {
+            ResponseTimeMs = responseTimeMs,
+            StatusCode = res.StatusCode.GetHashCode(),
+            ReasonPhrase = res.ReasonPhrase,
+            Content = await res.Content.ReadAsStringAsync(),
+            Timestamp = DateTime.UtcNow
+        };
 
         foreach (var (key, value) in res.Headers)
-            Headers.Add(key, string.Join(", ", value));
+            instance.Headers[key] = string.Join(", ", value);
 
         foreach (var (key, value) in res.Content.Headers)
-            Headers.Add(key, string.Join(", ", value));
+            instance.Headers[key] = string.Join(", ", value);
 
         if (res.Headers.TryGetValues("set-cookie", out var setCookies))
             foreach (var cookie in setCookies)
@@ -78,17 +87,8 @@ public class Response
                 var parts = cookie.Split(';')[0].Split('=', 2);
                 var key = parts[0].Trim();
                 var value = parts.Length > 1 ? parts[1].Trim() : "";
-                Cookies.Add(key, value);
+                instance.Cookies.Add(key, value);
             }
-
-        Body = res.Content;
-        Timestamp = DateTime.UtcNow;
-    }
-
-    public static async Task<Response> Create(HttpResponseMessage res, long responseTimeMs)
-    {
-        var instance = new Response(res, responseTimeMs);
-        instance.Content = await instance.Body.ReadAsStringAsync();
 
         return instance;
     }
@@ -102,11 +102,11 @@ public class Response
     {
         return new Dictionary<string, object?>
         {
-            ["statusCode"] = StatusCode,
+            ["statusCode"] = (double)StatusCode,
             ["reasonPhrase"] = ReasonPhrase,
             ["timestamp"] = Timestamp.ToString("o"),
-            ["headers"] = Headers,
-            ["cookies"] = Cookies,
+            ["headers"] = Headers.ToDictionary(kvp => kvp.Key, object? (kvp) => kvp.Value),
+            ["cookies"] = Cookies.ToDictionary(kvp => kvp.Key, object? (kvp) => kvp.Value),
             ["body"] = Content
         };
     }

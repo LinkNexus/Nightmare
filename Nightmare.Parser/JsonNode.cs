@@ -3,9 +3,10 @@ using Nightmare.Parser.TemplateExpressions;
 
 namespace Nightmare.Parser;
 
-public abstract class JsonValue(TextSpan span)
+public abstract class JsonValue(TextSpan span, string id = "$")
 {
     public TextSpan Span { get; } = span;
+    public string Id { get; } = id;
 
     public void ThrowError(string message)
     {
@@ -13,8 +14,8 @@ public abstract class JsonValue(TextSpan span)
     }
 }
 
-public sealed class JsonObject(IEnumerable<JsonProperty> properties, TextSpan span)
-    : JsonValue(span)
+public sealed class JsonObject(IEnumerable<JsonProperty> properties, TextSpan span, string id = "$")
+    : JsonValue(span, id)
 {
     private readonly Dictionary<string, JsonValue> _properties = properties.ToDictionary(
         p => p.Name,
@@ -63,12 +64,12 @@ public sealed class JsonObject(IEnumerable<JsonProperty> properties, TextSpan sp
     }
 }
 
-public sealed class JsonArray(IEnumerable<JsonValue> items, TextSpan span) : JsonValue(span)
+public sealed class JsonArray(IEnumerable<JsonValue> items, TextSpan span, string id = "$") : JsonValue(span, id)
 {
     public IReadOnlyList<JsonValue> Items { get; } = [.. items];
 }
 
-public sealed class JsonString(TemplateString template, TextSpan span) : JsonValue(span)
+public sealed class JsonString(TemplateString template, TextSpan span, string id = "$") : JsonValue(span, id)
 {
     public TemplateString Template { get; } = template;
     public string Text => Template.ToString();
@@ -92,18 +93,18 @@ public sealed class JsonString(TemplateString template, TextSpan span) : JsonVal
     }
 }
 
-public sealed class JsonNumber(string raw, TextSpan span) : JsonValue(span)
+public sealed class JsonNumber(string raw, TextSpan span, string id = "$") : JsonValue(span, id)
 {
     public string Raw { get; } = raw;
     public double Value => double.Parse(Raw, CultureInfo.InvariantCulture);
 }
 
-public sealed class JsonBoolean(bool value, TextSpan span) : JsonValue(span)
+public sealed class JsonBoolean(bool value, TextSpan span, string id = "$") : JsonValue(span, id)
 {
     public bool Value { get; } = value;
 }
 
-public sealed class JsonNull(TextSpan span) : JsonValue(span)
+public sealed class JsonNull(TextSpan span, string id = "$") : JsonValue(span, id)
 {
 }
 

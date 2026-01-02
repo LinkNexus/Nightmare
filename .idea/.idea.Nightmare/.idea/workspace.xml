@@ -8,19 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/Http.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/shelf/Uncommitted_changes_before_Merge_at_25_12_25,_17_39_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/shelf/Uncommitted_changes_before_Merge_at_25_12_25__17_39__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare.Parser/JsonNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FileReference.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FileReference.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/JsonFunctions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/JsonFunctions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/JsonValueExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/Utilities.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare/Config/ConfigProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Config/ConfigProcessor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/JsonParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/JsonParser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/Http.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/Http.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare/UI/RecipesView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/RecipesView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare/UI/RequestView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/RequestView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare/UI/ResponseView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/ResponseView.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -32,7 +27,7 @@
     <option name="firstShow" value="false" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="9" />
+    <option name="cachedIndexableFilesCount" value="19" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -328,7 +323,17 @@
       <workItem from="1766862350334" duration="63000" />
       <workItem from="1766862449095" duration="972000" />
       <workItem from="1766863428426" duration="61971000" />
-      <workItem from="1767199300886" duration="38387000" />
+      <workItem from="1767199300886" duration="40999000" />
+      <workItem from="1767358192199" duration="98000" />
+      <workItem from="1767358441089" duration="36000" />
+      <workItem from="1767358509590" duration="211000" />
+      <workItem from="1767358760027" duration="125000" />
+      <workItem from="1767358927605" duration="99000" />
+      <workItem from="1767359084224" duration="27000" />
+      <workItem from="1767359277430" duration="46000" />
+      <workItem from="1767359361672" duration="87000" />
+      <workItem from="1767359452741" duration="99000" />
+      <workItem from="1767359556807" duration="8813000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -418,7 +423,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767118398561</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Add `Res` function implementation, HTTP utilities, and request processor for improved template handling and execution">
+      <option name="closed" value="true" />
+      <created>1767308923872</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1767308923872</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -458,7 +471,8 @@
     <MESSAGE value="Add enhanced error handling, request/response body parsing, and UI updates for HTTP content rendering" />
     <MESSAGE value="Add JSON encode/decode and request functions, enhance expression evaluation, and improve AST handling" />
     <MESSAGE value="Add URL and Base64 encode/decode functions to template evaluation and update project dependencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add URL and Base64 encode/decode functions to template evaluation and update project dependencies" />
+    <MESSAGE value="Add `Res` function implementation, HTTP utilities, and request processor for improved template handling and execution" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add `Res` function implementation, HTTP utilities, and request processor for improved template handling and execution" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -487,6 +501,71 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs</url>
+          <line>13</line>
+          <properties documentPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/TemplateExpressionEvaluator.cs" containingFunctionPresentation="Property 'ResponseCache'">
+            <startOffsets>
+              <option value="480" />
+            </startOffsets>
+            <endOffsets>
+              <option value="484" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs</url>
+          <line>450</line>
+          <properties documentPath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" containingFunctionPresentation="Method 'ExecuteRequest'">
+            <startOffsets>
+              <option value="15925" />
+            </startOffsets>
+            <endOffsets>
+              <option value="15944" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/ResFunction.cs</url>
+          <line>43</line>
+          <properties documentPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/FunctionsSyntax/Functions/ResFunction.cs" containingFunctionPresentation="Method 'Execute'">
+            <startOffsets>
+              <option value="1216" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1242" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/Utilities.cs</url>
+          <line>48</line>
+          <properties documentPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/Utilities.cs" containingFunctionPresentation="Method 'Serialize'">
+            <startOffsets>
+              <option value="1629" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1678" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/Utilities.cs</url>
+          <line>76</line>
+          <properties documentPath="$PROJECT_DIR$/Nightmare.Parser/TemplateExpressions/Utilities.cs" containingFunctionPresentation="Local function 'WriteValue'">
+            <startOffsets>
+              <option value="2688" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2702" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
