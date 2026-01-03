@@ -339,7 +339,7 @@
       <workItem from="1767359277430" duration="46000" />
       <workItem from="1767359361672" duration="87000" />
       <workItem from="1767359452741" duration="99000" />
-      <workItem from="1767359556807" duration="23097000" />
+      <workItem from="1767359556807" duration="23238000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -573,7 +573,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767412906633</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Update release workflow: combine build and release jobs, refine permissions, and adjust artifact upload steps">
+      <option name="closed" value="true" />
+      <created>1767441317288</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1767441317288</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -611,7 +619,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Remove outdated test coverage documentation and ensure AOT compatibility notes across TemplateExpressions documentation. Minor refactors for TemplateExpressionLexer and parser consistency." />
     <MESSAGE value="Remove unused classes, examples, and documentation related to the deprecated template expression system." />
     <MESSAGE value="Add UI elements for profile selection and request management" />
     <MESSAGE value="Add FileReference class and integrate file handling in template expressions, evaluation, and HTTP requests" />
@@ -636,7 +643,8 @@
     <MESSAGE value="Update release workflow: standardize artifact paths and upgrade GitHub action versions" />
     <MESSAGE value="Update release workflow: upgrade artifact download action version to v5 and adjust workspace tasks configuration" />
     <MESSAGE value="Update release workflow: restructure artifact handling steps and align workspace configuration changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update release workflow: restructure artifact handling steps and align workspace configuration changes" />
+    <MESSAGE value="Update release workflow: combine build and release jobs, refine permissions, and adjust artifact upload steps" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update release workflow: combine build and release jobs, refine permissions, and adjust artifact upload steps" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
