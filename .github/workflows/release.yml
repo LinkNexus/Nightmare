@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nightmare-${{ matrix.rid }}
-          path: $GITHUB_WORKSPACE/dist/nightmare-${{ matrix.rid }}${{ matrix.ext }}
+          path: ${{ github.workspace }}/dist/nightmare-${{ matrix.rid }}${{ matrix.ext }}
 
   release:
     permissions:
@@ -76,20 +76,13 @@ jobs:
       - name: Download all build artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ./dist
-
-      - name: Create GitHub release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ github.workspace }}/dist
+        run: ls -R ${{ github.workspace }}/dist
 
       - name: Upload executables to release
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
-          files: ./dist/*
+          files: ${{ github.workspace }}/dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          path: dist/nightmare-${{ matrix.rid }}${{ matrix.ext }}

@@ -339,7 +339,7 @@
       <workItem from="1767359277430" duration="46000" />
       <workItem from="1767359361672" duration="87000" />
       <workItem from="1767359452741" duration="99000" />
-      <workItem from="1767359556807" duration="21332000" />
+      <workItem from="1767359556807" duration="22215000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -541,7 +541,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767410300150</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Update GitHub release workflow: refine permissions, upgrade action version, and adjust executable upload conditions">
+      <option name="closed" value="true" />
+      <created>1767411293147</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1767411293147</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -579,7 +587,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Enhance `JsonLexer` and `JsonParser` with comprehensive unit tests and fix boundary condition in `RemainingStartsWith` method" />
     <MESSAGE value="Enhance `JsonLexer` and `JsonParser` with comprehensive unit tests, improve tokenization, and fix boundary checks" />
     <MESSAGE value="Add template expression system with parser and evaluator, enhance JSON handling, and improve error reporting" />
     <MESSAGE value="Add template expression support with evaluation and syntax validation, enhance JSON parsing capabilities, and introduce new utility functions" />
@@ -604,7 +611,8 @@
     <MESSAGE value="Update release workflow: streamline job steps, improve build packaging, and refine workspace tracking" />
     <MESSAGE value="Add GitHub release step: automate artifact upload and streamline workflow" />
     <MESSAGE value="Update workspace configuration and add artifact path to release workflow" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update workspace configuration and add artifact path to release workflow" />
+    <MESSAGE value="Update GitHub release workflow: refine permissions, upgrade action version, and adjust executable upload conditions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update GitHub release workflow: refine permissions, upgrade action version, and adjust executable upload conditions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
