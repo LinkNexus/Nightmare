@@ -7,7 +7,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_and_release:
+    permissions:
+      contents: write
+      packages: write
     strategy:
       matrix:
         include:
@@ -57,32 +60,18 @@ jobs:
             tar -czf "$DIST/nightmare-${{ matrix.rid }}.tar.gz" -C "$PUB_DIR" .
           fi
 
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ github.workspace }}/dist/*
+        body: |
+          - Automated release from tag ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: nightmare-${{ matrix.rid }}
           path: ${{ github.workspace }}/dist/nightmare-${{ matrix.rid }}${{ matrix.ext }}
-
-  release:
-    permissions:
-      contents: write
-      packages: write
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - uses: actions/download-artifact@v5
-        with:
-          path: ${{ github.workspace }}/dist
-      - name: Download all build artifacts
-        run: ls -R ${{ github.workspace }}/dist
-
-      - name: Upload executables to release
-        uses: softprops/action-gh-release@v2
-        if: github.ref_type == 'tag'
-        with:
-          files: ${{ github.workspace }}/dist/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
