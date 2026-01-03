@@ -67,8 +67,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create GitHub Release
-        body: |
-          - Automated release from tag ${{ github.ref_name }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
