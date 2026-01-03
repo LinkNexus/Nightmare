@@ -26,8 +26,12 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
+    env:
+      RELEASE_TAG: ${{ github.event.inputs.tag != '' && github.event.inputs.tag || github.ref_name }}
+
     steps:
-    - uses: actions/checkout@v4
+      name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -37,21 +41,23 @@ jobs:
     - name: Publish NativeAOT
       run: |
         cd Nightmare
-        dotnet publish -c Release -r ${{ matrix.rid }}
+        dotnet publish -c Release -r ${{ matrix.rid }} -p:PublishAot=true -p:SelfContained=true -p:StripSymbols=true =p:InvariantGlobalization=true
 
-    - name: Package
-      shell: bash
+    - name: Package Build
       run: |
-        mkdir -p dist
-        cd Nightmare/bin/Release/net10.0/${{ matrix.rid }}/publish
-        if [[ "${{ matrix.ext }}" == ".zip" ]]; then
-          zip -r ../../../../../../../dist/nightmare-${{ matrix.rid }}.zip .
-        else
-          tar -czf ../../../../../../../dist/nightmare-${{ matrix.rid }}.tar.gz .
+        DIST="$GITHUB_WORKSPACE/dist"
+        mkdir -p "$DIST"
+        
+        PUB_DIR="Nightmare/bin/Release/net10.0/${{ matrix.rid }}/publish"
+        
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          powershell -Command "Compress-Archive -Path '$PUB_DIR/*' -DestinationPath '$DIST/nightmare-${{ matrix.rid }}.zip' -Force"
+        else 
+          tar -czf "$DIST/nightmare-${{ matrix.rid }}.tar.gz" -C $PUB_DIR" .
         fi
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: nightmare-${{ matrix.rid }}
-        path: dist/nightmare-${{ matrix.rid }}*
+        path: $GITHUB_WORKSPACE/dist/nightmare-${{ matrix.rid }}${{ matrix.ext }}
