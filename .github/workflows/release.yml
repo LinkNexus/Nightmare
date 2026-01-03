@@ -43,7 +43,7 @@ jobs:
     - name: Package
       shell: bash
       run: |
-        cd bin/Release/net10.0/${{ matrix.rid }}/publish
+        cd Nightmare/bin/Release/net10.0/${{ matrix.rid }}/publish
         if [[ "${{ matrix.ext }}" == ".zip" ]]; then
           zip -r nightmare-${{ matrix.rid }}.zip .
         else
@@ -54,4 +54,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: nightmare-${{ matrix.rid }}
-        path: bin/Release/net10.0/${{ matrix.rid }}/publish/nightmare-${{ matrix.rid }}*
+        path: Nightmare/bin/Release/net10.0/${{ matrix.rid }}/publish/nightmare-${{ matrix.rid }}*
