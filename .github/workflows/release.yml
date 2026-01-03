@@ -37,22 +37,21 @@ jobs:
     - name: Publish NativeAOT
       run: |
         cd Nightmare
-        dotnet publish \
-          -c Release \
-          -r ${{ matrix.rid }}
+        dotnet publish -c Release -r ${{ matrix.rid }}
 
     - name: Package
       shell: bash
       run: |
+        mkdir -p dist
         cd Nightmare/bin/Release/net10.0/${{ matrix.rid }}/publish
         if [[ "${{ matrix.ext }}" == ".zip" ]]; then
-          zip -r nightmare-${{ matrix.rid }}.zip .
+          zip -r ../../../../../../../dist/nightmare-${{ matrix.rid }}.zip .
         else
-          tar -czf nightmare-${{ matrix.rid }}.tar.gz .
+          tar -czf ../../../../../../../dist/nightmare-${{ matrix.rid }}.tar.gz .
         fi
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: nightmare-${{ matrix.rid }}
-        path: Nightmare/bin/Release/net10.0/${{ matrix.rid }}/publish/nightmare-${{ matrix.rid }}*
+        path: dist/nightmare-${{ matrix.rid }}*
