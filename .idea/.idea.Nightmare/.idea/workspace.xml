@@ -9,7 +9,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -339,7 +338,7 @@
       <workItem from="1767359277430" duration="46000" />
       <workItem from="1767359361672" duration="87000" />
       <workItem from="1767359452741" duration="99000" />
-      <workItem from="1767359556807" duration="20035000" />
+      <workItem from="1767359556807" duration="20323000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -509,7 +508,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767408312854</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Revise GitHub Actions release workflow: add `RELEASE_TAG`, improve packaging logic, and enhance workspace configuration tracking">
+      <option name="closed" value="true" />
+      <created>1767409376166</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1767409376166</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -570,7 +577,8 @@
     <MESSAGE value="Update workspace configuration and adjust NativeAOT publish path in GitHub Actions" />
     <MESSAGE value="Update workspace configuration to include `workflow_dispatch` trigger in GitHub Actions" />
     <MESSAGE value="Adjust release workflow to revise packaging path and simplify publish step" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adjust release workflow to revise packaging path and simplify publish step" />
+    <MESSAGE value="Revise GitHub Actions release workflow: add `RELEASE_TAG`, improve packaging logic, and enhance workspace configuration tracking" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revise GitHub Actions release workflow: add `RELEASE_TAG`, improve packaging logic, and enhance workspace configuration tracking" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

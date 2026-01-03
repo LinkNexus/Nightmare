@@ -30,34 +30,35 @@ jobs:
       RELEASE_TAG: ${{ github.event.inputs.tag != '' && github.event.inputs.tag || github.ref_name }}
 
     steps:
-      name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 10.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
 
-    - name: Publish NativeAOT
-      run: |
-        cd Nightmare
-        dotnet publish -c Release -r ${{ matrix.rid }} -p:PublishAot=true -p:SelfContained=true -p:StripSymbols=true =p:InvariantGlobalization=true
+      - name: Publish NativeAOT
+        run: |
+          cd Nightmare
+          dotnet publish -c Release -r ${{ matrix.rid }} -p:PublishAot=true -p:SelfContained=true -p:StripSymbols=true -p:InvariantGlobalization=true
 
-    - name: Package Build
-      run: |
-        DIST="$GITHUB_WORKSPACE/dist"
-        mkdir -p "$DIST"
-        
-        PUB_DIR="Nightmare/bin/Release/net10.0/${{ matrix.rid }}/publish"
-        
-        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-          powershell -Command "Compress-Archive -Path '$PUB_DIR/*' -DestinationPath '$DIST/nightmare-${{ matrix.rid }}.zip' -Force"
-        else 
-          tar -czf "$DIST/nightmare-${{ matrix.rid }}.tar.gz" -C $PUB_DIR" .
-        fi
+      - name: Package Build
+        shell: bash
+        run: |
+          DIST="$GITHUB_WORKSPACE/dist"
+          mkdir -p "$DIST"
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: nightmare-${{ matrix.rid }}
-        path: $GITHUB_WORKSPACE/dist/nightmare-${{ matrix.rid }}${{ matrix.ext }}
+          PUB_DIR="Nightmare/bin/Release/net10.0/${{ matrix.rid }}/publish"
+
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            powershell -Command "Compress-Archive -Path '$PUB_DIR/*' -DestinationPath '$DIST/nightmare-${{ matrix.rid }}.zip' -Force"
+          else
+            tar -czf "$DIST/nightmare-${{ matrix.rid }}.tar.gz" -C "$PUB_DIR" .
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightmare-${{ matrix.rid }}
+          path: dist/nightmare-${{ matrix.rid }}${{ matrix.ext }}
