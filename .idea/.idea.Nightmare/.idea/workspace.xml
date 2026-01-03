@@ -8,10 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -341,7 +339,7 @@
       <workItem from="1767359277430" duration="46000" />
       <workItem from="1767359361672" duration="87000" />
       <workItem from="1767359452741" duration="99000" />
-      <workItem from="1767359556807" duration="15838000" />
+      <workItem from="1767359556807" duration="18404000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -463,7 +461,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767378265876</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Add progress bar, improve UI feedback, and enhance error handling in `MainWindow` and `ConfigRequestProcessor`">
+      <option name="closed" value="true" />
+      <created>1767396333096</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1767396333096</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -507,7 +513,8 @@
     <MESSAGE value="Add comprehensive JSON ID tests and clean up workspace configuration" />
     <MESSAGE value="Update workspace configuration, add word wrap to `ResponseView`, and refine tasks tracking" />
     <MESSAGE value="Update README with detailed project overview, setup instructions, and usage examples for Nightmare" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update README with detailed project overview, setup instructions, and usage examples for Nightmare" />
+    <MESSAGE value="Add progress bar, improve UI feedback, and enhance error handling in `MainWindow` and `ConfigRequestProcessor`" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add progress bar, improve UI feedback, and enhance error handling in `MainWindow` and `ConfigRequestProcessor`" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
