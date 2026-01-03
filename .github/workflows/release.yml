@@ -64,6 +64,9 @@ jobs:
           path: $GITHUB_WORKSPACE/dist/nightmare-${{ matrix.rid }}${{ matrix.ext }}
 
   release:
+    permissions:
+      contents: write
+      packages: write
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -83,7 +86,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload executables to release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
         with:
           files: ./dist/*
         env:

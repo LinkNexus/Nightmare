@@ -9,6 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -338,7 +339,7 @@
       <workItem from="1767359277430" duration="46000" />
       <workItem from="1767359361672" duration="87000" />
       <workItem from="1767359452741" duration="99000" />
-      <workItem from="1767359556807" duration="20709000" />
+      <workItem from="1767359556807" duration="21332000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -532,7 +533,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767410044849</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Update workspace configuration and add artifact path to release workflow">
+      <option name="closed" value="true" />
+      <created>1767410300150</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1767410300150</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -570,7 +579,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Migrate `Nightmare.JsonParser` to `Nightmare.Parser`, refactor classes and namespaces, update project structure, and introduce `JsonParser` functionality with enhanced unit test coverage." />
     <MESSAGE value="Enhance `JsonLexer` and `JsonParser` with comprehensive unit tests and fix boundary condition in `RemainingStartsWith` method" />
     <MESSAGE value="Enhance `JsonLexer` and `JsonParser` with comprehensive unit tests, improve tokenization, and fix boundary checks" />
     <MESSAGE value="Add template expression system with parser and evaluator, enhance JSON handling, and improve error reporting" />
@@ -595,7 +603,8 @@
     <MESSAGE value="Revise GitHub Actions release workflow: add `RELEASE_TAG`, improve packaging logic, and enhance workspace configuration tracking" />
     <MESSAGE value="Update release workflow: streamline job steps, improve build packaging, and refine workspace tracking" />
     <MESSAGE value="Add GitHub release step: automate artifact upload and streamline workflow" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add GitHub release step: automate artifact upload and streamline workflow" />
+    <MESSAGE value="Update workspace configuration and add artifact path to release workflow" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update workspace configuration and add artifact path to release workflow" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
