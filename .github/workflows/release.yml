@@ -61,6 +61,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nightmare-${{ matrix.rid }}
+          path: $GITHUB_WORKSPACE/dist/nightmare-${{ matrix.rid }}${{ matrix.ext }}
 
   release:
     needs: build
