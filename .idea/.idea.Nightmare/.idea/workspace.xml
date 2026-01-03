@@ -338,7 +338,7 @@
       <workItem from="1767359277430" duration="46000" />
       <workItem from="1767359361672" duration="87000" />
       <workItem from="1767359452741" duration="99000" />
-      <workItem from="1767359556807" duration="23317000" />
+      <workItem from="1767359556807" duration="23374000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -588,7 +588,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767441475569</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Update release workflow: remove unused release body field and refine workspace configuration tracking">
+      <option name="closed" value="true" />
+      <created>1767441537369</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1767441537369</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -626,7 +634,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Add UI elements for profile selection and request management" />
     <MESSAGE value="Add FileReference class and integrate file handling in template expressions, evaluation, and HTTP requests" />
     <MESSAGE value="Add enhanced error handling, request/response body parsing, and UI updates for HTTP content rendering" />
     <MESSAGE value="Add JSON encode/decode and request functions, enhance expression evaluation, and improve AST handling" />
@@ -651,7 +658,8 @@
     <MESSAGE value="Update release workflow: restructure artifact handling steps and align workspace configuration changes" />
     <MESSAGE value="Update release workflow: combine build and release jobs, refine permissions, and adjust artifact upload steps" />
     <MESSAGE value="Update release workflow: adjust GitHub release step placement and refine workspace task configuration" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update release workflow: adjust GitHub release step placement and refine workspace task configuration" />
+    <MESSAGE value="Update release workflow: remove unused release body field and refine workspace configuration tracking" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update release workflow: remove unused release body field and refine workspace configuration tracking" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
