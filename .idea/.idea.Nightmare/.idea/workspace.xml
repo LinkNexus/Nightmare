@@ -8,7 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -339,7 +339,7 @@
       <workItem from="1767359277430" duration="46000" />
       <workItem from="1767359361672" duration="87000" />
       <workItem from="1767359452741" duration="99000" />
-      <workItem from="1767359556807" duration="18404000" />
+      <workItem from="1767359556807" duration="18795000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -469,7 +469,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767396333096</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Add GitHub Actions workflow for release builds and update workspace configuration">
+      <option name="closed" value="true" />
+      <created>1767407322241</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1767407322241</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -483,6 +491,17 @@
         <entry key="MAIN">
           <value>
             <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
               <option name="TEXT_FILTER_SETTINGS">
                 <TextFilterSettings>
                   <option name="MATCH_CASE" value="true" />
@@ -514,7 +533,8 @@
     <MESSAGE value="Update workspace configuration, add word wrap to `ResponseView`, and refine tasks tracking" />
     <MESSAGE value="Update README with detailed project overview, setup instructions, and usage examples for Nightmare" />
     <MESSAGE value="Add progress bar, improve UI feedback, and enhance error handling in `MainWindow` and `ConfigRequestProcessor`" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add progress bar, improve UI feedback, and enhance error handling in `MainWindow` and `ConfigRequestProcessor`" />
+    <MESSAGE value="Add GitHub Actions workflow for release builds and update workspace configuration" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add GitHub Actions workflow for release builds and update workspace configuration" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

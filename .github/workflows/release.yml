@@ -35,11 +35,10 @@ jobs:
 
     - name: Publish NativeAOT
       run: |
+        cd Nightmare
         dotnet publish \
           -c Release \
-          -r ${{ matrix.rid }} \
-          /p:PublishAot=true \
-          --self-contained true
+          -r ${{ matrix.rid }}
 
     - name: Package
       shell: bash
