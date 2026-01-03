@@ -7,10 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_and_release:
-    permissions:
-      contents: write
-      packages: write
+  build:
     strategy:
       matrix:
         include:
@@ -60,16 +57,30 @@ jobs:
             tar -czf "$DIST/nightmare-${{ matrix.rid }}.tar.gz" -C "$PUB_DIR" .
           fi
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: ${{ github.workspace }}/dist/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: nightmare-${{ matrix.rid }}
           path: ${{ github.workspace }}/dist/nightmare-${{ matrix.rid }}${{ matrix.ext }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
