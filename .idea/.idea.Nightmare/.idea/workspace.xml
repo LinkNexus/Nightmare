@@ -9,6 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fff556e5-5337-4136-b22f-11a97ea3b5a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -338,7 +339,7 @@
       <workItem from="1767359277430" duration="46000" />
       <workItem from="1767359361672" duration="87000" />
       <workItem from="1767359452741" duration="99000" />
-      <workItem from="1767359556807" duration="22273000" />
+      <workItem from="1767359556807" duration="22377000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -556,7 +557,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767412730850</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Update release workflow: upgrade artifact download action version to v5 and adjust workspace tasks configuration">
+      <option name="closed" value="true" />
+      <created>1767412793882</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1767412793882</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -594,7 +603,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Add template expression system with parser and evaluator, enhance JSON handling, and improve error reporting" />
     <MESSAGE value="Add template expression support with evaluation and syntax validation, enhance JSON parsing capabilities, and introduce new utility functions" />
     <MESSAGE value="Remove outdated test coverage documentation and ensure AOT compatibility notes across TemplateExpressions documentation. Minor refactors for TemplateExpressionLexer and parser consistency." />
     <MESSAGE value="Remove unused classes, examples, and documentation related to the deprecated template expression system." />
@@ -619,7 +627,8 @@
     <MESSAGE value="Update workspace configuration and add artifact path to release workflow" />
     <MESSAGE value="Update GitHub release workflow: refine permissions, upgrade action version, and adjust executable upload conditions" />
     <MESSAGE value="Update release workflow: standardize artifact paths and upgrade GitHub action versions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update release workflow: standardize artifact paths and upgrade GitHub action versions" />
+    <MESSAGE value="Update release workflow: upgrade artifact download action version to v5 and adjust workspace tasks configuration" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update release workflow: upgrade artifact download action version to v5 and adjust workspace tasks configuration" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

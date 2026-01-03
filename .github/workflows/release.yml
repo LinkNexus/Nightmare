@@ -73,10 +73,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download all build artifacts
-        uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v5
         with:
           path: ${{ github.workspace }}/dist
+      - name: Download all build artifacts
         run: ls -R ${{ github.workspace }}/dist
 
       - name: Upload executables to release
