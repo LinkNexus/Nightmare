@@ -11,7 +11,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nightmare/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/Config/ConfigRequestProcessor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,46 +87,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.Nightmare.executor&quot;: &quot;Debug&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunAdvancedExample.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunExample.executor&quot;: &quot;Debug&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.ArithmeticExamples.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.ComparisonExamples.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.FunctionCallExamples.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.MemberAccessExamples.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.RunAll.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.StringExamples.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.compose.yaml: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Publish to folder.Publish Nightmare to folder.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;rider.code.cleanup.on.save&quot;: &quot;true&quot;,
-    &quot;rider.code.cleanup.on.save.profile&quot;: &quot;Built-in: Reformat &amp; Apply Syntax Style&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;youngstead.relativelinenumbers.settings.ApplicationSettingsConfigurable&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.Nightmare.executor": "Debug",
+    ".NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunAdvancedExample.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunExample.executor": "Debug",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.ArithmeticExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.ComparisonExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.FunctionCallExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.MemberAccessExamples.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.RunAll.executor": "Run",
+    ".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.StringExamples.executor": "Run",
+    "Docker.compose.yaml: Compose Deployment.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Publish to folder.Publish Nightmare to folder.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "global-values",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "rider.code.cleanup.on.save": "true",
+    "rider.code.cleanup.on.save.profile": "Built-in: Reformat & Apply Syntax Style",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;,
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite",
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecapSpentCounter">
     <option name="endsOfQuotaMs" value="1766424622583" />
     <option name="spentUsd" value="0.18662325" />
@@ -297,11 +296,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.RunAll" />
+        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.MemberAccessExamples" />
+        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.FunctionCallExamples" />
         <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunExample" />
         <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.IntegrationExample.RunAdvancedExample" />
-        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.RunAll" />
-        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.FunctionCallExamples" />
-        <item itemvalue=".NET Static Method.Nightmare.Parser.Examples.TemplateExpressionExamples.MemberAccessExamples" />
       </list>
     </recent_temporary>
   </component>
@@ -345,7 +344,9 @@
       <workItem from="1767562864859" duration="7000" />
       <workItem from="1767574470288" duration="341000" />
       <workItem from="1767574822575" duration="2044000" />
-      <workItem from="1767614656550" duration="2514000" />
+      <workItem from="1767614656550" duration="2574000" />
+      <workItem from="1767625446339" duration="50000" />
+      <workItem from="1767625500703" duration="895000" />
     </task>
     <task id="LOCAL-00001" summary="Add initial project setup with JSON parser and unit test template">
       <option name="closed" value="true" />
@@ -627,7 +628,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767446033611</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Refactor `ConfigRequestProcessor`: replace `ProcessHeaders` with simplified utility logic, enhance error handling, and update `MainWindow` UI response flow.">
+      <option name="closed" value="true" />
+      <created>1767617273645</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1767617273645</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -665,7 +674,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Add URL and Base64 encode/decode functions to template evaluation and update project dependencies" />
     <MESSAGE value="Add `Res` function implementation, HTTP utilities, and request processor for improved template handling and execution" />
     <MESSAGE value="Add comprehensive JSON ID tests and clean up workspace configuration" />
     <MESSAGE value="Update workspace configuration, add word wrap to `ResponseView`, and refine tasks tracking" />
@@ -690,7 +698,8 @@
     <MESSAGE value="Update release workflow: clarify step naming, adjust workspace tasks configuration, and remove unused fields" />
     <MESSAGE value="Split build and release jobs in workflow, clarify artifact handling steps, and update workspace configuration" />
     <MESSAGE value="Refactor `FileReference` class: use primary constructor, simplify properties, and update README with expanded usage details" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor `FileReference` class: use primary constructor, simplify properties, and update README with expanded usage details" />
+    <MESSAGE value="Refactor `ConfigRequestProcessor`: replace `ProcessHeaders` with simplified utility logic, enhance error handling, and update `MainWindow` UI response flow." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor `ConfigRequestProcessor`: replace `ProcessHeaders` with simplified utility logic, enhance error handling, and update `MainWindow` UI response flow." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -800,39 +809,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Nightmare/UI/MainWindow.cs</url>
-          <line>160</line>
-          <properties documentPath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" containingFunctionPresentation="Lambda expression inside Constructor 'MainWindow'">
-            <startOffsets>
-              <option value="4551" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4568" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Nightmare/UI/MainWindow.cs</url>
-          <line>168</line>
-          <properties documentPath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" containingFunctionPresentation="Lambda expression inside Constructor 'MainWindow'">
-            <startOffsets>
-              <option value="4777" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4819" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Nightmare/UI/MainWindow.cs</url>
           <line>224</line>
           <properties documentPath="$PROJECT_DIR$/Nightmare/UI/MainWindow.cs" containingFunctionPresentation="Method 'DisplayError'">
             <startOffsets>
-              <option value="6518" />
+              <option value="6530" />
             </startOffsets>
             <endOffsets>
-              <option value="6547" />
+              <option value="6559" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="23" />
