@@ -137,7 +137,7 @@ public class MainWindow : Window
         {
             try
             {
-                var req = _configProcessor!.ProcessRequest((JsonObject)args.Value);
+                var req = _configProcessor!.ProcessRequest((JsonObject)args.Value, null, _ast);
                 var requestTask = _configProcessor.ExecuteRequest(req);
 
                 _progressTimer.Start();

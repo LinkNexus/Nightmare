@@ -252,6 +252,13 @@ public class TemplateExpressionLexer(string text)
         var start = CaptureStart();
         var sb = new StringBuilder();
 
+        // Handle $ prefix for special variables
+        if (Peek() == '$')
+        {
+            sb.Append(Peek());
+            Advance();
+        }
+
         while (!IsEnd && (char.IsLetterOrDigit(Peek()) || Peek() == '_'))
         {
             sb.Append(Peek());
@@ -351,7 +358,7 @@ public class TemplateExpressionLexer(string text)
                     ':' => MakeSingle(TemplateTokenType.Colon),
                     '"' or '\'' => ReadString(),
                     '-' or >= '0' and <= '9' => ReadNumber(),
-                    _ when char.IsLetter(current) || current == '_' => ReadIdentifier(),
+                    '$' or _ when char.IsLetter(current) || current == '_' => ReadIdentifier(),
                     _ => throw new TemplateExpressionException(
                         $"Unexpected character '{current}'",
                         new TextSpan(_position, 1, _line, _column, _line, _column)

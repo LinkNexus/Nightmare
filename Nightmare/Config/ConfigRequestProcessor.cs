@@ -332,7 +332,7 @@ public partial class ConfigProcessor
         }
     }
 
-    public Request ProcessRequest(JsonObject request, string? requestId = null)
+    public Request ProcessRequest(JsonObject request, string? requestId = null, JsonObject? globalAst = null)
     {
         var req = new Request
         {
@@ -349,6 +349,19 @@ public partial class ConfigProcessor
             ? method.ToString(_context)
             : "GET";
 
+        // Process headers: start with global, then merge request-specific
+        var mergedHeaders = new Dictionary<string, object?>();
+
+        // Process global headers if available
+        if (globalAst != null && globalAst.TryGetProperty("headers", out var globalHeadersJson))
+        {
+            var convertedGlobalHeaders = Utilities.Convert(globalHeadersJson, _context);
+            if (convertedGlobalHeaders is Dictionary<string, object?> globalHeadersDict)
+                foreach (var kvp in globalHeadersDict)
+                    mergedHeaders[kvp.Key] = kvp.Value;
+        }
+
+        // Process request-specific headers (override global)
         if (request.TryGetProperty("headers", out var headersJson))
         {
             var convertedHeaders = Utilities.Convert(headersJson, _context);
@@ -359,23 +372,39 @@ public partial class ConfigProcessor
                     headersJson!.Span
                 );
 
-            req.Headers = headersDict
-                .Where(kvp => kvp.Value is not null)
-                .ToDictionary(
-                    kvp => kvp.Key,
-                    kvp =>
-                    {
-                        if (kvp.Value is not IEnumerable<object?> enumerable)
-                            return [Utilities.ToString(kvp.Value, _context)!];
-
-                        return enumerable
-                            .Where(i => i is not null)
-                            .Select(i => Utilities.ToString(i, _context)!)
-                            .ToArray();
-                    }
-                );
+            foreach (var kvp in headersDict) mergedHeaders[kvp.Key] = kvp.Value;
         }
 
+        // Convert merged headers to proper format
+        req.Headers = mergedHeaders
+            .Where(kvp => kvp.Value is not null)
+            .ToDictionary(
+                kvp => kvp.Key,
+                kvp =>
+                {
+                    if (kvp.Value is not IEnumerable<object?> enumerable)
+                        return [Utilities.ToString(kvp.Value, _context)!];
+
+                    return enumerable
+                        .Where(i => i is not null)
+                        .Select(i => Utilities.ToString(i, _context)!)
+                        .ToArray();
+                }
+            );
+
+        // Process cookies: start with global, then merge request-specific
+        var mergedCookies = new Dictionary<string, object?>();
+
+        // Process global cookies if available
+        if (globalAst != null && globalAst.TryGetProperty("cookies", out var globalCookiesJson))
+        {
+            var convertedGlobalCookies = Utilities.Convert(globalCookiesJson, _context);
+            if (convertedGlobalCookies is Dictionary<string, object?> globalCookiesDict)
+                foreach (var kvp in globalCookiesDict)
+                    mergedCookies[kvp.Key] = kvp.Value;
+        }
+
+        // Process request-specific cookies (override global)
         if (request.TryGetProperty("cookies", out var cookiesJson))
         {
             var convertedCookies = Utilities.Convert(cookiesJson, _context);
@@ -386,13 +415,16 @@ public partial class ConfigProcessor
                     cookiesJson!.Span
                 );
 
-            req.Cookies = cookiesDict
-                .Where(kvp => kvp.Value is not null)
-                .ToDictionary(
-                    kvp => kvp.Key,
-                    kvp => Utilities.ToString(kvp.Value, _context)!
-                );
+            foreach (var kvp in cookiesDict) mergedCookies[kvp.Key] = kvp.Value;
         }
+
+        // Convert merged cookies to proper format
+        req.Cookies = mergedCookies
+            .Where(kvp => kvp.Value is not null)
+            .ToDictionary(
+                kvp => kvp.Key,
+                kvp => Utilities.ToString(kvp.Value, _context)!
+            );
 
         if (request.TryGetProperty<JsonNumber>("timeout", out var timeout))
             req.Timeout = timeout.Value;
@@ -420,7 +452,7 @@ public partial class ConfigProcessor
 
     private async Task<Response> ProcessAndExecuteRequest(JsonObject requestJson, string requestId)
     {
-        return await ExecuteRequest(ProcessRequest(requestJson, requestId));
+        return await ExecuteRequest(ProcessRequest(requestJson, requestId, _context.Ast));
     }
 
     public async Task<Response> ExecuteRequest(Request request)
