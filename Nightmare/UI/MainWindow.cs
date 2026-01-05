@@ -149,6 +149,10 @@ public class MainWindow : Window
                 _infoView.Visible = true;
 
                 var res = await requestTask;
+
+                _infoView.Remove(_progressBar);
+                _infoView.Visible = false;
+
                 requestView.OnRequestSelected(req);
                 responseView.OnResponseReceived(res);
             }
@@ -156,10 +160,13 @@ public class MainWindow : Window
             {
                 DisplayError(ex);
             }
-            finally
+            catch (HttpRequestException ex)
             {
-                _infoView.Remove(_progressBar);
-                _infoView.Visible = false;
+                DisplayError("Network Error", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                DisplayError("Unknown Error", ex.Message);
             }
         };
     }
@@ -191,6 +198,16 @@ public class MainWindow : Window
         }
     }
 
+    private void DisplayError(string title, string message)
+    {
+        _infoView.RemoveAll();
+        _infoView.SchemeName = SchemeManager.SchemesToSchemeName(Schemes.Error);
+        _infoView.Title = title;
+        _errorLabel.Text = message;
+        _infoView.Add(_errorLabel);
+        _infoView.Visible = true;
+    }
+
     private void DisplayError(TracedException e)
     {
         var title = e switch
@@ -203,12 +220,8 @@ public class MainWindow : Window
             _ => "Unknown Error"
         };
 
-        _infoView.RemoveAll();
+        var message = $"{e.Message} at line {e.Line}, column {e.Column}";
 
-        _infoView.SchemeName = SchemeManager.SchemesToSchemeName(Schemes.Error);
-        _infoView.Title = title;
-        _errorLabel.Text = $"{e.Message} at line {e.Line}, column {e.Column}";
-        _infoView.Add(_errorLabel);
-        _infoView.Visible = true;
+        DisplayError(title, message);
     }
 }

@@ -12,56 +12,6 @@ public partial class ConfigProcessor
 {
     private readonly Stopwatch _stopWatch = new();
 
-    private Dictionary<string, string[]> ProcessHeaders(JsonObject headersJson)
-    {
-        var h = new Dictionary<string, string[]>();
-
-        foreach (var (hName, hVal) in headersJson.Properties)
-            switch (hVal)
-            {
-                case JsonArray arr:
-                {
-                    h[hName] = arr.Items
-                        .Where(i => i is not JsonNull)
-                        .Select(i => Utilities.ToString(i, _context)!)
-                        .ToArray();
-
-                    break;
-                }
-
-                case JsonString str:
-                {
-                    var obj = str.ToObject(_context);
-
-                    if (obj is IEnumerable<object?> enumerable)
-                    {
-                        h[hName] = enumerable
-                            .Where(i => i is not null)
-                            .Select(i => Utilities.ToString(i, _context)!)
-                            .ToArray();
-                    }
-                    else
-                    {
-                        var serialized = Utilities.ToString(obj, _context);
-                        if (serialized is not null)
-                            h[hName] = [serialized];
-                    }
-
-                    break;
-                }
-
-                case JsonNull: break;
-
-                default:
-                {
-                    h[hName] = [Utilities.ToString(hVal, _context)!];
-                    break;
-                }
-            }
-
-        return h;
-    }
-
     private (string Url, string FullUrl, Dictionary<string, string>) ProcessUrl(
         JsonString urlJson,
         JsonObject? queryJson
@@ -399,16 +349,50 @@ public partial class ConfigProcessor
             ? method.ToString(_context)
             : "GET";
 
-        if (request.TryGetProperty<JsonObject>("headers", out var headers))
-            req.Headers = ProcessHeaders(headers);
+        if (request.TryGetProperty("headers", out var headersJson))
+        {
+            var convertedHeaders = Utilities.Convert(headersJson, _context);
 
-        if (request.TryGetProperty<JsonObject>("cookies", out var cookies))
-            foreach (var (cName, cVal) in cookies.Properties)
-            {
-                var serialized = Utilities.ToString(cVal, _context);
-                if (serialized is not null)
-                    req.Cookies[cName] = serialized;
-            }
+            if (convertedHeaders is not Dictionary<string, object?> headersDict)
+                throw new ConfigProcessingException(
+                    "Headers must either be a Json Object or a template string evaluating to an object",
+                    headersJson!.Span
+                );
+
+            req.Headers = headersDict
+                .Where(kvp => kvp.Value is not null)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp =>
+                    {
+                        if (kvp.Value is not IEnumerable<object?> enumerable)
+                            return [Utilities.ToString(kvp.Value, _context)!];
+
+                        return enumerable
+                            .Where(i => i is not null)
+                            .Select(i => Utilities.ToString(i, _context)!)
+                            .ToArray();
+                    }
+                );
+        }
+
+        if (request.TryGetProperty("cookies", out var cookiesJson))
+        {
+            var convertedCookies = Utilities.Convert(cookiesJson, _context);
+
+            if (convertedCookies is not Dictionary<string, object?> cookiesDict)
+                throw new ConfigProcessingException(
+                    "Cookies must either be a Json Object or a template string evaluating to an object",
+                    cookiesJson!.Span
+                );
+
+            req.Cookies = cookiesDict
+                .Where(kvp => kvp.Value is not null)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => Utilities.ToString(kvp.Value, _context)!
+                );
+        }
 
         if (request.TryGetProperty<JsonNumber>("timeout", out var timeout))
             req.Timeout = timeout.Value;
@@ -447,16 +431,21 @@ public partial class ConfigProcessor
         if (request.Timeout is not null) httpClient.Timeout = TimeSpan.FromMilliseconds(request.Timeout.Value);
 
         _stopWatch.Start();
-        var httpResponse = await httpClient.SendAsync(httpRequest);
-        _stopWatch.Stop();
 
-        var response = await Response.Create(httpResponse, _stopWatch.ElapsedMilliseconds);
+        try
+        {
+            var httpResponse = await httpClient.SendAsync(httpRequest);
+            _stopWatch.Stop();
+            var response = await Response.Create(httpResponse, _stopWatch.ElapsedMilliseconds);
 
-        Debug.WriteLine($"Response for {request.Id}: {httpResponse.StatusCode}");
-        _context.ResponseCache[request.Id] = response;
-
-        _stopWatch.Reset();
-
-        return response;
+            Debug.WriteLine($"Response for {request.Id}: {httpResponse.StatusCode}");
+            _context.ResponseCache[request.Id] = response;
+            return response;
+        }
+        finally
+        {
+            _stopWatch.Stop();
+            _stopWatch.Reset();
+        }
     }
 }

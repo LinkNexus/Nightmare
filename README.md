@@ -1,19 +1,72 @@
 # Nightmare
 
-Nightmare is a .NET 10.0 terminal UI for composing and executing HTTP requests from a single templated configuration file. A lightweight expression language lets you reuse variables, call helper functions, and chain requests/responses without writing code.
-An ideal client with a versionable config and a simple workflow.
+**A powerful terminal-based HTTP client with a versionable, template-driven configuration system.**
 
-## Quick Start
+Nightmare is a modern .NET terminal UI (TUI) application for composing, organizing, and executing HTTP requests from a single JSON configuration file. Featuring a built-in expression language with 23+ functions, intelligent response caching, and hot-reload support, Nightmare streamlines API testing and development workflows without requiring code or external tools.
 
-### Installation
+**Key Features:**
+- 🔥 **Hot-Reload Configuration** - Changes to your config are reflected instantly
+- 🎯 **Template Expression Language** - Dynamic values, variable substitution, and function calls
+- 🔄 **Request/Response Chaining** - Reference previous responses in subsequent requests
+- 📦 **Multi-Environment Profiles** - Switch between dev/staging/prod with one keypress
+- 💾 **Smart Response Caching** - Configurable TTL to avoid redundant API calls
+- 🗂️ **Organized Request Trees** - Nested groups for logical request organization
+- 📤 **Multi-Format Bodies** - Support for JSON, form-data, multipart, and raw content
+- 📝 **Interactive Prompts** - Request user input or file paths at runtime
+- 🚀 **Native AOT Compilation** - Fast startup, low memory footprint
 
-- Install the latest release from [Releases](https://github.com/LinkNexus/Nightmare/releases).
-- or clone the repo and build from source.
-    - For that, you'll need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10).
-    - Run `dotnet publish -c Release` in the Nightmare dir of the repo.
-    - The executable is in `Nightmare/bin/Release/net10.0/publish/`.
+## Table of Contents
 
-### Usage 
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Configuration Format](#configuration-format)
+  - [Profiles](#profiles)
+  - [Request Definition](#request-definition)
+  - [Body Types](#body-types)
+- [Template Expression Language](#template-expression-language)
+  - [Syntax](#syntax)
+  - [Operators](#operators)
+  - [Built-in Functions](#built-in-functions)
+- [Request & Response Chaining](#request--response-chaining)
+- [Advanced Usage](#advanced-usage)
+- [Keyboard Shortcuts](#keyboard-shortcuts)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Installation
+
+### Pre-built Binaries
+
+Download the latest release for your platform from the [Releases page](https://github.com/LinkNexus/Nightmare/releases):
+- **Windows**: `nightmare-win-x64.zip`
+- **Linux**: `nightmare-linux-x64.tar.gz`
+- **macOS (ARM)**: `nightmare-osx-arm64.tar.gz`
+- **macOS (Intel)**: `nightmare-osx-x64.tar.gz`
+
+Extract and run the `nightmare` executable.
+
+### Build from Source
+
+**Prerequisites:**
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+
+**Build steps:**
+```bash
+git clone https://github.com/LinkNexus/Nightmare.git
+cd Nightmare/Nightmare
+dotnet publish -c Release -r <your-runtime-id>
+```
+
+The compiled binary will be in `bin/Release/net10.0/<runtime-id>/publish/`.
+
+Available runtime identifiers: `win-x64`, `linux-x64`, `osx-x64`, `osx-arm64`.
+
+---
+
+## Quick Start 
 
 #### Create a new config
 
