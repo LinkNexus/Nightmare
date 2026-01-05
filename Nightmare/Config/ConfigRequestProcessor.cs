@@ -357,12 +357,8 @@ public partial class ConfigProcessor
         {
             var convertedGlobalHeaders = Utilities.Convert(globalHeadersJson, _context);
             if (convertedGlobalHeaders is Dictionary<string, object?> globalHeadersDict)
-            {
                 foreach (var kvp in globalHeadersDict)
-                {
                     mergedHeaders[kvp.Key] = kvp.Value;
-                }
-            }
         }
 
         // Process request-specific headers (override global)
@@ -376,10 +372,7 @@ public partial class ConfigProcessor
                     headersJson!.Span
                 );
 
-            foreach (var kvp in headersDict)
-            {
-                mergedHeaders[kvp.Key] = kvp.Value;
-            }
+            foreach (var kvp in headersDict) mergedHeaders[kvp.Key] = kvp.Value;
         }
 
         // Convert merged headers to proper format
@@ -407,12 +400,8 @@ public partial class ConfigProcessor
         {
             var convertedGlobalCookies = Utilities.Convert(globalCookiesJson, _context);
             if (convertedGlobalCookies is Dictionary<string, object?> globalCookiesDict)
-            {
                 foreach (var kvp in globalCookiesDict)
-                {
                     mergedCookies[kvp.Key] = kvp.Value;
-                }
-            }
         }
 
         // Process request-specific cookies (override global)
@@ -426,10 +415,7 @@ public partial class ConfigProcessor
                     cookiesJson!.Span
                 );
 
-            foreach (var kvp in cookiesDict)
-            {
-                mergedCookies[kvp.Key] = kvp.Value;
-            }
+            foreach (var kvp in cookiesDict) mergedCookies[kvp.Key] = kvp.Value;
         }
 
         // Convert merged cookies to proper format

@@ -32,7 +32,7 @@ public static class Utilities
             Dictionary<string, object?> dict => Serialize(dict, context),
             List<object?> list => Serialize(list, context),
             JsonValue jsonValue => ToString(Convert(jsonValue, context), context),
-            _ => throw new ArgumentException($"Unexpected value type: {obj?.GetType()}")
+            _ => throw new ArgumentException($"Unexpected value type: {obj.GetType()}")
         };
     }
 
@@ -48,9 +48,9 @@ public static class Utilities
         writer.Flush();
         return Encoding.UTF8.GetString(stream.ToArray());
 
-        void WriteValue(object? value)
+        void WriteValue(object? val)
         {
-            switch (value)
+            switch (val)
             {
                 case null:
                     writer.WriteNullValue();
